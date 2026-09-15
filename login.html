@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Login</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#171719;
+  font-family:Arial,Roboto,sans-serif;
+  color:#ffffff;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+}
+
+.page{
+  width:100%;
+  max-width:700px;
+  min-height:100vh;
+  padding:0 20px;
+}
+
+
+/* =========================
+   SUCCESS POPUP
+   ========================= */
+
+.success-popup{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translate(-50%,-120px);
+  width:calc(100% - 40px);
+  max-width:500px;
+  padding:15px 18px;
+  background:#6ed5a1;
+  color:#101813;
+  border-radius:12px;
+  text-align:center;
+  font-size:15px;
+  font-weight:700;
+  z-index:9999;
+  box-shadow:0 8px 25px rgba(0,0,0,.35);
+  transition:transform .35s ease;
+}
+
+.success-popup.show{
+  transform:translate(-50%,0);
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  position:relative;
+}
+
+.back{
+  width:42px;
+  height:42px;
+  border:0;
+  background:#242426;
+  border-radius:50%;
+  color:#ffffff;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:20px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+
+/* =========================
+   LOGIN CARD
+   ========================= */
+
+.card{
+  margin-top:25px;
+  background:#222224;
+  border-radius:18px;
+  padding:25px 20px 28px;
+}
+
+.welcome{
+  font-size:24px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.subtitle{
+  color:#a9a9ad;
+  font-size:14px;
+  margin-bottom:28px;
+  line-height:1.5;
+}
+
+
+/* =========================
+   LABELS
+   ========================= */
+
+.label{
+  display:block;
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:9px;
+}
+
+
+/* =========================
+   INPUTS
+   ========================= */
+
+.input{
+  width:100%;
+  height:56px;
+  border:1px solid #3b3b3f;
+  outline:none;
+  border-radius:12px;
+  background:#18181a;
+  color:#ffffff;
+  padding:0 16px;
+  font-size:17px;
+  margin-bottom:22px;
+}
+
+.input:focus{
+  border-color:#6ed5a1;
+}
+
+.input::placeholder{
+  color:#77777c;
+}
+
+
+/* =========================
+   PASSWORD
+   ========================= */
+
+.password-box{
+  position:relative;
+}
+
+.password-box .input{
+  padding-right:65px;
+}
+
+.show-password{
+  position:absolute;
+  right:8px;
+  top:0;
+  height:56px;
+  width:55px;
+  border:0;
+  background:transparent;
+  color:#a9a9ad;
+  font-size:13px;
+  cursor:pointer;
+}
+
+
+/* =========================
+   ERROR
+   ========================= */
+
+.error{
+  min-height:20px;
+  color:#ff6b6b;
+  font-size:13px;
+  margin-top:-8px;
+  margin-bottom:12px;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+   ========================= */
+
+.login-button{
+  width:100%;
+  height:56px;
+  border:0;
+  border-radius:12px;
+  background:#6ed5a1;
+  color:#101813;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.login-button:active{
+  transform:scale(.98);
+}
+
+
+/* =========================
+   INFO
+   ========================= */
+
+.info{
+  margin-top:18px;
+  text-align:center;
+  color:#77777c;
+  font-size:12px;
+  line-height:1.5;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- SUCCESS POPUP -->
+
+<div
+  class="success-popup"
+  id="successPopup">
+
+  Login successful
+
+</div>
+
+
+<div class="page">
+
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <button
+      class="back"
+      onclick="goBack()"
+      aria-label="Back">
+      ‹
+    </button>
+
+    <div class="title">
+      Login
+    </div>
+
+  </div>
+
+
+  <!-- LOGIN CARD -->
+
+  <div class="card">
+
+    <div class="welcome">
+      Welcome Back
+    </div>
+
+    <div class="subtitle">
+      Enter your username and password to continue.
+    </div>
+
+
+    <!-- USERNAME -->
+
+    <label
+      class="label"
+      for="username">
+      Username
+    </label>
+
+    <input
+      class="input"
+      id="username"
+      type="text"
+      placeholder="Enter username"
+      autocomplete="username"
+      spellcheck="false">
+
+
+    <!-- PASSWORD -->
+
+    <label
+      class="label"
+      for="password">
+      Password
+    </label>
+
+    <div class="password-box">
+
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="current-password">
+
+      <button
+        class="show-password"
+        id="showPassword"
+        type="button"
+        onclick="togglePassword()">
+
+        Show
+
+      </button>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      class="error"
+      id="error">
+    </div>
+
+
+    <!-- LOGIN BUTTON -->
+
+    <button
+      class="login-button"
+      id="loginButton"
+      onclick="login()">
+
+      Login
+
+    </button>
+
+
+    <div class="info">
+      Login to use tool
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   LOGIN DETAILS
+   ===================================== */
+
+const CORRECT_USERNAME =
+  "Derisdecloner_x4";
+
+const CORRECT_PASSWORD =
+  "Testingapk004";
+
+
+/* =====================================
+   ELEMENTS
+   ===================================== */
+
+const usernameInput =
+  document.getElementById("username");
+
+const passwordInput =
+  document.getElementById("password");
+
+const error =
+  document.getElementById("error");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const successPopup =
+  document.getElementById("successPopup");
+
+
+/* =====================================
+   SHOW SUCCESS POPUP
+   ===================================== */
+
+function showSuccessPopup(){
+
+  successPopup.classList.add("show");
+
+}
+
+
+/* =====================================
+   LOGIN
+   ===================================== */
+
+function login(){
+
+  error.textContent = "";
+
+  const username =
+    usernameInput.value.trim();
+
+  const password =
+    passwordInput.value;
+
+
+  /* =========================
+     WRONG USERNAME
+     ========================= */
+
+  if(username !== CORRECT_USERNAME){
+
+    error.textContent =
+      "Wrong username";
+
+    usernameInput.value = "";
+    passwordInput.value = "";
+
+    usernameInput.focus();
+
+    return;
+  }
+
+
+  /* =========================
+     WRONG PASSWORD
+     ========================= */
+
+  if(password !== CORRECT_PASSWORD){
+
+    error.textContent =
+      "Wrong password";
+
+    usernameInput.value = "";
+    passwordInput.value = "";
+
+    usernameInput.focus();
+
+    return;
+  }
+
+
+  /* =========================
+     CORRECT LOGIN
+     ========================= */
+
+  // Save the exact time of successful login
+  localStorage.setItem(
+    "loginTimestamp",
+    Date.now().toString()
+  );
+
+
+  // Show success popup
+  showSuccessPopup();
+
+
+  // Prevent repeated taps
+  loginButton.disabled = true;
+
+
+  // Go to dashboard
+  setTimeout(() => {
+
+    window.location.href =
+      "dashboard.html";
+
+  }, 1000);
+
+}
+
+
+/* =====================================
+   SHOW / HIDE PASSWORD
+   ===================================== */
+
+function togglePassword(){
+
+  if(passwordInput.type === "password"){
+
+    passwordInput.type = "text";
+
+    document.getElementById(
+      "showPassword"
+    ).textContent = "Hide";
+
+  }else{
+
+    passwordInput.type = "password";
+
+    document.getElementById(
+      "showPassword"
+    ).textContent = "Show";
+
+  }
+
+}
+
+
+/* =====================================
+   BACK BUTTON
+   ===================================== */
+
+function goBack(){
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* =====================================
+   ENTER KEY
+   ===================================== */
+
+usernameInput.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+
+      passwordInput.focus();
+
+    }
+
+  }
+);
+
+
+passwordInput.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+
+      login();
+
+    }
+
+  }
+);
+
+
+/* =====================================
+   CLEAR ERROR WHILE TYPING
+   ===================================== */
+
+usernameInput.addEventListener(
+  "input",
+  function(){
+
+    error.textContent = "";
+
+  }
+);
+
+
+passwordInput.addEventListener(
+  "input",
+  function(){
+
+    error.textContent = "";
+
+  }
+);
+
+</script>
+
+</body>
+</html>

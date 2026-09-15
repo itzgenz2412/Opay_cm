@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Dashboard</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  background:#171719;
+}
+
+.dashboard{
+  position:relative;
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  line-height:1;
+  overflow:hidden;
+}
+
+.dashboard img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+
+/* =====================================================
+   ALL TEXT LAYERS
+   ===================================================== */
+
+.text{
+  position:absolute;
+  z-index:8;
+  font-family:Arial,Roboto,sans-serif;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+
+/* =========================
+   TOP PROFILE
+   ========================= */
+
+.profile-name{
+  left:15.2%;
+  top:6.0%;
+  color:#ffffff;
+  font-size:clamp(18px,4.7vw,31px);
+  font-weight:700;
+}
+
+
+
+
+  
+   ========================= */
+
+  .
+  
+
+/* =========================
+   NOTIFICATION BADGE
+   ========================= */
+
+.notification-badge{
+  left:94.0%;
+  top:4.9%;
+  transform:translateX(-50%);
+  color:#ffffff;
+  font-size:clamp(9px,2.2vw,15px);
+  font-weight:700;
+}
+
+
+/* =====================================================
+   AVAILABLE BALANCE
+   ===================================================== */
+
+.balance-label{
+  left:11.6%;
+  top:11.9%;
+  color:#101813;
+  font-size:clamp(16px,4vw,27px);
+  font-weight:500;
+}
+
+ .eye-label{
+  left:44.10%;
+  top:11.9%;
+  color:#101813;
+  font-size:clamp(16px,4vw,27px);
+  font-weight:500;
+}
+
+
+/* =====================================================
+   TRANSACTION HISTORY
+   ===================================================== */
+
+.history-label{
+  left:59.0%;
+  top:12.12%;
+  color:#101813;
+  font-size:clamp(15px,3.8vw,26px);
+  font-weight:500;
+}
+
+
+/* =====================================================
+   ADD MONEY
+   ===================================================== */
+
+.add-money-label{
+  left:66.9%;
+  top:16.9%;
+  color:#6ed5a1;
+  font-size:clamp(15px,3.7vw,25px);
+  font-weight:500;
+}
+
+
+/* =====================================================
+   BUSINESS SERVICE
+   ===================================================== */
+
+.sales-title{
+  left:18.0%;
+  top:22.7%;
+  color:#ffffff;
+  font-size:clamp(13px,3.4vw,23px);
+  font-weight:500;
+}
+
+.sales-amount{
+  left:18.0%;
+  top:25.0%;
+  color:#6ed5a1;
+  font-size:clamp(15px,3.8vw,26px);
+  font-weight:700;
+}
+
+
+/* =====================================================
+   MAIN TRANSFER OPTIONS
+   ===================================================== */
+
+.transfer-opay{
+  left:21.0%;
+  top:36.5%;
+  transform:translateX(-50%);
+  color:#ffffff;
+  font-size:clamp(14px,3.7vw,25px);
+  font-weight:400;
+}
+
+.transfer-bank{
+  left:49.10%;
+  top:36.5%;
+  transform:translateX(-50%);
+  color:#ffffff;
+  font-size:clamp(14px,3.7vw,25px);
+  font-weight:400;
+}
+
+.transfer-withdraw{
+  left:77.45%;
+  top:36.5%;
+  transform:translateX(-50%);
+  color:#ffffff;
+  font-size:clamp(14px,3.7vw,25px);
+  font-weight:400;
+}
+
+
+/* =====================================================
+   SERVICE GRID
+   ===================================================== */
+
+.service{
+  color:#ffffff;
+  font-size:clamp(12px,3.4vw,23px);
+  font-weight:400;
+  transform:translateX(-50%);
+}
+
+.airtime{
+  left:17%;
+  top:49.4%;
+}
+
+.data{
+  left:39%;
+  top:49.4%;
+}
+
+.betting{
+  left:61%;
+  top:49.4%;
+}
+
+.electricity{
+  left:83%;
+  top:49.4%;
+}
+
+.fixed{
+  left:17%;
+  top:58.90%;
+}
+
+.loan{
+  left:39%;
+  top:58.90%;
+}
+
+.invitation{
+  left:61%;
+  top:58.90%;
+}
+
+.more{
+  left:83%;
+  top:58.90%;
+}
+
+
+/* =====================================================
+   SAVING CHALLENGE
+   ===================================================== */
+
+.saving-title{
+  left:7.5%;
+  top:66.0%;
+  color:#ffffff;
+  font-size:clamp(17px,4.5vw,30px);
+  font-weight:500;
+}
+
+.special-target{
+  left:22.5%;
+  top:71.5%;
+  color:#ffffff;
+  font-size:clamp(15px,3.9vw,26px);
+  font-weight:500;
+}
+
+.special-subtitle{
+  left:22.5%;
+  top:74.0%;
+  color:#a9aaa9;
+  font-size:clamp(12px,3.1vw,21px);
+  font-weight:400;
+}
+
+.go-button{
+  left:85.0%;
+  top:72.05%;
+  transform:translateX(-50%);
+  color:#101813;
+  font-size:clamp(14px,3.7vw,25px);
+  font-weight:600;
+}
+
+
+/* =====================================================
+   SUPER VOUCHER
+   ===================================================== */
+
+.voucher-title{
+  left:22.5%;
+  top:80.17%;
+  color:#ffffff;
+  font-size:clamp(16px,4.1vw,28px);
+  font-weight:500;
+}
+
+.voucher-description{
+  left:22.5%;
+  top:83.12%;
+  color:#a9a9ad;
+  font-size:clamp(11px,2.8vw,19px);
+  font-weight:400;
+}
+
+
+/* =====================================================
+   BOTTOM NAVIGATION
+   ===================================================== */
+
+.nav{
+  color:#a9a9ad;
+  font-size:clamp(10px,2.8vw,19px);
+  font-weight:400;
+  transform:translateX(-50%);
+}
+
+.nav-home{
+  left:14.55%;
+  top:94.50%;
+  color:#1fbf85;
+}
+
+.nav-rewards{
+  left:34.55%;
+  top:94.50%;
+}
+
+.nav-finance{
+  left:53.55%;
+  top:94.50%;
+}
+
+.nav-cards{
+  left:71.99%;
+  top:94.50%;
+}
+
+.nav-me{
+  left:12.50%;
+  top:42.90%;
+  color:#ffffff;
+}
+
+
+/* =====================================================
+   INVISIBLE CLICK AREAS
+   ===================================================== */
+
+.hit{
+  position:absolute;
+  display:block;
+  background:transparent;
+  border:0;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  z-index:20;
+}
+
+
+/* ==============================
+   OPay
+   ============================== */
+
+.opay{
+  left:10.7%;
+  top:30.0%;
+  width:25%;
+  height:11%;
+}
+
+
+/* ==============================
+   Bank
+   ============================== */
+
+.bank{
+  left:38%;
+  top:30.0%;
+  width:25%;
+  height:11%;
+}
+
+
+/* ==============================
+   Balance Eye
+   ============================== */
+
+.eye{
+  left:39%;
+  top:11.5%;
+  width:7%;
+  height:5%;
+  z-index:30;
+}
+
+
+/* ==============================
+   History
+   ============================== */
+
+.history{
+  left:58%;
+  top:11%;
+  width:38%;
+  height:5.5%;
+  z-index:20;
+}
+
+
+/* ==============================
+   Data
+   ============================== */
+
+.data-hit{
+  left:31%;
+  top:42%;
+  width:19%;
+  height:9%;
+  z-index:20;
+}
+
+
+/* ==============================
+   Airtime
+   ============================== */
+
+
+
+/* ==============================
+   ADD MONEY
+   ============================== */
+
+.addfunds{
+  left:65%;
+  top:15.7%;
+  width:29%;
+  height:5%;
+  z-index:25;
+}
+
+
+/* =====================================================
+   DYNAMIC BALANCE
+   ===================================================== */
+
+.balance{
+  position:absolute;
+
+  left:7.0%;
+  top:15.65%;
+
+  width:max-content;
+  height:auto;
+
+  display:flex;
+  align-items:center;
+
+  background:#6ed5a1;
+  color:#101813;
+
+  padding:5px 5px 5px 3px;
+
+  font-family:Arial,Roboto,sans-serif;
+  font-size:clamp(27px,6vw,43px);
+  font-weight:800;
+
+  letter-spacing:-1.8px;
+  line-height:1;
+
+  white-space:nowrap;
+
+  z-index:15;
+}
+
+.balance .amount{
+  display:inline-block;
+}
+
+.balance .arrow{
+  display:inline-block;
+
+  margin-left:7px;
+
+  font-size:clamp(22px,4vw,30px);
+  font-weight:500;
+
+  letter-spacing:0;
+}
+
+.balance.hidden .amount{
+  letter-spacing:4px;
+  font-size:clamp(30px,6vw,43px);
+}
+
+
+/* =====================================================
+   MOBILE ADJUSTMENT
+   ===================================================== */
+
+@media(max-width:450px){
+
+  .profile-name{
+    font-size:18px;
+  }
+
+  .balance-label{
+    font-size:16px;
+  }
+
+  .history-label{
+    font-size:15px;
+  }
+
+  .sales-title{
+    font-size:13px;
+  }
+
+  .sales-amount{
+    font-size:15px;
+  }
+
+  .voucher-description{
+    font-size:11px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+  <!-- DASHBOARD BACKGROUND -->
+
+  <img
+    src="dashboard_1080p_sharp.jpg"
+    alt="Dashboard">
+
+
+  <!-- =================================================
+       SHARP TEXT OVERLAY
+       ================================================= -->
+
+
+  <!-- Profile -->
+
+  <div class="text profile-ch">
+    CH
+  </div>
+
+  <div class="text profile-name">
+    Hi,CHINEDU
+  </div>
+
+  <div class="text profile-tier">
+    3<br>
+    TIER
+  </div>
+
+
+  <!-- Help -->
+
+  <div class="text help-text">
+    HELP
+  </div>
+
+
+  <!-- Notification -->
+
+  <div class="text notification-badge">
+    50
+  </div>
+
+
+  <!-- Balance label -->
+
+  <div class="text balance-label">
+    Available Balance
+  </div>
+
+
+    <div class="text eye-label">
+    <->
+  </div>
+  <!-- History -->
+
+  <div class="text history-label">
+    Transaction History ›
+  </div>
+
+
+  <!-- Add Money -->
+
+  <div class="text add-money-label">
+    ＋ Add Money
+  </div>
+
+
+  <!-- Business service -->
+
+  <div class="text sales-title">
+    Business Service - Today's Sales:
+  </div>
+
+  <div class="text sales-amount">
+    ₦0.00
+  </div>
+
+
+  <!-- Transfer options -->
+
+  <div class="text transfer-opay">
+    To OPay
+  </div>
+
+  <div class="text transfer-bank">
+    To Bank
+  </div>
+
+  <div class="text transfer-withdraw">
+    Withdraw
+  </div>
+
+
+  <!-- Service grid -->
+
+  <div class="text service airtime">
+    Airtime
+  </div>
+
+  <div class="text service data">
+    Data
+  </div>
+
+  <div class="text service betting">
+    Betting
+  </div>
+
+  <div class="text service electricity">
+    Electricity
+  </div>
+
+  <div class="text service fixed">
+    Fixed
+  </div>
+
+  <div class="text service loan">
+    Loan
+  </div>
+
+  <div class="text service invitation">
+    Invitation
+  </div>
+
+  <div class="text service more">
+    More
+  </div>
+
+
+  <!-- Saving challenge -->
+
+  <div class="text saving-title">
+    Saving Challenge 2026
+  </div>
+
+  <div class="text special-target">
+    Special Target
+  </div>
+
+  <div class="text special-subtitle">
+    Start small daily, finish big in 2026
+  </div>
+
+  <div class="text go-button">
+    Go
+  </div>
+
+
+  <!-- Voucher -->
+
+  <div class="text voucher-title">
+    Super Voucher Package
+  </div>
+
+  <div class="text voucher-description">
+    Get 15 discount coupons (worth ₦530 total) for<br>
+    just ₦99, valid for bill payment
+  </div>
+
+
+  <!-- Bottom navigation -->
+
+  <div class="text nav nav-home">
+    Home
+  </div>
+
+  <div class="text nav nav-rewards">
+    Rewards
+  </div>
+
+  <div class="text nav nav-finance">
+    Finance
+  </div>
+
+  <div class="text nav nav-cards">
+    Cards
+  </div>
+
+  <div class="text nav nav-me">
+    30%
+  </div>
+
+
+  <!-- =================================================
+       DYNAMIC BALANCE
+       ================================================= -->
+
+  <div
+    class="balance"
+    id="balance">
+
+    <span
+      class="amount"
+      id="amount">
+    </span>
+
+    <span class="arrow">
+      ›
+    </span>
+
+  </div>
+
+
+  <!-- =================================================
+       INVISIBLE CLICK AREAS
+       ================================================= -->
+
+  <a
+    class="hit opay"
+    href="bank.html"
+    aria-label="To OPay">
+  </a>
+
+
+  <a
+    class="hit bank"
+    href="bank.html"
+    aria-label="To Bank">
+  </a>
+
+
+  <a
+    class="hit history"
+    href="history.html"
+    aria-label="Transaction History">
+  </a>
+
+
+  <a
+    class="hit data-hit"
+    href="data.html"
+    aria-label="Data">
+  </a>
+
+
+
+
+  <a
+    class="hit addfunds"
+    href="addfunds.html"
+    aria-label="Add Money">
+  </a>
+
+
+  <button
+    class="hit eye"
+    id="eye"
+    aria-label="Hide or show balance">
+  </button>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   STARTING BALANCE
+   ===================================== */
+
+const STARTING_BALANCE = 10000;
+
+
+/* =====================================
+   GET SAVED BALANCE
+   ===================================== */
+
+let savedBalance =
+  localStorage.getItem("dashboardBalance");
+
+
+if(savedBalance === null){
+
+  savedBalance = STARTING_BALANCE;
+
+  localStorage.setItem(
+    "dashboardBalance",
+    savedBalance
+  );
+
+}
+
+
+/* =====================================
+   ELEMENTS
+   ===================================== */
+
+const amount =
+  document.getElementById("amount");
+
+const balance =
+  document.getElementById("balance");
+
+const eye =
+  document.getElementById("eye");
+
+
+/* =====================================
+   FORMAT BALANCE
+   ===================================== */
+
+function formatMoney(value){
+
+  return "₦" +
+    Number(value).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =====================================
+   DISPLAY BALANCE
+   ===================================== */
+
+let hidden = false;
+
+
+function updateBalance(){
+
+  const currentBalance =
+    Number(
+      localStorage.getItem(
+        "dashboardBalance"
+      )
+    ) || 0;
+
+
+  amount.textContent =
+    hidden
+      ? "****"
+      : formatMoney(currentBalance);
+
+
+  balance.classList.toggle(
+    "hidden",
+    hidden
+  );
+
+}
+
+
+/* =====================================
+   EYE BUTTON
+   ===================================== */
+
+eye.addEventListener(
+  "click",
+  function(){
+
+    hidden = !hidden;
+
+    updateBalance();
+
+  }
+);
+
+
+/* =====================================
+   INITIAL DISPLAY
+   ===================================== */
+
+updateBalance();
+
+</script>
+
+</body>
+</html>

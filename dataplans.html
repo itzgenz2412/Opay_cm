@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,
+  initial-scale=1.0,
+  maximum-scale=1.0,
+  user-scalable=no">
+
+<title>Data Plan</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#171719;
+  font-family:Arial,Roboto,sans-serif;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  max-width:1080px;
+  margin:auto;
+  overflow:hidden;
+}
+
+.page img{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+
+/* =====================================================
+   SHARP TEXT
+   ===================================================== */
+
+.text{
+  position:absolute;
+  z-index:10;
+
+  color:#eeeeee;
+
+  font-family:Arial,Roboto,sans-serif;
+  font-weight:600;
+
+  line-height:1.05;
+
+  white-space:nowrap;
+
+  pointer-events:none;
+
+  text-rendering:geometricPrecision;
+}
+
+
+/* =====================================================
+   TOP INFORMATION
+   ===================================================== */
+
+
+/* Product Name */
+
+.product-label{
+  left:5.2%;
+  top:3.45%;
+
+  font-size:clamp(16px,3.7vw,34px);
+  font-weight:600;
+}
+
+
+/* Product value */
+
+.product-value{
+  right:5.8%;
+  top:3.45%;
+
+  font-size:clamp(16px,3.7vw,34px);
+  font-weight:600;
+}
+
+
+/* Recipient Mobile */
+
+.recipient-label{
+  left:5.2%;
+  top:8.55%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+.recipient-value{
+  right:5.8%;
+  top:8.55%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+
+/* Data Bundle */
+
+.bundle-label{
+  left:5.2%;
+  top:14.0%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+.bundle-value{
+  right:5.8%;
+  top:14.0%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+
+/* Amount */
+
+.amount-label{
+  left:5.2%;
+  top:19.25%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+.amount-value{
+  right:5.8%;
+  top:19.25%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+
+/* Voucher */
+
+.voucher-label{
+  left:5.2%;
+  top:24.55%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+.voucher-value{
+  right:5.2%;
+  top:24.55%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+
+/* Use Cashback */
+
+.cashback-label{
+  left:5.2%;
+  top:29.75%;
+
+  font-size:clamp(15px,3.5vw,32px);
+  font-weight:600;
+}
+
+
+
+
+/* OPay Bonus */
+
+.bonus-label{
+  left:5.2%;
+  top:34.9%;
+
+  font-size:clamp(15px,3.5vw,32px);
+  font-weight:600;
+}
+
+
+/* =====================================================
+   PAYMENT METHOD
+   ===================================================== */
+
+.payment-method{
+  left:2.7%;
+  top:44.75%;
+
+  font-size:clamp(16px,3.8vw,35px);
+  font-weight:700;
+}
+
+.payment-all{
+  right:4.0%;
+  top:44.75%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+
+/* =====================================================
+   AVAILABLE BALANCE
+   ===================================================== */
+
+.available{
+  left:19.35%;
+  top:65.35%;
+
+  font-size:clamp(16px,3.7vw,34px);
+  font-weight:700;
+}
+
+
+/* =====================================================
+   WALLET
+   ===================================================== */
+
+.wallet{
+  left:5.2%;
+  top:65.35%;
+
+  font-size:clamp(15px,3.6vw,33px);
+  font-weight:600;
+}
+
+      
+.Available-Balance{
+  left:11.8%;
+        top:52.45%;
+   font-size:clamp(16px,3.7vw,34px);
+  font-weight:700;     
+}
+
+/* =====================================================
+   ADD MONEY
+   ===================================================== */
+
+.add-money{
+  right:5.0%;
+  top:65.35%;
+
+  color:#20d6a3;
+
+  font-size:clamp(15px,3.5vw,32px);
+  font-weight:700;
+}
+
+
+/* =====================================================
+   OWEALTH
+   ===================================================== */
+
+.owealth{
+  left:5.2%;
+  top:70.55%;
+
+  font-size:clamp(14px,3.3vw,30px);
+  font-weight:600;
+}
+
+
+/* =====================================================
+   ADD BANK CARD
+   ===================================================== */
+
+.add-card{
+  left:11.8%;
+  top:81.20%;
+
+  font-size:clamp(15px,3.7vw,34px);
+  font-weight:700;
+}
+
+
+/* =====================================================
+   PAY BUTTON TEXT
+   ===================================================== */
+
+.pay-text{
+  position:absolute;
+
+  left:50%;
+  bottom:5.15%;
+
+  transform:translateX(-50%);
+
+  z-index:21;
+
+  color:#101813;
+
+  font-size:clamp(22px,5.3vw,48px);
+
+  font-family:Arial,Roboto,sans-serif;
+
+  font-weight:800;
+
+  line-height:1;
+
+  pointer-events:none;
+}
+
+
+/* =====================================================
+   PAY BUTTON
+   ===================================================== */
+
+.pay{
+  position:absolute;
+
+  left:8.5%;
+  right:8.5%;
+  bottom:3.8%;
+
+  height:8.5%;
+
+  border:0;
+
+  border-radius:60px;
+
+  background:transparent;
+
+  z-index:20;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:450px){
+
+  .product-label,
+  .product-value,
+  .recipient-label,
+  .recipient-value,
+  .bundle-label,
+  .bundle-value,
+  .amount-label,
+  .amount-value,
+  .voucher-label,
+  .voucher-value,
+  .cashback-label,
+  .cashback-value,
+  .bonus-label,
+  .payment-method,
+  .payment-all,
+  .available,
+  .wallet,
+  .add-money,
+  .owealth,
+  .add-card{
+    font-weight:600;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+  <!-- =================================================
+       ORIGINAL IMAGE
+       ================================================= -->
+
+  <img
+    src="dataplans.jpg"
+    alt="Data Plan">
+
+
+  <!-- =================================================
+       SHARP TEXT OVERLAY
+       ================================================= -->
+
+
+  <!-- PRODUCT NAME -->
+
+  <div class="text product-label">
+    Product Name
+  </div>
+
+  <div
+    class="text product-value"
+    id="product">
+    Mobile Data
+  </div>
+
+
+  <!-- RECIPIENT MOBILE -->
+
+  <div class="text recipient-label">
+    Recipient Mobile
+  </div>
+
+      
+  <div
+    class="text recipient-value"
+    id="recipient">
+  </div>
+
+
+  <!-- DATA BUNDLE -->
+
+  <div class="text bundle-label">
+    Data Bundle
+  </div>
+
+  <div
+    class="text bundle-value"
+    id="bundle">
+  </div>
+
+
+  <!-- AMOUNT -->
+
+  <div class="text amount-label">
+    Amount
+  </div>
+
+  <div
+    class="text amount-value"
+    id="amount">
+  </div>
+
+
+  <!-- VOUCHER -->
+
+  <div class="text voucher-label">
+    Voucher
+  </div>
+
+  <div class="text voucher-value">
+    None available ›
+  </div>
+
+
+  <!-- CASHBACK -->
+
+  <div
+    class="text cashback-label"
+    id="cashbackLabel">
+    Use Cashback (₦29.60)
+  </div>
+
+  <div
+    class="text cashback-value"
+    id="cashbackValue">
+    −₦29.60
+  </div>
+
+
+  <!-- OPAY BONUS -->
+
+  <div class="text bonus-label">
+    OPay Bonus
+  </div>
+
+
+  <!-- PAYMENT METHOD -->
+
+  <div class="text payment-method">
+    Payment Method
+  </div>
+
+  <div class="text payment-all">
+    All ›
+  </div>
+
+
+  <!-- AVAILABLE BALANCE -->
+
+  <div
+    class="text available"
+    id="available">
+  </div>
+
+
+  <!-- WALLET -->
+
+  <div class="text wallet">
+    Wallet
+  </div>
+
+       <div class="text Available-Balance">
+    Available Balance
+  </div>
+
+      
+
+  <!-- ADD MONEY -->
+
+  <div class="text add-money">
+    Add Money ›
+  </div>
+
+
+  <!-- OWEALTH -->
+
+  <div class="text owealth">
+    OWealth (₦0.00) ⓘ
+  </div>
+
+
+  <!-- ADD BANK CARD -->
+
+  <div class="text add-card">
+   Add a Bank Card / Account
+  </div>
+
+
+  <!-- PAY TEXT -->
+
+  <div class="pay-text">
+  </div>
+
+
+  <!-- PAY BUTTON -->
+
+  <button
+    class="pay"
+    id="payButton"
+    aria-label="Pay">
+  </button>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   DATA PLANS
+   ===================================== */
+
+const plans = {
+
+  plan1:{
+    bundle:"1GB",
+    amount:"₦500",
+    cashback:"+₦17.5 Cashback"
+  },
+
+  plan2:{
+    bundle:"2.5GB",
+    amount:"₦750",
+    cashback:"+₦15 Cashback"
+  },
+
+  plan3:{
+    bundle:"2.5GB",
+    amount:"₦900",
+    cashback:"+₦18 Cashback"
+  },
+
+  plan4:{
+    bundle:"500MB",
+    amount:"₦500",
+    cashback:"+₦17.5 Cashback"
+  },
+
+  plan5:{
+    bundle:"1GB",
+    amount:"₦800",
+    cashback:"+₦16 Cashback"
+  },
+
+  plan6:{
+    bundle:"3.5GB",
+    amount:"₦1,490",
+    cashback:"+₦30 Cashback"
+  },
+
+  plan7:{
+    bundle:"2GB",
+    amount:"₦1,490",
+    cashback:"+₦30 Cashback"
+  },
+
+  plan8:{
+    bundle:"7GB",
+    amount:"₦3,460",
+    cashback:"+₦70 Cashback"
+  }
+
+};
+
+
+/* =====================================
+   STARTING BALANCE
+   ===================================== */
+
+const STARTING_BALANCE = 82753;
+
+
+/* =====================================
+   GET PHONE
+   ===================================== */
+
+let phone =
+  localStorage.getItem("dataPhoneNumber") || "";
+
+
+/* =====================================
+   FORMAT PHONE
+   ===================================== */
+
+function formatPhone(number){
+
+  number = String(number)
+    .replace(/\D/g,"");
+
+  if(number.length === 11){
+
+    return number.substring(0,4)
+      + " "
+      + number.substring(4,7)
+      + " "
+      + number.substring(7,11);
+
+  }
+
+  return number;
+
+}
+
+
+/* =====================================
+   SELECTED PLAN
+   ===================================== */
+
+const selectedPlan =
+  localStorage.getItem("selectedDataPlan")
+  || "plan1";
+
+const plan =
+  plans[selectedPlan] || plans.plan1;
+
+
+/* =====================================
+   DISPLAY DATA
+   ===================================== */
+
+document.getElementById("recipient")
+  .textContent =
+  formatPhone(phone);
+
+document.getElementById("bundle")
+  .textContent =
+  plan.bundle;
+
+document.getElementById("amount")
+  .textContent =
+  plan.amount;
+
+
+/* =====================================
+   BALANCE
+   ===================================== */
+
+let currentBalance =
+  Number(
+    localStorage.getItem(
+      "dashboardBalance"
+    )
+  );
+
+
+if(!Number.isFinite(currentBalance)){
+
+  currentBalance =
+    STARTING_BALANCE;
+
+  localStorage.setItem(
+    "dashboardBalance",
+    currentBalance
+  );
+
+}
+
+
+/* =====================================
+   MONEY FORMAT
+   ===================================== */
+
+function formatMoney(value){
+
+  return "₦" +
+    Number(value).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =====================================
+   DISPLAY BALANCE
+   ===================================== */
+
+document.getElementById("available")
+  .textContent =
+  formatMoney(currentBalance);
+
+
+/* =====================================
+   PAY
+   ===================================== */
+
+const payButton =
+  document.getElementById("payButton");
+
+
+payButton.addEventListener(
+  "click",
+  function(){
+
+    if(payButton.disabled){
+      return;
+    }
+
+    payButton.disabled = true;
+
+
+    /* ===============================
+       CURRENT BALANCE
+       =============================== */
+
+    let balance =
+      Number(
+        localStorage.getItem(
+          "dashboardBalance"
+        )
+      );
+
+
+    if(!Number.isFinite(balance)){
+
+      balance =
+        STARTING_BALANCE;
+
+    }
+
+
+    /* ===============================
+       PLAN AMOUNT
+       =============================== */
+
+    const numericAmount =
+      Number(
+        plan.amount
+          .replace(/[₦,]/g,"")
+      );
+
+
+    /* ===============================
+       VALIDATE AMOUNT
+       =============================== */
+
+    if(
+      !Number.isFinite(numericAmount) ||
+      numericAmount <= 0
+    ){
+
+      payButton.disabled = false;
+
+      alert(
+        "Invalid payment amount."
+      );
+
+      return;
+
+    }
+
+
+    /* ===============================
+       CHECK BALANCE
+       =============================== */
+
+    if(numericAmount > balance){
+
+      payButton.disabled = false;
+
+      alert(
+        "Insufficient balance."
+      );
+
+      return;
+
+    }
+
+
+    /* ===============================
+       NEW BALANCE
+       =============================== */
+
+    const newBalance =
+      balance - numericAmount;
+
+
+    localStorage.setItem(
+      "dashboardBalance",
+      String(newBalance)
+    );
+
+
+    /* ===============================
+       DATE
+       =============================== */
+
+    const now =
+      new Date();
+
+
+    const date =
+      now.toLocaleDateString(
+        "en-GB"
+      );
+
+
+    /* ===============================
+       TIME
+       =============================== */
+
+    const time =
+      now.toLocaleTimeString(
+        "en-US",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
+
+
+    /* ===============================
+       TRANSACTION
+       =============================== */
+
+    const transaction = {
+
+      phone:phone,
+
+      bundle:plan.bundle,
+
+      amount:plan.amount,
+
+      cashback:plan.cashback,
+
+      date:date,
+
+      time:time,
+
+      timestamp:Date.now()
+
+    };
+
+
+    /* ===============================
+       GET HISTORY
+       =============================== */
+
+    let history = [];
+
+    try{
+
+      history =
+        JSON.parse(
+          localStorage.getItem(
+            "transactionHistory"
+          )
+        ) || [];
+
+
+      if(!Array.isArray(history)){
+
+        history = [];
+
+      }
+
+    }catch(error){
+
+      history = [];
+
+    }
+
+
+    /* ===============================
+       ADD TRANSACTION
+       =============================== */
+
+    history.unshift(
+      transaction
+    );
+
+
+    /* ===============================
+       KEEP LAST 50
+       =============================== */
+
+    history =
+      history.slice(0,50);
+
+
+    /* ===============================
+       SAVE HISTORY
+       =============================== */
+
+    localStorage.setItem(
+      "transactionHistory",
+      JSON.stringify(history)
+    );
+
+
+    /* ===============================
+       SAVE PRINT DATA
+       =============================== */
+
+    localStorage.setItem(
+      "transactionPhone",
+      phone
+    );
+
+    localStorage.setItem(
+      "transactionBundle",
+      plan.bundle
+    );
+
+    localStorage.setItem(
+      "transactionAmount",
+      plan.amount
+    );
+
+    localStorage.setItem(
+      "transactionCashback",
+      plan.cashback
+    );
+
+    localStorage.setItem(
+      "transactionPlan",
+      selectedPlan
+    );
+
+    localStorage.setItem(
+      "transactionDate",
+      date
+    );
+
+    localStorage.setItem(
+      "transactionTime",
+      time
+    );
+
+
+    /* ===============================
+       UPDATE BALANCE
+       =============================== */
+
+    document.getElementById("available")
+      .textContent =
+      formatMoney(newBalance);
+
+
+    /* ===============================
+       OPEN PRINT PAGE
+       =============================== */
+
+    window.top.location.href =
+      "print.html";
+
+  }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,
+  initial-scale=1.0,
+  maximum-scale=1.0,
+  user-scalable=no">
+
+<title>Successful</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#171719;
+  font-family:Arial,Roboto,sans-serif;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  max-width:709px;
+  margin:auto;
+  overflow:hidden;
+}
+
+.page > img{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+
+/* =====================================================
+   SHARP TEXT LAYER
+   ===================================================== */
+
+.text{
+  position:absolute;
+  z-index:10;
+
+  font-family:Arial,Roboto,sans-serif;
+
+  white-space:nowrap;
+
+  pointer-events:none;
+
+  line-height:1.05;
+
+  text-rendering:geometricPrecision;
+}
+
+
+/* =====================================================
+   DONE
+   ===================================================== */
+
+.done-text{
+  right:3.5%;
+  top:5.25%;
+
+  color:#18d09c;
+
+  font-size:clamp(15px,3.7vw,26px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   SUCCESSFUL
+   ===================================================== */
+
+.successful{
+  left:50%;
+  top:14.65%;
+
+  transform:translateX(-50%);
+
+  color:#eeeeee;
+
+  font-size:clamp(21px,5vw,35px);
+
+  font-weight:500;
+
+  text-align:center;
+}
+
+
+/* =====================================================
+   TRANSACTION AMOUNT
+   ===================================================== */
+
+.amount{
+  left:50%;
+  top:18.85%;
+
+  transform:translateX(-50%);
+
+  color:#eeeeee;
+
+  font-size:clamp(20px,5vw,34px);
+
+  font-weight:700;
+
+  text-align:center;
+}
+
+
+/* =====================================================
+   OPAY BONUS
+   ===================================================== */
+
+.bonus-label{
+  left:6.0%;
+  top:25.60%;
+
+  color:#eeeeee;
+
+  font-size:clamp(14px,3.7vw,26px);
+
+  font-weight:500;
+}
+
+
+/* =====================================================
+   CASHBACK
+   ==================================================== */
+
+.cashback{
+  right:11.50%;
+  top:25.60%;
+
+  color:#18d09c;
+
+  font-size:clamp(14px,3.7vw,26px);
+
+  font-weight:700;
+
+  text-align:right;
+}
+
+
+/* =====================================================
+   SHARE RECEIPT
+   ===================================================== */
+
+.share-receipt{
+  left:17.8%;
+  top:34.99%;
+
+  transform:translateX(-50%);
+
+  color:#eeeeee;
+
+  font-size:clamp(13px,3.4vw,24px);
+
+  font-weight:600;
+}
+
+
+/* =====================================================
+   ADD MONEY
+   ===================================================== */
+
+.add-money{
+  left:50%;
+  top:34.99%;
+
+  transform:translateX(-50%);
+
+  color:#eeeeee;
+
+  font-size:clamp(13px,3.4vw,24px);
+
+  font-weight:600;
+}
+
+
+/* =====================================================
+   VIEW DETAILS
+   ===================================================== */
+
+.view-details{
+  left:82.2%;
+  top:34.99%;
+
+  transform:translateX(-50%);
+
+  color:#eeeeee;
+
+  font-size:clamp(13px,3.4vw,24px);
+
+  font-weight:600;
+}
+
+
+/* =====================================================
+   SPECIAL BONUS
+   ===================================================== */
+
+.special-title{
+  left:7.0%;
+  top:40.4%;
+
+  color:#eeeeee;
+
+  font-size:clamp(16px,4vw,28px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   BONUS ITEM 1
+   ===================================================== */
+
+.offer1-title{
+  left:20.2%;
+  top:44.2%;
+
+  color:#eeeeee;
+
+  font-size:clamp(14px,3.6vw,25px);
+
+  font-weight:700;
+}
+
+.offer1-subtitle{
+  left:20.2%;
+  top:46.35%;
+
+  color:#aaaaae;
+
+  font-size:clamp(11px,2.9vw,20px);
+
+  font-weight:600;
+}
+
+.go1{
+  left:82.2%;
+  top:45.2%;
+
+  color:#101813;
+
+  font-size:clamp(13px,3.5vw,24px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   BONUS ITEM 2
+   ===================================================== */
+
+.offer2-title{
+  left:20.2%;
+  top:51.2%;
+
+  color:#eeeeee;
+
+  font-size:clamp(14px,3.6vw,25px);
+
+  font-weight:700;
+}
+
+.offer2-subtitle{
+  left:20.2%;
+  top:53.55%;
+
+  color:#aaaaae;
+
+  font-size:clamp(11px,2.9vw,20px);
+
+  font-weight:600;
+}
+
+.go2{
+  left:82.2%;
+  top:52.2%;
+
+  color:#101813;
+
+  font-size:clamp(13px,3.5vw,24px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   BONUS ITEM 3
+   ===================================================== */
+
+.offer3-title{
+  left:20.2%;
+  top:58.2%;
+
+  color:#eeeeee;
+
+  font-size:clamp(14px,3.6vw,25px);
+
+  font-weight:700;
+}
+
+.offer3-subtitle{
+  left:20.2%;
+  top:60.7%;
+
+  color:#aaaaae;
+
+  font-size:clamp(11px,2.9vw,20px);
+
+  font-weight:600;
+}
+
+.go3{
+  left:82.2%;
+  top:59.35%;
+
+  color:#101813;
+
+  font-size:clamp(13px,3.5vw,24px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   BONUS ITEM 4
+   ===================================================== */
+
+.offer4-title{
+  left:20.2%;
+  top:65.2%;
+
+  color:#eeeeee;
+
+  font-size:clamp(14px,3.6vw,25px);
+
+  font-weight:700;
+}
+
+.offer4-subtitle{
+  left:20.2%;
+  top:67.85%;
+
+  color:#aaaaae;
+
+  font-size:clamp(11px,2.9vw,20px);
+
+  font-weight:600;
+}
+
+.go4{
+  left:82.2%;
+  top:66.5%;
+
+  color:#101813;
+
+  font-size:clamp(13px,3.5vw,24px);
+
+  font-weight:700;
+}
+
+
+/* =====================================================
+   CLICKABLE DONE AREA
+   ===================================================== */
+
+.done{
+  position:absolute;
+
+  right:2.5%;
+  top:5.0%;
+
+  width:15%;
+  height:5.0%;
+
+  border:0;
+
+  background:transparent;
+
+  padding:0;
+  margin:0;
+
+  z-index:20;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   MOBILE ADJUSTMENT
+   ===================================================== */
+
+@media(max-width:450px){
+
+  .successful{
+    font-size:22px;
+  }
+
+  .special-title{
+    font-size:16px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+  <!-- =================================================
+       ORIGINAL PRINT IMAGE
+       ================================================= -->
+
+  <img
+    src="print.jpg"
+    alt="Successful Transaction">
+
+
+  <!-- =================================================
+       SHARP TEXT OVERLAY
+       ================================================= -->
+
+
+  <!-- DONE -->
+
+  <div class="text done-text">
+    Done
+  </div>
+
+
+  <!-- SUCCESSFUL -->
+
+  <div class="text successful">
+    Successful
+  </div>
+
+
+  <!-- TRANSACTION AMOUNT -->
+
+  <div
+    class="text amount"
+    id="amount">
+  </div>
+
+
+  <!-- OPAY BONUS -->
+
+  <div class="text bonus-label">
+    OPay Bonus
+  </div>
+
+
+  <!-- CASHBACK -->
+
+  <div
+    class="text cashback"
+    id="cashback">
+  </div>
+
+
+  <!-- SHARE RECEIPT -->
+
+  <div class="text share-receipt">
+    Share Receipt
+  </div>
+
+
+  <!-- ADD MONEY -->
+
+  <div class="text add-money">
+    Add Money
+  </div>
+
+
+  <!-- VIEW DETAILS -->
+
+  <div class="text view-details">
+    View Details
+  </div>
+
+
+  <!-- SPECIAL BONUS -->
+
+  <div class="text special-title">
+    Special Bonus For You
+  </div>
+
+
+  <!-- OFFER 1 -->
+
+  <div class="text offer1-title">
+    Data offers at lowes
+  </div>
+
+  <div class="text offer1-subtitle">
+    Recharge Data &amp; Earn Now!
+  </div>
+
+  <div class="text go1">
+    GO
+  </div>
+
+
+  <!-- OFFER 2 -->
+
+  <div class="text offer2-title">
+    Don't Miss Out
+  </div>
+
+  <div class="text offer2-subtitle">
+    Balance with Daily Interest
+  </div>
+
+  <div class="text go2">
+    GO
+  </div>
+
+
+  <!-- OFFER 3 -->
+
+  <div class="text offer3-title">
+    Electricity Payment
+  </div>
+
+  <div class="text offer3-subtitle">
+    Fast&amp;Easy Electricity Bill Pay
+  </div>
+
+  <div class="text go3">
+    GO
+  </div>
+
+
+  <!-- OFFER 4 -->
+
+  <div class="text offer4-title">
+    TV Payment
+  </div>
+
+  <div class="text offer4-subtitle">
+    Reconnect cable TV instantly!
+  </div>
+
+  <div class="text go4">
+    GO
+  </div>
+
+
+  <!-- =================================================
+       DONE BUTTON
+       ================================================= -->
+
+  <button
+    class="done"
+    id="doneButton"
+    aria-label="Done">
+  </button>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   GET TRANSACTION DATA
+   ===================================== */
+
+const amount =
+  localStorage.getItem(
+    "transactionAmount"
+  ) || "";
+
+
+const cashback =
+  localStorage.getItem(
+    "transactionCashback"
+  ) || "";
+
+
+/* =====================================
+   DISPLAY AMOUNT
+   ===================================== */
+
+document.getElementById("amount")
+  .textContent =
+  amount;
+
+
+/* =====================================
+   DISPLAY CASHBACK
+   ===================================== */
+
+document.getElementById("cashback")
+  .textContent =
+  cashback;
+
+
+/* =====================================
+   DONE → DASHBOARD
+   ===================================== */
+
+document.getElementById("doneButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      window.location.href =
+        "dashboard.html";
+
+    }
+  );
+
+</script>
+
+</body>
+</html>

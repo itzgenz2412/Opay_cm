@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opay</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      display: none;
+    }
+
+    .show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <img src="img1.jpg" class="show" id="first">
+  <img src="img2.jpg" id="second">
+
+  <script>
+
+    // =====================================
+    // CHECK 24-HOUR LOGIN
+    // =====================================
+
+    function isLoginStillValid() {
+
+      const loginTime =
+        localStorage.getItem("loginTimestamp");
+
+      if (!loginTime) {
+        return false;
+      }
+
+      const now = Date.now();
+
+      const elapsed =
+        now - Number(loginTime);
+
+      const twentyFourHours =
+        24 * 60 * 60 * 1000;
+
+      // Login is still valid
+      if (elapsed < twentyFourHours) {
+        return true;
+      }
+
+      // Login has expired
+      localStorage.removeItem("loginTimestamp");
+
+      return false;
+    }
+
+
+    // =====================================
+    // SWITCH TO SECOND IMAGE
+    // =====================================
+
+    setTimeout(() => {
+
+      document
+        .getElementById("first")
+        .classList
+        .remove("show");
+
+      document
+        .getElementById("second")
+        .classList
+        .add("show");
+
+    }, 4000);
+
+
+    // =====================================
+    // AFTER 8 SECONDS
+    // =====================================
+
+    setTimeout(() => {
+
+      if (isLoginStillValid()) {
+
+        // Already logged in within 24 hours
+        window.location.href =
+          "dashboard.html";
+
+      } else {
+
+        // Login required
+        window.location.href =
+          "login.html";
+
+      }
+
+    }, 8000);
+
+  </script>
+
+</body>
+</html>

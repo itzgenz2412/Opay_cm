@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+
+<title>History</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#191919;
+  font-family:Arial, sans-serif;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  max-width:691px;
+  margin:0 auto;
+}
+
+.bg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* BACK BUTTON */
+.back{
+  position:absolute;
+  left:4.5%;
+  top:5.1%;
+  width:8%;
+  height:5%;
+  z-index:20;
+  cursor:pointer;
+}
+
+/* MONTH */
+.month{
+  position:absolute;
+  left:6.2%;
+  top:18.1%;
+  font-size:24px;
+  font-weight:600;
+  color:#fff;
+  z-index:15;
+}
+
+/* IN / OUT */
+.in,
+.out{
+  position:absolute;
+  top:21.2%;
+  font-size:15px;
+  font-weight:500;
+  z-index:15;
+}
+
+.in{
+  left:6.2%;
+  color:#fff;
+}
+
+.out{
+  left:35.5%;
+  color:#fff;
+}
+
+/* HISTORY AREA */
+.history-area{
+  position:absolute;
+  left:3.5%;
+  top:24.3%;
+  width:93%;
+  height:44.6%;
+  background:#2b2b2b;
+  border-radius:0 0 18px 18px;
+  overflow:hidden;
+  z-index:10;
+}
+
+/* EACH HISTORY ROW */
+.history-item{
+  position:relative;
+  width:100%;
+  height:20%;
+  display:flex;
+  align-items:center;
+  padding:18px;
+  cursor:pointer;
+}
+
+/* ICON */
+.data-icon{
+  width:49px;
+  height:49px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+/* LEFT INFORMATION */
+.info{
+  margin-left:12px;
+  min-width:0;
+  flex:1;
+}
+
+.name{
+  color:#fff;
+  font-size:13px;
+  font-weight:500;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.date{
+  margin-top:5px;
+  color:#a7a7a7;
+  font-size:10px;
+}
+
+/* RIGHT SIDE — KEEP MONEY AT FAR RIGHT */
+.right{
+  flex:0 0 92px;
+  width:92px;
+  margin-left:auto;
+  text-align:right;
+  align-self:center;
+}
+
+.amount{
+  font-size:14px;
+  font-weight:500;
+  white-space:nowrap;
+}
+
+.amount.out-money{
+  color:#20c997;
+}
+
+.amount.in-money{
+  color:#20c997;
+}
+
+.status{
+  margin-top:5px;
+  color:#20c997;
+  font-size:8px;
+  white-space:nowrap;
+}
+
+/* MOBILE */
+@media(max-width:450px){
+
+  .month{
+    font-size:21px;
+  }
+
+  .in,
+  .out{
+    font-size:13px;
+  }
+
+  .history-item{
+    padding:14px;
+  }
+
+  .data-icon{
+    width:43px;
+    height:43px;
+  }
+
+  .info{
+    margin-left:10px;
+  }
+
+  .name{
+    font-size:12px;
+  }
+
+  .date{
+    font-size:9px;
+  }
+
+  .right{
+    flex-basis:82px;
+    width:82px;
+  }
+
+  .amount{
+    font-size:13px;
+  }
+
+  .status{
+    font-size:7px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- ORIGINAL BACKGROUND -->
+  <img src="1000022301.jpg"
+       class="bg"
+       alt="History">
+
+  <!-- BACK -->
+  <a href="dashboard.html"
+     class="back"
+     aria-label="Back"></a>
+
+  <!-- MONTH -->
+  <div class="month" id="month">September</div>
+
+  <!-- TOTALS -->
+  <div class="in" id="totalIn">IN ₦0.00</div>
+  <div class="out" id="totalOut">OUT ₦0.00</div>
+
+  <!-- HISTORY -->
+  <div class="history-area" id="historyArea"></div>
+
+</div>
+
+<script>
+
+const historyArea = document.getElementById("historyArea");
+const totalIn = document.getElementById("totalIn");
+const totalOut = document.getElementById("totalOut");
+const monthText = document.getElementById("month");
+
+function numberValue(value){
+  if(typeof value === "number") return value;
+
+  return Number(
+    String(value || "")
+      .replace(/[₦,+]/g,"")
+      .replace(/,/g,"")
+  ) || 0;
+}
+
+function money(value){
+  return numberValue(value).toLocaleString("en-NG",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+
+let history = [];
+
+try{
+  history = JSON.parse(
+    localStorage.getItem("transactionHistory") || "[]"
+  );
+
+  if(!Array.isArray(history)){
+    history = [];
+  }
+}catch(e){
+  history = [];
+}
+
+/* NEWEST FIRST */
+history.sort((a,b)=>{
+  return Number(b.timestamp || 0) -
+         Number(a.timestamp || 0);
+});
+
+/* ONLY SHOW THE LAST 5 */
+history = history.slice(0,5);
+
+/* TOTALS */
+let inTotal = 0;
+let outTotal = 0;
+
+history.forEach(item=>{
+
+  const amount = numberValue(item.amount);
+
+  if(item.type === "in"){
+    inTotal += amount;
+  }else{
+    outTotal += amount;
+  }
+
+});
+
+/* DISPLAY TOTALS */
+totalIn.textContent = "IN ₦" + money(inTotal);
+totalOut.textContent = "OUT ₦" + money(outTotal);
+
+/* MONTH */
+if(history.length > 0){
+
+  const latestDate =
+    history[0].timestamp
+      ? new Date(Number(history[0].timestamp))
+      : new Date();
+
+  monthText.textContent =
+    latestDate.toLocaleDateString("en-NG",{
+      month:"long"
+    });
+
+}else{
+
+  monthText.textContent = "September";
+
+}
+
+/* DRAW HISTORY */
+historyArea.innerHTML = "";
+
+history.forEach((item,index)=>{
+
+  const isIncoming = item.type === "in";
+
+  const row = document.createElement("div");
+  row.className = "history-item";
+
+  /* ICON */
+  const icon = document.createElement("img");
+  icon.className = "data-icon";
+  icon.src = isIncoming
+    ? "data-icon.png"
+    : "data-icon.png";
+
+  /* LEFT INFO */
+  const info = document.createElement("div");
+  info.className = "info";
+
+  const name = document.createElement("div");
+  name.className = "name";
+
+  if(isIncoming){
+    name.textContent = "Funds Added";
+  }else{
+    name.textContent = "Mobile Data";
+  }
+
+  const date = document.createElement("div");
+  date.className = "date";
+
+  date.textContent =
+    (item.date || "") +
+    (item.time ? " • " + item.time : "");
+
+  info.appendChild(name);
+  info.appendChild(date);
+
+  /* RIGHT MONEY */
+  const right = document.createElement("div");
+  right.className = "right";
+
+  const amount = document.createElement("div");
+
+  if(isIncoming){
+    amount.className = "amount in-money";
+    amount.textContent = "+₦" + money(item.amount);
+  }else{
+    amount.className = "amount out-money";
+    amount.textContent = "-₦" + money(item.amount);
+  }
+
+  const status = document.createElement("div");
+  status.className = "status";
+  status.textContent = isIncoming
+    ? "Successful"
+    : "Successful";
+
+  right.appendChild(amount);
+  right.appendChild(status);
+
+  row.appendChild(icon);
+  row.appendChild(info);
+  row.appendChild(right);
+
+  /*
+    ONLY OUTGOING MOBILE-DATA
+    TRANSACTIONS OPEN TRANSACTION.HTML
+  */
+  if(!isIncoming){
+
+    row.addEventListener("click",()=>{
+
+      localStorage.setItem(
+        "selectedTransaction",
+        JSON.stringify(item)
+      );
+
+      window.location.href =
+        "transaction.html";
+
+    });
+
+  }
+
+  historyArea.appendChild(row);
+
+});
+
+</script>
+
+</body>
+</html>

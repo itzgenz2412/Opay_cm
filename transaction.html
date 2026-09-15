@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>Transaction Details - Demo</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#191919;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  max-width:691px;
+  margin:0 auto;
+}
+
+.bg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+
+/* =========================
+   DEMO
+========================= */
+
+.demo{
+  position:absolute;
+
+  top:1.5%;
+  right:4%;
+
+  color:#ffb000;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:1px;
+
+  z-index:100;
+}
+
+
+/* =========================
+   BACK
+========================= */
+
+.back{
+  position:absolute;
+
+  left:4%;
+  top:5.2%;
+
+  width:8%;
+  height:5%;
+
+  z-index:100;
+  cursor:pointer;
+}
+
+
+/* =========================
+   TOP CARD
+========================= */
+
+.top-card{
+  position:absolute;
+
+  left:3.5%;
+  top:12.5%;
+
+  width:93%;
+  height:25.8%;
+
+  background:#2b2b2b;
+
+  border-radius:18px;
+
+  z-index:10;
+}
+
+
+/* =========================
+   DATA ICON
+========================= */
+
+.data-icon{
+  position:absolute;
+
+  left:50%;
+  top:-7%;
+
+  transform:translateX(-50%);
+
+  width:58px;
+  height:58px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  z-index:30;
+}
+
+
+/* =========================
+   NETWORK NAME
+========================= */
+
+.network-name{
+  position:absolute;
+
+  left:0;
+  top:16%;
+
+  width:100%;
+
+  text-align:center;
+
+  color:#eeeeee;
+
+  font-size:19px;
+  line-height:23px;
+
+  font-weight:700;
+
+  z-index:30;
+}
+
+
+/* =========================
+   MAIN AMOUNT
+========================= */
+
+.main-amount{
+  position:absolute;
+
+  left:0;
+  top:29%;
+
+  width:100%;
+
+  text-align:center;
+
+  color:#eeeeee;
+
+  font-size:39px;
+  line-height:43px;
+
+  font-weight:700;
+
+  z-index:30;
+}
+
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success{
+  position:absolute;
+
+  left:0;
+  top:51%;
+
+  width:100%;
+
+  text-align:center;
+
+  color:#18d09c;
+
+  font-size:18px;
+  line-height:22px;
+
+  font-weight:700;
+
+  z-index:30;
+}
+
+
+/* =========================
+   AMOUNT INFORMATION
+========================= */
+
+.amount-info{
+  position:absolute;
+
+  left:3%;
+  right:3%;
+
+  top:50%;
+
+  z-index:30;
+}
+
+.amount-row{
+  position:relative;
+
+  width:100%;
+  height:31px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.amount-label{
+  color:#a9a9a9;
+
+  font-size:15px;
+  font-weight:600;
+}
+
+.amount-value{
+  color:#eeeeee;
+
+  font-size:15px;
+  font-weight:700;
+
+  text-align:right;
+}
+
+.bonus-value{
+  color:#16d49c;
+
+  font-size:15px;
+  font-weight:700;
+
+  text-align:right;
+}
+
+
+/* =========================
+   DETAILS CARD
+========================= */
+
+.details-card{
+  position:absolute;
+
+  left:3.5%;
+  top:40.5%;
+
+  width:93%;
+  height:22.5%;
+
+  background:#2b2b2b;
+
+  border-radius:18px;
+
+  z-index:10;
+}
+
+
+/* =========================
+   DETAILS TITLE
+========================= */
+
+.details-title{
+  position:absolute;
+
+  left:3.5%;
+  top:0%;
+
+  color:#eeeeee;
+
+  font-size:18px;
+  font-weight:700;
+
+  z-index:30;
+}
+
+
+/* =========================
+   DETAILS ROWS
+========================= */
+
+.detail-row{
+  position:absolute;
+
+  left:3.5%;
+  right:3.5%;
+
+  height:27px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  z-index:30;
+}
+
+.detail-label{
+  color:#a9a9a9;
+
+  font-size:15px;
+  font-weight:600;
+
+  white-space:nowrap;
+}
+
+.detail-value{
+  max-width:58%;
+
+  color:#eeeeee;
+
+  font-size:15px;
+  font-weight:700;
+
+  text-align:right;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+
+/* ROW POSITIONS */
+
+.row-recipient{
+  top:14%;
+}
+
+.row-bundle{
+  top:28%;
+}
+
+.row-type{
+  top:42%;
+}
+
+.row-payment{
+  top:56%;
+}
+
+.row-number{
+  top:70%;
+}
+
+.row-date{
+  top:84%;
+}
+
+
+/* =========================
+   SHARE BUTTON
+========================= */
+
+.:center;
+
+  color:#173a35;
+
+  font-size:18px;
+  font-weight:700;
+
+  z-index:50;
+}
+
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media(max-width:450px){
+
+  .data-icon{
+    width:54px;
+    height:54px;
+  }
+
+  .network-name{
+    font-size:17px;
+  }
+
+  .main-amount{
+    font-size:32px;
+    line-height:36px;
+  }
+
+  .success{
+    font-size:16px;
+  }
+
+  .amount-label,
+  .amount-value,
+  .bonus-value{
+    font-size:12px;
+  }
+
+  .details-title{
+    font-size:16px;
+  }
+
+  .detail-label,
+  .detail-value{
+    font-size:12px;
+  }
+
+  .share{
+    font-size:16px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+  <!-- MOBILE DATA REFERENCE IMAGE -->
+  <img
+    src="1000022372.png"
+    class="bg"
+    alt="Mobile Data Transaction Demo"
+  >
+
+
+  <!-- DEMO -->
+  <div class="demo">
+    
+  </div>
+
+
+  <!-- BACK -->
+  <div
+    class="back"
+    onclick="goBack()">
+  </div>
+
+
+  <!-- =====================
+       TOP CARD
+  ====================== -->
+
+  <div class="top-card">
+
+    <img
+      id="dataIcon"
+      src="data-icon.png"
+      class="data-icon"
+      alt="Data"
+    >
+
+
+    <div
+      class="network-name"
+      id="networkName">
+      Mobile Data
+    </div>
+
+
+    <div
+      class="main-amount"
+      id="mainAmount">
+      ₦0.00
+    </div>
+
+
+    <div class="success">
+      ✓ Successful
+    </div>
+
+
+    <div class="amount-info">
+
+      <div class="amount-row">
+
+        <span class="amount-label">
+          Amount
+        </span>
+
+        <span
+          class="amount-value"
+          id="amount">
+          ₦0.00
+        </span>
+
+      </div>
+
+
+      <div class="amount-row">
+
+        <span class="amount-label">
+          Cashback Used
+        </span>
+
+        <span
+          class="amount-value"
+          id="cashbackUsed">
+          -₦0.00
+        </span>
+
+      </div>
+
+
+      <div class="amount-row">
+
+        <span class="amount-label">
+          Amount Paid
+        </span>
+
+        <span
+          class="amount-value"
+          id="amountPaid">
+          ₦0.00
+        </span>
+
+      </div>
+
+
+      <div class="amount-row">
+
+        <span class="amount-label">
+          OPay Bonus
+        </span>
+
+        <span
+          class="bonus-value"
+          id="bonus">
+          +₦0.00 Cashback
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================
+       TRANSACTION DETAILS
+  ====================== -->
+
+  <div class="details-card">
+
+    <div class="details-title">
+      Transaction Details
+    </div>
+
+
+    <div class="detail-row row-recipient">
+
+      <span class="detail-label">
+        Recipient Mobile
+      </span>
+
+      <span
+        class="detail-value"
+        id="recipient">
+        --
+      </span>
+
+    </div>
+
+
+    <div class="detail-row row-bundle">
+
+      <span class="detail-label">
+        Data Bundle
+      </span>
+
+      <span
+        class="detail-value"
+        id="bundle">
+        --
+      </span>
+
+    </div>
+
+
+    <div class="detail-row row-type">
+
+      <span class="detail-label">
+        Transaction Type
+      </span>
+
+      <span class="detail-value">
+        Mobile Data
+      </span>
+
+    </div>
+
+
+    <div class="detail-row row-payment">
+
+      <span class="detail-label">
+        Payment Method
+      </span>
+
+      <span class="detail-value">
+        Wallet&nbsp; ›
+      </span>
+
+    </div>
+
+
+    <div class="detail-row row-number">
+
+      <span class="detail-label">
+        Transaction No.
+      </span>
+
+      <span
+        class="detail-value"
+        id="transactionNo">
+        --
+      </span>
+
+    </div>
+
+
+    <div class="detail-row row-date">
+
+      <span class="detail-label">
+        Transaction Date
+      </span>
+
+      <span
+        class="detail-value"
+        id="transactionDate">
+        --
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- SHARE -->
+  <div class="share">
+    Share Receipt
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   BACK
+========================= */
+
+function goBack(){
+
+  window.location.href =
+    "history.html";
+
+}
+
+
+/* =========================
+   GET SELECTED TRANSACTION
+========================= */
+
+let transaction = null;
+
+try{
+
+  transaction = JSON.parse(
+    localStorage.getItem(
+      "selectedTransaction"
+    ) || "null"
+  );
+
+}catch(error){
+
+  transaction = null;
+
+}
+
+
+/* =========================
+   FALLBACK
+========================= */
+
+if(!transaction){
+
+  transaction = {
+
+    phone:
+      localStorage.getItem(
+        "transactionPhone"
+      ) || "",
+
+    bundle:
+      localStorage.getItem(
+        "transactionBundle"
+      ) || "Mobile Data",
+
+    amount:
+      localStorage.getItem(
+        "transactionAmount"
+      ) || "0",
+
+    cashback:
+      localStorage.getItem(
+        "transactionCashback"
+      ) || "0",
+
+    date:
+      localStorage.getItem(
+        "transactionDate"
+      ) || "",
+
+    time:
+      localStorage.getItem(
+        "transactionTime"
+      ) || "",
+
+    timestamp:
+      Date.now()
+
+  };
+
+}
+
+
+/* =========================
+   MONEY
+========================= */
+
+function numberValue(value){
+
+  return Number(
+    String(value || "")
+      .replace(/₦/g,"")
+      .replace(/,/g,"")
+      .replace(/\+/g,"")
+      .trim()
+  ) || 0;
+
+}
+
+
+function money(value){
+
+  return "₦" +
+    numberValue(value).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+function formatPhone(phone){
+
+  let value =
+    String(phone || "")
+      .replace(/\D/g,"");
+
+  if(value.length === 11){
+
+    return value.substring(0,4)
+      + " "
+      + value.substring(4,7)
+      + " "
+      + value.substring(7);
+
+  }
+
+  return phone || "--";
+
+}
+
+
+/* =========================
+   NETWORK DETECTION
+========================= */
+
+function getNetwork(phone){
+
+  let p =
+    String(phone || "")
+      .replace(/\D/g,"")
+      .substring(0,4);
+
+
+  const networks = {
+
+    MTN:[
+      "0703","0706","0803","0806",
+      "0810","0813","0814","0816",
+      "0903","0906","0913","0916"
+    ],
+
+    Airtel:[
+      "0701","0708","0802","0808",
+      "0812","0901","0902","0904",
+      "0907","0911","0912"
+    ],
+
+    Glo:[
+      "0705","0805","0807","0811",
+      "0815","0905","0915"
+    ],
+
+    "9mobile":[
+      "0809","0817","0818",
+      "0908","0909"
+    ]
+
+  };
+
+
+  for(
+    const name in networks
+  ){
+
+    if(
+      networks[name].includes(p)
+    ){
+
+      return name;
+
+    }
+
+  }
+
+  return "Mobile Data";
+
+}
+
+
+/* =========================
+   NETWORK ICON
+========================= */
+
+function networkIcon(network){
+
+  const icons = {
+
+    MTN:"mtn.png",
+
+    Airtel:"airtel.png",
+
+    Glo:"glo.png",
+
+    "9mobile":"9mobile.png"
+
+  };
+
+  return icons[network] || "data-icon.png";
+
+}
+
+
+/* =========================
+   TRANSACTION NUMBER
+========================= */
+
+function transactionNumber(){
+
+  if(transaction.transactionNumber){
+
+    return transaction.transactionNumber;
+
+  }
+
+  let stamp =
+    String(
+      transaction.timestamp ||
+      Date.now()
+    );
+
+  return "26" +
+    stamp.replace(/\D/g,"").slice(-18);
+
+}
+
+
+/* =========================
+   VALUES
+========================= */
+
+const phone =
+  formatPhone(
+    transaction.phone
+  );
+
+
+const bundle =
+  transaction.bundle ||
+  "Mobile Data";
+
+
+const amount =
+  numberValue(
+    transaction.amount
+  );
+
+
+const cashback =
+  numberValue(
+    transaction.cashback
+  );
+
+
+/*
+  Amount paid is the amount
+  charged to the wallet.
+
+  If cashback is being used,
+  it can be adjusted here.
+*/
+
+const amountPaid =
+  amount;
+
+
+/* =========================
+   NETWORK
+========================= */
+
+const network =
+  getNetwork(
+    transaction.phone
+  );
+
+
+document.getElementById(
+  "networkName"
+).textContent =
+  network;
+
+
+/* Change icon automatically */
+
+document.getElementById(
+  "dataIcon"
+).src =
+  networkIcon(network);
+
+
+/* =========================
+   TOP INFORMATION
+========================= */
+
+document.getElementById(
+  "mainAmount"
+).textContent =
+  money(amount);
+
+
+document.getElementById(
+  "amount"
+).textContent =
+  money(amount);
+
+
+document.getElementById(
+  "cashbackUsed"
+).textContent =
+  "-₦0.00";
+
+
+document.getElementById(
+  "amountPaid"
+).textContent =
+  money(amountPaid);
+
+
+document.getElementById(
+  "bonus"
+).textContent =
+  "+" + money(cashback) +
+  " Cashback";
+
+
+/* =========================
+   TRANSACTION DETAILS
+========================= */
+
+document.getElementById(
+  "recipient"
+).textContent =
+  phone;
+
+
+document.getElementById(
+  "bundle"
+).textContent =
+  bundle + " Plan";
+
+
+document.getElementById(
+  "transactionNo"
+).textContent =
+  transactionNumber();
+
+
+document.getElementById(
+  "transactionDate"
+).textContent =
+  (transaction.date || "") +
+  (
+    transaction.time
+      ? " " + transaction.time
+      : ""
+  );
+
+
+/* =========================
+   SAVE SELECTED ITEM
+========================= */
+
+localStorage.setItem(
+  "selectedTransaction",
+  JSON.stringify(transaction)
+);
+
+</script>
+
+</body>
+</html>

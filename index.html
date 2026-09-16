@@ -2,21 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Opay</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
+    html,
     body {
+      width: 100%;
+      height: 100%;
       background: #000;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow: hidden;
     }
 
     img {
@@ -24,95 +27,245 @@
       height: 100%;
       object-fit: cover;
       position: absolute;
+      inset: 0;
       display: none;
     }
 
     .show {
       display: block;
     }
+
+    /* =====================================
+       MAINTENANCE THEME
+       ===================================== */
+
+    #maintenance {
+      display: none;
+
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #121212;
+      color: #fff;
+
+      position: fixed;
+      inset: 0;
+
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+
+      background: #1e1e1e;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 15px;
+
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .content h2 {
+      margin: 15px 0 8px;
+      font-size: 20px;
+    }
+
+    .content p {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .icon-box {
+      width: 90px;
+      height: 90px;
+
+      background: #1e1e1e;
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 45px;
+
+      margin: 0 auto;
+    }
   </style>
 </head>
 
 <body>
 
-  <img src="img1.jpg" class="show" id="first">
-  <img src="img2.jpg" id="second">
+  <!-- =====================================
+       KILL SWITCH
+       
+       OFF = Normal website
+       ON  = Maintenance screen
+       ===================================== -->
+
+  <script>
+    const MAINTENANCE_MODE = "ON";
+  </script>
+
+
+  <!-- =====================================
+       NORMAL WEBSITE
+       ===================================== -->
+
+  <div id="normalSite">
+
+    <img src="./img1.jpg"
+         class="show"
+         id="first"
+         alt="">
+
+    <img src="./img2.jpg"
+         id="second"
+         alt="">
+
+  </div>
+
+
+  <!-- =====================================
+       MAINTENANCE SCREEN
+       ===================================== -->
+
+  <div id="maintenance">
+
+    <div class="header">
+      <div class="title">
+        Opay
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="icon-box">
+        🚧
+      </div>
+
+      <h2>
+        Under Maintenance
+      </h2>
+
+      <p>
+        This tool is temporarily unavailable
+      </p>
+
+    </div>
+
+  </div>
+
 
   <script>
 
     // =====================================
-    // CHECK 24-HOUR LOGIN
+    // MAINTENANCE CHECK
     // =====================================
 
-    function isLoginStillValid() {
+    if (MAINTENANCE_MODE === "ON") {
 
-      const loginTime =
-        localStorage.getItem("loginTimestamp");
+      document
+        .getElementById("normalSite")
+        .style.display = "none";
 
-      if (!loginTime) {
-        return false;
+      document
+        .getElementById("maintenance")
+        .style.display = "flex";
+
+    } else {
+
+      // =====================================
+      // CHECK 24-HOUR LOGIN
+      // =====================================
+
+      function isLoginStillValid() {
+
+        try {
+
+          const loginTime =
+            localStorage.getItem("loginTimestamp");
+
+          if (!loginTime) {
+            return false;
+          }
+
+          const elapsed =
+            Date.now() - Number(loginTime);
+
+          const twentyFourHours =
+            24 * 60 * 60 * 1000;
+
+          if (elapsed < twentyFourHours) {
+            return true;
+          }
+
+          localStorage.removeItem("loginTimestamp");
+
+          return false;
+
+        } catch (error) {
+
+          return false;
+
+        }
       }
 
-      const now = Date.now();
 
-      const elapsed =
-        now - Number(loginTime);
+      // =====================================
+      // SWITCH TO SECOND IMAGE
+      // =====================================
 
-      const twentyFourHours =
-        24 * 60 * 60 * 1000;
+      setTimeout(function () {
 
-      // Login is still valid
-      if (elapsed < twentyFourHours) {
-        return true;
-      }
+        document
+          .getElementById("first")
+          .classList
+          .remove("show");
 
-      // Login has expired
-      localStorage.removeItem("loginTimestamp");
+        document
+          .getElementById("second")
+          .classList
+          .add("show");
 
-      return false;
+      }, 4000);
+
+
+      // =====================================
+      // AFTER 8 SECONDS
+      // =====================================
+
+      setTimeout(function () {
+
+        if (isLoginStillValid()) {
+
+          window.location.replace(
+            "./dashboard.html"
+          );
+
+        } else {
+
+          window.location.replace(
+            "./login.html"
+          );
+
+        }
+
+      }, 8000);
+
     }
-
-
-    // =====================================
-    // SWITCH TO SECOND IMAGE
-    // =====================================
-
-    setTimeout(() => {
-
-      document
-        .getElementById("first")
-        .classList
-        .remove("show");
-
-      document
-        .getElementById("second")
-        .classList
-        .add("show");
-
-    }, 4000);
-
-
-    // =====================================
-    // AFTER 8 SECONDS
-    // =====================================
-
-    setTimeout(() => {
-
-      if (isLoginStillValid()) {
-
-        // Already logged in within 24 hours
-        window.location.href =
-          "dashboard.html";
-
-      } else {
-
-        // Login required
-        window.location.href =
-          "login.html";
-
-      }
-
-    }, 8000);
 
   </script>
 

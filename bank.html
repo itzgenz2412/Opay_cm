@@ -104,7 +104,7 @@ async function loadBanks(){
 ========================================= */
 async function verifyAccount(accountNumber, bankCode){
   try{
-    const response = await fetch(`${API_BASE}/api/verify?account_number=${accountNumber}&bank_code=${bankCode}`);
+    const response = await fetch(`${API_BASE}/api/resolve?account_number=${accountNumber}&bank_code=${bankCode}`);
     const data = await response.json();
 
     // Your backend code:

@@ -1,298 +1,268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Transfer to Bank Account</title>
 
 <style>
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#121212;
-  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 body{
-  overflow-x:hidden;
+  background:#0f0f0f;
+  color:white;
+  margin:0;
+  padding:0;
 }
 
-.page{
-  width:100%;
-  max-width:712px;
-  margin:auto;
-  min-height:100vh;
-  padding-bottom:40px;
-}
-
-/* HEADER */
 .header{
-  height:70px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  padding:0 18px;
-  border-bottom:1px solid #292929;
+  align-items:center;
+  padding:15px;
+  background:#1a1a1a;
 }
 
-.back{
-  font-size:30px;
-  cursor:pointer;
-  width:45px;
-}
-
-.title{
-  font-size:20px;
-  font-weight:600;
-  flex:1;
-  text-align:center;
-}
-
-.history{
-  font-size:14px;
-  color:#00c853;
-  cursor:pointer;
-}
-
-/* FORM */
-.form{
-  margin:28px 4.2% 0;
-  padding:25px 4%;
-  background:#1b1b1b;
-  border-radius:14px;
-}
-
-label{
-  display:block;
-  font-size:13px;
-  color:#aaa;
-  margin-bottom:8px;
-}
-
-input,
-select{
-  width:100%;
-  height:52px;
-  border:none;
-  outline:none;
-  border-radius:10px;
-  background:#252525;
-  color:#fff;
-  padding:0 15px;
+.header b{
   font-size:16px;
-  margin-bottom:20px;
 }
 
-input::placeholder{
-  color:#777;
+.header span{
+  color:#00d68f;
+  font-size:14px;
 }
 
-.account-name{
-  width:100%;
-  min-height:52px;
+.free-box{
+  margin:12px;
+  background:#2a2440;
   border-radius:10px;
-  background:#252525;
+  padding:12px 14px;
+  color:#8a7ed6;
+  font-size:13px;
   display:flex;
   align-items:center;
-  padding:0 15px;
-  color:#777;
-  font-size:16px;
-  margin-bottom:20px;
+  gap:8px;
 }
 
-/* LOADER */
+.card{
+  background:#1c1c1e;
+  margin:12px;
+  border-radius:16px;
+  padding:16px;
+}
+
+.card-title{
+  font-weight:600;
+  font-size:15px;
+  margin-bottom:14px;
+}
+
+.input-line{
+  border-bottom:1px solid #2c2c2e;
+  padding:16px 0;
+  color:#777;
+  font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.input-line input{
+  background:transparent;
+  border:none;
+  color:white;
+  width:100%;
+  font-size:14px;
+  outline:none;
+}
+
+.input-line select{
+  background:transparent;
+  border:none;
+  color:#777;
+  width:100%;
+  font-size:14px;
+  outline:none;
+}
+
+#accountNameDisplay{
+  padding:12px 0 0 0;
+  display:none;
+  color:#00d68f;
+  font-weight:bold;
+  text-transform:uppercase;
+  font-size:14px;
+}
+
 .loader{
   display:none;
-  color:#00c853;
-  font-size:13px;
-  margin-top:-12px;
-  margin-bottom:15px;
-}
-
-/* ERROR */
-.error-box{
-  display:none;
-  background:#351818;
-  border:1px solid #8d2c2c;
-  border-radius:10px;
-  padding:12px;
-  margin-top:-5px;
-  margin-bottom:18px;
-  color:#ff8a8a;
-  font-size:13px;
-  line-height:1.5;
-  word-break:break-word;
-}
-
-.error-title{
-  font-weight:600;
-  color:#ff5252;
-  margin-bottom:5px;
-}
-
-/* BUTTON */
-.next{
-  width:100%;
-  height:52px;
-  border:none;
-  border-radius:10px;
-  background:#00c853;
-  color:#fff;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.next:disabled{
-  background:#333;
   color:#777;
-  cursor:not-allowed;
+  font-size:13px;
+  margin-top:8px;
 }
 
-/* MONITOR */
-.section{
-  margin:25px 4.2% 0;
+.btn-next{
+  width:100%;
+  background:#12372f;
+  color:#0a5c46;
+  border:none;
+  padding:16px;
+  border-radius:30px;
+  margin-top:20px;
+  font-weight:bold;
+  font-size:15px;
+  transition:0.2s;
+  pointer-events:none;
+  opacity:0.6;
 }
 
-.section-title{
-  font-size:16px;
-  font-weight:600;
-  margin-bottom:12px;
+.btn-next.enabled{
+  background:#00d68f;
+  color:#000;
+  pointer-events:auto;
+  opacity:1;
 }
 
 .monitor{
-  background:#1b1b1b;
-  border-radius:14px;
-  padding:18px;
-  color:#888;
-  font-size:14px;
+  background:#1c1c1e;
+  margin:12px;
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-/* FAVOURITES */
-.favourites{
-  margin-top:25px;
-  background:#1b1b1b;
-  border-radius:14px;
-  padding:18px;
-  color:#888;
+.tabs{
+  display:flex;
+  gap:20px;
+  padding:14px 16px 0 16px;
+  border-bottom:1px solid #1c1c1e;
+}
+
+.tab{
+  padding-bottom:10px;
   font-size:14px;
+  color:#777;
+}
+
+.tab.active{
+  color:#00d68f;
+  border-bottom:2px solid #00d68f;
+}
+
+.empty-wrap{
+  background:#1c1c1e;
+  margin:0 12px 12px 12px;
+  border-radius:0 0 16px 16px;
+  padding:30px 20px;
+  text-align:center;
+}
+
+.empty-text{
+  color:#aaa;
+  font-size:12px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="page">
-
-  <div class="header">
-    <div class="back" onclick="goBack()">‹</div>
-
-    <div class="title">Transfer to Bank Account</div>
-
-    <div class="history" onclick="goHistory()">History</div>
+<div class="header">
+  <div
+    onclick="window.location.href='dashboard.html'"
+    style="cursor:pointer;display:flex;align-items:center"
+  >
+    <span style="color:white;margin-right:10px;font-size:20px"><</span>
+    <b>Transfer to Bank Account</b>
   </div>
 
-  <div class="form">
+  <span
+    onclick="window.location.href='history.html'"
+    style="cursor:pointer"
+  >
+    History
+  </span>
+</div>
 
-    <label>Bank</label>
+<div class="free-box">
+  Free transfers for the day: <b>3</b>
+</div>
 
-    <select id="bankSelect">
+<div class="card">
+
+  <div class="card-title">
+    Recipient Account
+  </div>
+
+  <div class="input-line">
+    <input
+      type="text"
+      inputmode="numeric"
+      id="accountNumber"
+      placeholder="Enter 10 digits Account Number"
+      maxlength="10"
+    >
+  </div>
+
+  <div id="accountNameDisplay"></div>
+
+  <p class="loader" id="loader">
+    Checking...
+  </p>
+
+  <div class="input-line">
+    <select id="bankList">
       <option value="">Select Bank</option>
-
-      <option value="999992">OPay</option>
-      <option value="100033">PalmPay</option>
-      <option value="50211">Kuda</option>
-      <option value="50515">Moniepoint</option>
-
-      <option value="044">Access Bank</option>
-      <option value="058">GTBank</option>
-      <option value="011">First Bank</option>
-      <option value="033">UBA</option>
-      <option value="057">Zenith Bank</option>
-      <option value="035">Wema Bank</option>
-      <option value="070">Fidelity Bank</option>
-      <option value="032">Union Bank</option>
-      <option value="221">Stanbic IBTC</option>
-      <option value="068">Standard Chartered</option>
     </select>
 
-
-    <label>Account Number</label>
-
-    <input
-      id="accountNumber"
-      type="tel"
-      inputmode="numeric"
-      maxlength="10"
-      placeholder="Enter account number"
-    >
-
-
-    <label>Account Name</label>
-
-    <div id="accountNameDisplay" class="account-name">
-      Account Name
-    </div>
-
-    <div id="loader" class="loader">
-      Checking...
-    </div>
-
-    <div id="errorBox" class="error-box">
-      <div class="error-title">Verification failed</div>
-      <div id="errorText"></div>
-    </div>
-
-
-    <label>Amount</label>
-
-    <input
-      id="amount"
-      type="number"
-      inputmode="decimal"
-      placeholder="Enter amount"
-    >
-
-
-    <button id="nextButton" class="next" disabled onclick="nextPage()">
-      Next
-    </button>
-
+    <span>></span>
   </div>
 
+  <button class="btn-next" id="nextBtn">
+    Next
+  </button>
 
-  <div class="section">
+</div>
 
-    <div class="section-title">
-      Monitor
-    </div>
+<div class="monitor">
+  <div>📈</div>
 
-    <div class="monitor">
-      No recent transfers
-    </div>
-
+  <div style="font-size:14px;flex:1">
+    Bank Transfer Success Rate Monitor
   </div>
 
+  <span style="color:#555">
+    >
+  </span>
+</div>
 
-  <div class="section">
+<div style="background:#1c1c1e;margin:12px;border-radius:16px;overflow:hidden">
 
-    <div class="section-title">
+  <div class="tabs">
+    <div class="tab">
+      Recents
+    </div>
+
+    <div class="tab active">
       Favourites
     </div>
 
-    <div class="favourites">
-      No favourite accounts
+    <div style="margin-left:auto;color:#00d68f">
+      ⌕
+    </div>
+  </div>
+
+  <div class="empty-wrap">
+
+    <div style="font-size:70px;opacity:0.7">
+      👩‍💻
+    </div>
+
+    <div class="empty-text">
+      No favourites yet, you can add a payer to your 'Favourites' list.
     </div>
 
   </div>
@@ -302,280 +272,201 @@ input::placeholder{
 
 <script>
 
-/* ==============================
-   PAYSTACK KEY
-============================== */
-
-const PAYSTACK_KEY =
-"sk_test_bb7b385e95d648dc88371fb955c3b8ce062b1115";
+/* Your Vercel backend */
+const API_BASE =
+  "https://paystack-bank-backend.vercel.app";
 
 
-/* ==============================
-   ELEMENTS
-============================== */
+const bankListEl =
+  document.getElementById("bankList");
 
-const accountInput =
-document.getElementById("accountNumber");
-
-const bankSelect =
-document.getElementById("bankSelect");
+const accInput =
+  document.getElementById("accountNumber");
 
 const accNameDiv =
-document.getElementById("accountNameDisplay");
+  document.getElementById("accountNameDisplay");
 
 const loader =
-document.getElementById("loader");
-
-const errorBox =
-document.getElementById("errorBox");
-
-const errorText =
-document.getElementById("errorText");
+  document.getElementById("loader");
 
 const nextBtn =
-document.getElementById("nextButton");
+  document.getElementById("nextBtn");
 
 
-/* ==============================
-   PLACEHOLDER
-============================== */
-
-function showPlaceholder(){
-
-  accNameDiv.style.display = "flex";
-  accNameDiv.style.color = "#777";
-  accNameDiv.textContent = "Account Name";
-
-  nextBtn.disabled = true;
-}
+let verificationOK = false;
+let requestNumber = 0;
 
 
-/* ==============================
-   SHOW ERROR
-============================== */
-
+/* Show verification error */
 function showError(message){
 
-  errorBox.style.display = "block";
-  errorText.textContent = message;
+  loader.style.display = "none";
 
-  accNameDiv.style.color = "#777";
-  accNameDiv.textContent = "Account Name";
+  accNameDiv.style.display = "block";
 
-  nextBtn.disabled = true;
+  accNameDiv.style.color = "#ff4444";
+
+  accNameDiv.textContent = message;
+
+  verificationOK = false;
+
+  nextBtn.classList.remove("enabled");
 }
 
 
-/* ==============================
-   HIDE ERROR
-============================== */
-
-function hideError(){
-
-  errorBox.style.display = "none";
-  errorText.textContent = "";
-
-}
-
-
-/* ==============================
-   VERIFY ACCOUNT
-============================== */
-
-async function checkName(){
-
-  const accountNumber =
-    accountInput.value.trim();
-
-  const bankCode =
-    bankSelect.value;
-
-
-  if(accountNumber.length !== 10){
-    showPlaceholder();
-    hideError();
-    return;
-  }
-
-
-  if(!bankCode){
-    showPlaceholder();
-    hideError();
-    return;
-  }
-
-
-  hideError();
-
-  loader.style.display = "block";
-
-  nextBtn.disabled = true;
-
-
-  /*
-    Paystack account resolve endpoint
-  */
-
-  const paystackUrl =
-    "https://api.paystack.co/bank/resolve" +
-    "?account_number=" +
-    encodeURIComponent(accountNumber) +
-    "&bank_code=" +
-    encodeURIComponent(bankCode);
-
-
-  /*
-    Proxy URL
-  */
-
-  const proxyUrl =
-    "https://thingproxy.freeboard.io/fetch/" +
-    paystackUrl;
-
+/* Load banks from your Vercel backend */
+async function loadBanks(){
 
   try{
 
-    console.log("Verification started");
+    const response =
+      await fetch(API_BASE + "/api/banks");
 
-    console.log("Account:", accountNumber);
-
-    console.log("Bank code:", bankCode);
-
-    console.log("Request URL:", proxyUrl);
+    const data =
+      await response.json();
 
 
-    const response = await fetch(proxyUrl,{
-
-      method:"GET",
-
-      headers:{
-        "Authorization":
-          "Bearer " + PAYSTACK_KEY,
-
-        "Content-Type":
-          "application/json"
-      }
-
-    });
-
-
-    /*
-      SHOW HTTP STATUS
-    */
-
-    console.log(
-      "HTTP status:",
-      response.status
-    );
-
-    console.log(
-      "HTTP status text:",
-      response.statusText
-    );
-
-
-    /*
-      Read response as text first.
-      This helps us see proxy/API errors
-      even when the response isn't JSON.
-    */
-
-    const responseText =
-      await response.text();
-
-
-    console.log(
-      "Raw response:",
-      responseText
-    );
-
-
-    /*
-      HTTP ERROR
-    */
-
-    if(!response.ok){
-
-      let message =
-        "HTTP " +
-        response.status +
-        " " +
-        response.statusText;
-
-
-      if(responseText){
-
-        message +=
-          " — " +
-          responseText.substring(0,500);
-
-      }
-
-
-      throw new Error(message);
-
-    }
-
-
-    /*
-      Try to parse JSON
-    */
-
-    let result;
-
-    try{
-
-      result =
-        JSON.parse(responseText);
-
-    }catch(jsonError){
+    if(
+      !response.ok ||
+      data.status !== true ||
+      !Array.isArray(data.data)
+    ){
 
       throw new Error(
-        "The server returned a response that is not valid JSON: " +
-        responseText.substring(0,500)
+        data.message || "Unable to load banks"
       );
 
     }
 
 
-    console.log(
-      "Parsed Paystack response:",
-      result
+    bankListEl.innerHTML =
+      '<option value="">Select Bank</option>';
+
+
+    data.data.forEach(function(bank){
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        bank.code;
+
+      option.textContent =
+        bank.name;
+
+      bankListEl.appendChild(option);
+
+    });
+
+
+  }catch(error){
+
+    bankListEl.innerHTML =
+      '<option value="">Unable to load banks</option>';
+
+    showError(
+      error.message || "Unable to load banks"
     );
 
+  }
 
-    /*
-      PAYSTACK SUCCESS
-    */
+}
 
+
+/* Verify account number */
+async function checkName(){
+
+  const accountNumber =
+    accInput.value.trim();
+
+  const bankCode =
+    bankListEl.value;
+
+
+  verificationOK = false;
+
+  nextBtn.classList.remove("enabled");
+
+
+  if(
+    accountNumber.length !== 10 ||
+    bankCode === ""
+  ){
+
+    loader.style.display = "none";
+
+    accNameDiv.style.display = "none";
+
+    return;
+
+  }
+
+
+  const currentRequest =
+    ++requestNumber;
+
+
+  loader.style.display = "block";
+
+  accNameDiv.style.display = "none";
+
+
+  try{
+
+    const url =
+      API_BASE +
+      "/api/resolve?account_number=" +
+      encodeURIComponent(accountNumber) +
+      "&bank_code=" +
+      encodeURIComponent(bankCode);
+
+
+    const response =
+      await fetch(url);
+
+
+    const data =
+      await response.json();
+
+
+    if(currentRequest !== requestNumber){
+      return;
+    }
+
+
+    loader.style.display = "none";
+
+
+    /* Successful verification */
     if(
-      result &&
-      result.status === true &&
-      result.data &&
-      result.data.account_name
+      response.ok &&
+      data.status === true &&
+      data.data &&
+      data.data.account_name
     ){
 
       const accountName =
-        result.data.account_name;
+        data.data.account_name;
 
 
       accNameDiv.style.display =
-        "flex";
+        "block";
 
       accNameDiv.style.color =
-        "#fff";
+        "#00d68f";
 
       accNameDiv.textContent =
-        accountName;
+        "✓ " + accountName;
 
 
-      nextBtn.disabled = false;
+      verificationOK = true;
+
+      nextBtn.classList.add(
+        "enabled"
+      );
 
 
-      /*
-        SAVE DETAILS
-      */
-
+      /* Save transfer details */
       localStorage.setItem(
         "transfer_name",
         accountName
@@ -588,8 +479,8 @@ async function checkName(){
 
       localStorage.setItem(
         "transfer_bank",
-        bankSelect.options[
-          bankSelect.selectedIndex
+        bankListEl.options[
+          bankListEl.selectedIndex
         ].text
       );
 
@@ -599,104 +490,61 @@ async function checkName(){
       );
 
 
-      console.log(
-        "Account verified successfully:",
-        accountName
+    }else{
+
+      showError(
+        data.message ||
+        "Could not verify account"
       );
 
     }
 
-    else{
 
-      /*
-        PAYSTACK RETURNED AN API ERROR
-      */
+  }catch(error){
 
-      let message =
-        "Paystack did not verify this account.";
-
-      if(result){
-
-        if(result.message){
-
-          message +=
-            " Message: " +
-            result.message;
-
-        }
-
-        if(
-          result.data &&
-          typeof result.data === "string"
-        ){
-
-          message +=
-            " Data: " +
-            result.data;
-
-        }
-
-      }
-
-
-      throw new Error(message);
-
+    if(currentRequest !== requestNumber){
+      return;
     }
 
-  }
-
-  catch(error){
-
-    console.error(
-      "Verification error:",
-      error
-    );
-
-
     showError(
-      error.message ||
-      "Unknown verification error"
+      "Verification failed: " +
+      (error.message || "Network error")
     );
-
-  }
-
-  finally{
-
-    loader.style.display =
-      "none";
 
   }
 
 }
 
 
-/* ==============================
-   ACCOUNT INPUT
-============================== */
-
-accountInput.addEventListener(
+/* Account number input */
+accInput.addEventListener(
   "input",
   function(){
 
     this.value =
       this.value
-      .replace(/\D/g,"")
+      .replace(/[^0-9]/g,"")
       .slice(0,10);
 
 
-    hideError();
+    requestNumber++;
+
+    verificationOK = false;
+
+    nextBtn.classList.remove(
+      "enabled"
+    );
+
+    accNameDiv.style.display =
+      "none";
 
 
     if(
       this.value.length === 10 &&
-      bankSelect.value
+      bankListEl.value !== ""
     ){
 
       checkName();
-
-    }else{
-
-      showPlaceholder();
 
     }
 
@@ -704,27 +552,29 @@ accountInput.addEventListener(
 );
 
 
-/* ==============================
-   BANK CHANGE
-============================== */
-
-bankSelect.addEventListener(
+/* Bank selection */
+bankListEl.addEventListener(
   "change",
   function(){
 
-    hideError();
+    requestNumber++;
+
+    verificationOK = false;
+
+    nextBtn.classList.remove(
+      "enabled"
+    );
+
+    accNameDiv.style.display =
+      "none";
 
 
     if(
-      accountInput.value.length === 10 &&
-      this.value
+      accInput.value.length === 10 &&
+      this.value !== ""
     ){
 
       checkName();
-
-    }else{
-
-      showPlaceholder();
 
     }
 
@@ -732,51 +582,48 @@ bankSelect.addEventListener(
 );
 
 
-/* ==============================
-   NEXT
-============================== */
+/* Keep your original redirect */
+accNameDiv.addEventListener(
+  "click",
+  function(){
 
-function nextPage(){
+    if(
+      nextBtn.classList.contains(
+        "enabled"
+      )
+    ){
 
-  if(nextBtn.disabled){
-    return;
+      window.location.href =
+        "print2.html";
+
+    }
+
   }
+);
 
 
-  localStorage.setItem(
-    "transfer_amount",
-    document.getElementById("amount").value
-  );
+/* Keep your original Next redirect */
+nextBtn.addEventListener(
+  "click",
+  function(){
+
+    if(
+      nextBtn.classList.contains(
+        "enabled"
+      )
+    ){
+
+      window.location.href =
+        "print2.html";
+
+    }
+
+  }
+);
 
 
-  window.location.href =
-    "print2.html";
-
-}
-
-
-/* ==============================
-   BACK
-============================== */
-
-function goBack(){
-
-  window.location.href =
-    "dashboard.html";
-
-}
-
-
-/* ==============================
-   HISTORY
-============================== */
-
-function goHistory(){
-
-  window.location.href =
-    "history.html";
-
-}
+/* Start */
+loadBanks();
 
 </script>
 

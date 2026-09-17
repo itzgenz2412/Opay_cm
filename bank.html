@@ -3,626 +3,209 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Transfer to Bank Account</title>
-
 <style>
-*{
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-
-body{
-  background:#0f0f0f;
-  color:white;
-  margin:0;
-  padding:0;
-}
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px;
-  background:#1a1a1a;
-}
-
-.header b{
-  font-size:16px;
-}
-
-.header span{
-  color:#00d68f;
-  font-size:14px;
-}
-
-.free-box{
-  margin:12px;
-  background:#2a2440;
-  border-radius:10px;
-  padding:12px 14px;
-  color:#8a7ed6;
-  font-size:13px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.card{
-  background:#1c1c1e;
-  margin:12px;
-  border-radius:16px;
-  padding:16px;
-}
-
-.card-title{
-  font-weight:600;
-  font-size:15px;
-  margin-bottom:14px;
-}
-
-.input-line{
-  border-bottom:1px solid #2c2c2e;
-  padding:16px 0;
-  color:#777;
-  font-size:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.input-line input{
-  background:transparent;
-  border:none;
-  color:white;
-  width:100%;
-  font-size:14px;
-  outline:none;
-}
-
-.input-line select{
-  background:transparent;
-  border:none;
-  color:#777;
-  width:100%;
-  font-size:14px;
-  outline:none;
-}
-
-.input-line select option{
-  background:#1c1c1e;
-  color:white;
-}
-
-#accountNameDisplay{
-  padding:12px 0 0 0;
-  display:none;
-  color:#00d68f;
-  font-weight:bold;
-  text-transform:uppercase;
-  font-size:14px;
-}
-
-.loader{
-  display:none;
-  color:#777;
-  font-size:13px;
-  margin-top:8px;
-}
-
-.btn-next{
-  width:100%;
-  background:#12372f;
-  color:#0a5c46;
-  border:none;
-  padding:16px;
-  border-radius:30px;
-  margin-top:20px;
-  font-weight:bold;
-  font-size:15px;
-  transition:0.2s;
-  pointer-events:none;
-  opacity:0.6;
-}
-
-.btn-next.enabled{
-  background:#00d68f;
-  color:#000;
-  pointer-events:auto;
-  opacity:1;
-}
-
-.monitor{
-  background:#1c1c1e;
-  margin:12px;
-  border-radius:12px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.tabs{
-  display:flex;
-  gap:20px;
-  padding:14px 16px 0 16px;
-  border-bottom:1px solid #1c1c1e;
-}
-
-.tab{
-  padding-bottom:10px;
-  font-size:14px;
-  color:#777;
-}
-
-.tab.active{
-  color:#00d68f;
-  border-bottom:2px solid #00d68f;
-}
-
-.empty-wrap{
-  background:#1c1c1e;
-  margin:0 12px 12px 12px;
-  border-radius:0 0 16px 16px;
-  padding:30px 20px;
-  text-align:center;
-}
-
-.empty-text{
-  color:#aaa;
-  font-size:12px;
-}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+body{background:#0f0f0f;color:white;margin:0;padding:0}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1a1a1a}
+.header b{font-size:16px}
+.header span{color:#00d68f;font-size:14px}
+.free-box{margin:12px;background:#2a2440;border-radius:10px;padding:12px 14px;color:#8a7ed6;font-size:13px;display:flex;align-items:center;gap:8px}
+.card{background:#1c1c1e;margin:12px;border-radius:16px;padding:16px}
+.card-title{font-weight:600;font-size:15px;margin-bottom:14px}
+.input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;color:#777;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.input-line input{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
+.input-line select{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
+.input-line select option{background:#1c1c1e;color:white}
+#accountNameDisplay{padding:12px 0 0 0;display:none;font-weight:bold;font-size:14px;text-transform:uppercase}
+.loader{display:none;color:#777;font-size:13px;margin-top:8px}
+.btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;transition:0.2s;pointer-events:none;opacity:0.6}
+.btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
+.monitor{background:#1c1c1e;margin:12px;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.tabs{display:flex;gap:20px;padding:14px 16px 0 16px;border-bottom:1px solid #1c1c1e}
+.tab{padding-bottom:10px;font-size:14px;color:#777}
+.tab.active{color:#00d68f;border-bottom:2px solid #00d68f}
+.empty-wrap{background:#1c1c1e;margin:0 12px 12px 12px;border-radius:0 0 16px 16px;padding:30px 20px;text-align:center}
+.empty-text{color:#aaa;font-size:12px}
 </style>
 </head>
-
 <body>
 
 <div class="header">
-  <div
-    onclick="window.location.href='dashboard.html'"
-    style="cursor:pointer;display:flex;align-items:center"
-  >
-    <span style="color:white;margin-right:10px;font-size:20px"><</span>
-    <b>Transfer to Bank Account</b>
+  <div onclick="window.location.href='dashboard.html'" style="cursor:pointer;display:flex;align-items:center">
+    <span style="color:white;margin-right:10px;font-size:20px"><</span><b>Transfer to Bank Account</b>
   </div>
-
-  <span
-    onclick="window.location.href='history.html'"
-    style="cursor:pointer"
-  >
-    History
-  </span>
+  <span onclick="window.location.href='history.html'" style="cursor:pointer">History</span>
 </div>
 
-<div class="free-box">
-  Free transfers for the day: <b>3</b>
-</div>
+<div class="free-box">Free transfers for the day: <b>3</b></div>
 
 <div class="card">
-
-  <div class="card-title">
-    Recipient Account
-  </div>
-
+  <div class="card-title">Recipient Account</div>
   <div class="input-line">
-    <input
-      type="text"
-      inputmode="numeric"
-      id="accountNumber"
-      placeholder="Enter 10 digits Account Number"
-      maxlength="10"
-    >
+    <input type="text" inputmode="numeric" id="accountNumber" placeholder="Enter 10 digits Account Number" maxlength="10">
   </div>
-
   <div id="accountNameDisplay"></div>
-
-  <p class="loader" id="loader">
-    Checking...
-  </p>
-
+  <p class="loader" id="loader">Checking...</p>
   <div class="input-line">
-    <select id="bankList">
-      <option value="">Select Bank</option>
-    </select>
-
-    <span>></span>
+    <select id="bankList"><option value="">Loading banks...</option></select><span>></span>
   </div>
-
-  <button class="btn-next" id="nextBtn">
-    Next
-  </button>
-
+  <button class="btn-next" id="nextBtn">Next</button>
 </div>
 
-<div class="monitor">
-  <div>📈</div>
-
-  <div style="font-size:14px;flex:1">
-    Bank Transfer Success Rate Monitor
-  </div>
-
-  <span style="color:#555">
-    >
-  </span>
-</div>
+<div class="monitor"><div>📈</div><div style="font-size:14px;flex:1">Bank Transfer Success Rate Monitor</div><span style="color:#555">></span></div>
 
 <div style="background:#1c1c1e;margin:12px;border-radius:16px;overflow:hidden">
-
-  <div class="tabs">
-    <div class="tab">
-      Recents
-    </div>
-
-    <div class="tab active">
-      Favourites
-    </div>
-
-    <div style="margin-left:auto;color:#00d68f">
-      ⌕
-    </div>
-  </div>
-
-  <div class="empty-wrap">
-
-    <div style="font-size:70px;opacity:0.7">
-      👩‍💻
-    </div>
-
-    <div class="empty-text">
-      No favourites yet, you can add a payer to your 'Favourites' list.
-    </div>
-
-  </div>
-
+  <div class="tabs"><div class="tab">Recents</div><div class="tab active">Favourites</div><div style="margin-left:auto;color:#00d68f">⌕</div></div>
+  <div class="empty-wrap"><div style="font-size:70px;opacity:0.7">👩‍💻</div><div class="empty-text">No favourites yet, you can add a payer to your 'Favourites' list.</div></div>
 </div>
 
 <script>
-
-/* Your Vercel backend for account verification */
-const API_BASE =
-  "https://paystack-bank-backend.vercel.app";
-
-
-const bankListEl =
-  document.getElementById("bankList");
-
-const accInput =
-  document.getElementById("accountNumber");
-
-const accNameDiv =
-  document.getElementById("accountNameDisplay");
-
-const loader =
-  document.getElementById("loader");
-
-const nextBtn =
-  document.getElementById("nextBtn");
-
+const API_BASE = "https://paystack-bank-backend.vercel.app";
+const bankListEl = document.getElementById("bankList");
+const accInput = document.getElementById("accountNumber");
+const accNameDiv = document.getElementById("accountNameDisplay");
+const loader = document.getElementById("loader");
+const nextBtn = document.getElementById("nextBtn");
 
 let verificationOK = false;
 let requestNumber = 0;
+let lastAccountName = "";
 
-
-/* Show verification error */
 function showError(message){
-
   loader.style.display = "none";
-
   accNameDiv.style.display = "block";
-
   accNameDiv.style.color = "#ff4444";
-
   accNameDiv.textContent = message;
-
   verificationOK = false;
-
   nextBtn.classList.remove("enabled");
-
 }
 
-
-/* Load banks locally */
-function loadBanks(){
-
-  const banks = [
-
-    {code:"044", name:"Access Bank"},
-    {code:"063", name:"Access Bank (Diamond)"},
-    {code:"050", name:"Ecobank Nigeria"},
-    {code:"011", name:"First Bank of Nigeria"},
-    {code:"214", name:"First City Monument Bank"},
-    {code:"070", name:"Fidelity Bank"},
-    {code:"058", name:"Guaranty Trust Bank"},
-    {code:"030", name:"Heritage Bank"},
-    {code:"082", name:"Keystone Bank"},
-    {code:"076", name:"Polaris Bank"},
-    {code:"101", name:"Providus Bank"},
-    {code:"221", name:"Stanbic IBTC Bank"},
-    {code:"068", name:"Standard Chartered Bank"},
-    {code:"232", name:"Sterling Bank"},
-    {code:"100", name:"SunTrust Bank"},
-    {code:"032", name:"Union Bank of Nigeria"},
-    {code:"033", name:"United Bank for Africa"},
-    {code:"215", name:"Unity Bank"},
-    {code:"035", name:"Wema Bank"},
-    {code:"057", name:"Zenith Bank"},
-    {code:"999991", name:"Opay"},
-    {code:"999992", name:"PalmPay"}
-
-  ];
-
-
-  bankListEl.innerHTML =
-    '<option value="">Select Bank</option>';
-
-
-  banks.forEach(function(bank){
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      bank.code;
-
-    option.textContent =
-      bank.name;
-
-    bankListEl.appendChild(option);
-
-  });
-
+async function loadBanks(){
+  bankListEl.innerHTML = '<option value="">Loading banks...</option>';
+  bankListEl.disabled = true;
+  try{
+    const response = await fetch(API_BASE + "/api/banks");
+    const data = await response.json();
+    if(!response.ok || data.status !== true || !Array.isArray(data.data)){
+      throw new Error("Unable to load banks");
+    }
+    bankListEl.innerHTML = '<option value="">Select Bank</option>';
+    data.data.forEach(function(bank){
+      const option = document.createElement("option");
+      option.value = bank.code;
+      option.textContent = bank.name;
+      bankListEl.appendChild(option);
+    });
+    bankListEl.disabled = false;
+  }catch(error){
+    bankListEl.innerHTML = '<option value="">Unable to load banks</option>';
+    bankListEl.disabled = true;
+  }
 }
 
+/* =========================================
+   REAL NAME LOOKUP - COMPLETED CODE
+========================================= */
+async function verifyAccount(accountNumber, bankCode){
+  try{
+    const response = await fetch(`${API_BASE}/api/verify?account_number=${accountNumber}&bank_code=${bankCode}`);
+    const data = await response.json();
 
-/* Verify account number */
+    // Support both formats: {verified, account_name} and {status, data:{account_name}}
+    if (data.status === true && data.data && data.data.account_name) {
+      const accountName = data.data.account_name;
+      const verified = accountName.trim().length > 0;
+      if(verified){
+        lastAccountName = accountName;
+        return true;
+      }
+    }
+    
+    if (data.verified === true && data.account_name) {
+      lastAccountName = data.account_name;
+      return true;
+    }
+
+    // Direct format
+    if (data.account_name && data.account_name.trim().length > 0){
+      lastAccountName = data.account_name;
+      return true;
+    }
+
+    return false;
+  }catch(e){
+    return false;
+  }
+}
+
 async function checkName(){
-
-  const accountNumber =
-    accInput.value.trim();
-
-  const bankCode =
-    bankListEl.value;
-
-
+  const accountNumber = accInput.value.trim();
+  const bankCode = bankListEl.value;
   verificationOK = false;
-
   nextBtn.classList.remove("enabled");
 
-
-  if(
-    accountNumber.length !== 10 ||
-    bankCode === ""
-  ){
-
+  if(accountNumber.length !== 10 || bankCode === ""){
     loader.style.display = "none";
-
     accNameDiv.style.display = "none";
-
     return;
-
   }
 
-
-  const currentRequest =
-    ++requestNumber;
-
-
+  const currentRequest = ++requestNumber;
   loader.style.display = "block";
-
   accNameDiv.style.display = "none";
 
-
   try{
+    const verified = await verifyAccount(accountNumber, bankCode);
 
-    const url =
-      API_BASE +
-      "/api/resolve?account_number=" +
-      encodeURIComponent(accountNumber) +
-      "&bank_code=" +
-      encodeURIComponent(bankCode);
-
-
-    const response =
-      await fetch(url);
-
-
-    const data =
-      await response.json();
-
-
-    if(currentRequest !== requestNumber){
-      return;
-    }
-
-
+    if(currentRequest !== requestNumber) return;
     loader.style.display = "none";
 
-
-    if(
-      response.ok &&
-      data.status === true &&
-      data.data &&
-      data.data.account_name
-    ){
-
-      const accountName =
-        data.data.account_name;
-
-
-      accNameDiv.style.display =
-        "block";
-
-      accNameDiv.style.color =
-        "#00d68f";
-
-      accNameDiv.textContent =
-        "✓ " + accountName;
-
-
+    if(verified === true){
+      accNameDiv.style.display = "block";
+      accNameDiv.style.color = "#00d68f";
+      accNameDiv.textContent = "✓ " + lastAccountName;
       verificationOK = true;
-
-      nextBtn.classList.add(
-        "enabled"
-      );
-
-
-      localStorage.setItem(
-        "transfer_name",
-        accountName
-      );
-
-      localStorage.setItem(
-        "transfer_account",
-        accountNumber
-      );
-
-      localStorage.setItem(
-        "transfer_bank",
-        bankListEl.options[
-          bankListEl.selectedIndex
-        ].text
-      );
-
-      localStorage.setItem(
-        "transfer_bankCode",
-        bankCode
-      );
-
-
+      nextBtn.classList.add("enabled");
+      localStorage.setItem("transfer_account", accountNumber);
+      localStorage.setItem("transfer_bank", bankListEl.options[bankListEl.selectedIndex].text);
+      localStorage.setItem("transfer_bankCode", bankCode);
+      localStorage.setItem("transfer_name", lastAccountName);
     }else{
-
-      showError(
-        data.message ||
-        "Could not verify account"
-      );
-
+      showError("Invalid account");
     }
-
-
   }catch(error){
-
-    if(currentRequest !== requestNumber){
-      return;
-    }
-
-    showError(
-      "Verification failed: " +
-      (error.message || "Network error")
-    );
-
+    if(currentRequest !== requestNumber) return;
+    showError("Verification failed");
   }
-
 }
 
-
-/* Account number input */
-accInput.addEventListener(
-  "input",
-  function(){
-
-    this.value =
-      this.value
-      .replace(/[^0-9]/g,"")
-      .slice(0,10);
-
-
-    requestNumber++;
-
-    verificationOK = false;
-
-    nextBtn.classList.remove(
-      "enabled"
-    );
-
-    accNameDiv.style.display =
-      "none";
-
-
-    if(
-      this.value.length === 10 &&
-      bankListEl.value !== ""
-    ){
-
-      checkName();
-
-    }
-
+accInput.addEventListener("input", function(){
+  this.value = this.value.replace(/[^0-9]/g,"").slice(0,10);
+  requestNumber++;
+  verificationOK = false;
+  nextBtn.classList.remove("enabled");
+  accNameDiv.style.display = "none";
+  if(this.value.length === 10 && bankListEl.value !== ""){
+    checkName();
   }
-);
+});
 
-
-/* Bank selection */
-bankListEl.addEventListener(
-  "change",
-  function(){
-
-    requestNumber++;
-
-    verificationOK = false;
-
-    nextBtn.classList.remove(
-      "enabled"
-    );
-
-    accNameDiv.style.display =
-      "none";
-
-
-    if(
-      accInput.value.length === 10 &&
-      this.value !== ""
-    ){
-
-      checkName();
-
-    }
-
+bankListEl.addEventListener("change", function(){
+  requestNumber++;
+  verificationOK = false;
+  nextBtn.classList.remove("enabled");
+  accNameDiv.style.display = "none";
+  if(accInput.value.length === 10 && this.value !== ""){
+    checkName();
   }
-);
+});
 
+nextBtn.addEventListener("click", function(){
+  if(!verificationOK) return;
+  window.location.href = "print2.html";
+});
 
-/* Account name click */
-accNameDiv.addEventListener(
-  "click",
-  function(){
-
-    if(
-      nextBtn.classList.contains(
-        "enabled"
-      )
-    ){
-
-      window.location.href =
-        "print2.html";
-
-    }
-
-  }
-);
-
-
-/* Next button */
-nextBtn.addEventListener(
-  "click",
-  function(){
-
-    if(
-      nextBtn.classList.contains(
-        "enabled"
-      )
-    ){
-
-      window.location.href =
-        "print2.html";
-
-    }
-
-  }
-);
-
-
-/* Start */
 loadBanks();
-
 </script>
-
 </body>
 </html>

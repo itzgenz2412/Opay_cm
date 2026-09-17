@@ -15,7 +15,7 @@ body{background:#0f0f0f;color:white;margin:0;padding:0}
 .input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;color:#777;font-size:14px;display:flex;justify-content:space-between;align-items:center}
 .input-line input{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
 .input-line select{background:transparent;border:none;color:#777;width:100%;font-size:14px;outline:none}
-#accountNameDisplay{padding:12px 0 0 0;display:none;color:#00d68f;font-weight:bold;text-transform:uppercase;font-size:14px;cursor:pointer}
+#accountNameDisplay{padding:12px 0 0 0;display:none;font-weight:bold;text-transform:uppercase;font-size:14px;cursor:pointer}
 .loader{display:none;color:#777;font-size:13px;margin-top:8px}
 .btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;transition:0.2s;pointer-events:none;opacity:0.6}
 .btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
@@ -68,7 +68,6 @@ const accNameDiv = document.getElementById('accountNameDisplay');
 const loader = document.getElementById('loader');
 const nextBtn = document.getElementById('nextBtn');
 
-// STATIC BANKS - will show instantly on GitHub
 const STATIC_BANKS = [
  {code:"999992", name:"OPay"},
  {code:"999991", name:"PalmPay"},
@@ -80,99 +79,81 @@ const STATIC_BANKS = [
  {code:"033", name:"UBA"},
  {code:"057", name:"Zenith Bank"},
  {code:"035", name:"Wema Bank"},
- {code:"070", name:"Fidelity Bank"},
- {code:"032", name:"Union Bank"}
+ {code:"070", name:"Fidelity Bank"}
 ];
 
 function showBanks(list){
   bankListEl.innerHTML='<option value="">Select Bank</option>';
   for(let i=0;i<list.length;i++){
-    let item = list[i];
-    let opt = document.createElement('option');
-    opt.value = item.code;
-    opt.textContent = item.name;
+    let opt=document.createElement('option');
+    opt.value=list[i].code;
+    opt.textContent=list[i].name;
     bankListEl.appendChild(opt);
   }
 }
-
-// Show banks immediately so Select Bank is NOT empty
 showBanks(STATIC_BANKS);
 
 async function getMonnifyToken(){
   try{
     const c = btoa(MONNIFY_API_KEY+":"+MONNIFY_SECRET);
-    const res = await fetch("https://api.monnify.com/api/v1/auth/login",{method:"POST",headers:{"Authorization":"Basic "+c}});
+    const res = await fetch("https://corsproxy.io/?https://api.monnify.com/api/v1/auth/login",{
+      method:"POST",
+      headers:{"Authorization":"Basic "+c}
+    });
     const data = await res.json();
-    if(data.responseBody){
-      accessToken=data.responseBody.accessToken;
-      // Try to load real banks, if fails we already have static
-      loadBanks();
-    }
-  }catch(e){
-    console.log("Monnify blocked by GitHub CORS, using static banks");
-  }
-}
-
-async function loadBanks(){
-  try{
-    const res = await fetch("https://api.monnify.com/api/v1/banks",{headers:{"Authorization":"Bearer "+accessToken}});
-    const data = await res.json();
-    if(data.responseBody && data.responseBody.length>0){
-      showBanks(data.responseBody);
-    }
-  }catch(e){}
+    if(data.responseBody) accessToken=data.responseBody.accessToken;
+  }catch(e){ console.log("token error - will use proxy for verify"); }
 }
 
 async function checkName(){
   const acc=accInput.value.trim();
   const bankCode=bankListEl.value;
-  if(acc.length===10 && bankCode!==""){
-    loader.style.display="block";
-    accNameDiv.style.display="none";
-    nextBtn.classList.remove('enabled');
-    try{
-      const res=await fetch("https://api.monnify.com/api/v1/disbursements/account/validate?accountNumber="+acc+"&bankCode="+bankCode,{headers:{"Authorization":"Bearer "+accessToken}});
-      const data=await res.json();
-      loader.style.display="none";
-      if(data.responseBody && data.responseBody.accountName){
-        accNameDiv.style.display="block";
-        accNameDiv.style.color="#00d68f";
-        accNameDiv.textContent="✓ "+data.responseBody.accountName;
-        nextBtn.classList.add('enabled');
-        localStorage.setItem('transfer_name', data.responseBody.accountName);
-        localStorage.setItem('transfer_account', acc);
-        localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
-        localStorage.setItem('transfer_bankCode', bankCode);
-      }else{
-        accNameDiv.style.display="block";
-        accNameDiv.style.color="#ff4444";
-        accNameDiv.textContent="Invalid account";
-      }
-    }catch(e){
-      // GitHub fallback - let Next work so you can test UI
-      loader.style.display="none";
+  if(acc.length!==10 || bankCode==="") return;
+
+  loader.style.display="block";
+  accNameDiv.style.display="none";
+  nextBtn.classList.remove('enabled');
+
+  if(!accessToken){ await getMonnifyToken(); }
+
+  try{
+    const url = `https://api.monnify.com/api/v1/disbursements/account/validate?accountNumber=${acc}&bankCode=${bankCode}`;
+    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`,{
+      headers:{"Authorization":"Bearer "+accessToken}
+    });
+    const data = await res.json();
+    loader.style.display="none";
+
+    if(data.responseBody && data.responseBody.accountName){
       accNameDiv.style.display="block";
       accNameDiv.style.color="#00d68f";
-      accNameDiv.textContent="✓ VERIFIED CUSTOMER (Test Mode)";
+      accNameDiv.textContent="✓ "+data.responseBody.accountName;
       nextBtn.classList.add('enabled');
-      localStorage.setItem('transfer_name', "VERIFIED CUSTOMER");
+      localStorage.setItem('transfer_name', data.responseBody.accountName);
       localStorage.setItem('transfer_account', acc);
       localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
       localStorage.setItem('transfer_bankCode', bankCode);
+    }else{
+      accNameDiv.style.display="block";
+      accNameDiv.style.color="#ff4444";
+      accNameDiv.textContent="✗ Invalid account number";
+      nextBtn.classList.remove('enabled');
     }
+  }catch(e){
+    loader.style.display="none";
+    accNameDiv.style.display="block";
+    accNameDiv.style.color="#ff4444";
+    accNameDiv.textContent="✗ Cannot verify now - use real account & correct bank";
+    nextBtn.classList.remove('enabled');
   }
 }
 
 accInput.addEventListener('input',function(){
   this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);
-  if(this.value.length===10 && bankListEl.value!=="") checkName();
+  if(this.value.length===10 && bankListEl.value) checkName();
   else { nextBtn.classList.remove('enabled'); accNameDiv.style.display="none"; }
 });
-
-bankListEl.addEventListener('change',function(){
-  if(accInput.value.length===10) checkName();
-});
-
+bankListEl.addEventListener('change',function(){ if(accInput.value.length===10) checkName(); });
 accNameDiv.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
 nextBtn.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
 

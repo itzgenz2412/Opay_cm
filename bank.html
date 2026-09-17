@@ -45,7 +45,7 @@ body{background:#0f0f0f;color:white;margin:0;padding:0}
     <input type="text" inputmode="numeric" id="accountNumber" placeholder="Enter 10 digits Account Number" maxlength="10">
   </div>
   <div id="accountNameDisplay"></div>
-  <p class="loader" id="loader">Checking...</p>
+  <p class="loader" id="loader">Checking name...</p>
   <div class="input-line">
     <select id="bankList"><option value="">Loading banks...</option></select><span>></span>
   </div>
@@ -66,10 +66,9 @@ const accInput = document.getElementById("accountNumber");
 const accNameDiv = document.getElementById("accountNameDisplay");
 const loader = document.getElementById("loader");
 const nextBtn = document.getElementById("nextBtn");
-
 let verificationOK = false;
 let requestNumber = 0;
-let lastAccountName = "";
+let lastRealName = "";
 
 function showError(message){
   loader.style.display = "none";
@@ -81,14 +80,11 @@ function showError(message){
 }
 
 async function loadBanks(){
-  bankListEl.innerHTML = '<option value="">Loading banks...</option>';
   bankListEl.disabled = true;
+  bankListEl.innerHTML = '<option value="">Loading banks...</option>';
   try{
     const response = await fetch(API_BASE + "/api/banks");
     const data = await response.json();
-    if(!response.ok || data.status !== true || !Array.isArray(data.data)){
-      throw new Error("Unable to load banks");
-    }
     bankListEl.innerHTML = '<option value="">Select Bank</option>';
     data.data.forEach(function(bank){
       const option = document.createElement("option");
@@ -97,43 +93,47 @@ async function loadBanks(){
       bankListEl.appendChild(option);
     });
     bankListEl.disabled = false;
-  }catch(error){
+  }catch(e){
     bankListEl.innerHTML = '<option value="">Unable to load banks</option>';
     bankListEl.disabled = true;
   }
 }
 
 /* =========================================
-   REAL NAME LOOKUP - COMPLETED CODE
+   REAL NAME LOOKUP - FINAL
 ========================================= */
 async function verifyAccount(accountNumber, bankCode){
   try{
     const response = await fetch(`${API_BASE}/api/verify?account_number=${accountNumber}&bank_code=${bankCode}`);
     const data = await response.json();
 
-    // Support both formats: {verified, account_name} and {status, data:{account_name}}
+    // Your backend code:
+    // const data = await response.json();
+    // if (data.status === true && data.data && data.data.account_name) { ... }
+
     if (data.status === true && data.data && data.data.account_name) {
       const accountName = data.data.account_name;
       const verified = accountName.trim().length > 0;
       if(verified){
-        lastAccountName = accountName;
+        lastRealName = accountName;
         return true;
       }
     }
-    
+
+    // Alternative format if you return {verified, account_name}
     if (data.verified === true && data.account_name) {
-      lastAccountName = data.account_name;
+      lastRealName = data.account_name;
       return true;
     }
 
-    // Direct format
-    if (data.account_name && data.account_name.trim().length > 0){
-      lastAccountName = data.account_name;
+    if (data.account_name) {
+      lastRealName = data.account_name;
       return true;
     }
 
     return false;
-  }catch(e){
+  }catch(err){
+    console.error(err);
     return false;
   }
 }
@@ -154,28 +154,22 @@ async function checkName(){
   loader.style.display = "block";
   accNameDiv.style.display = "none";
 
-  try{
-    const verified = await verifyAccount(accountNumber, bankCode);
+  const verified = await verifyAccount(accountNumber, bankCode);
+  if(currentRequest !== requestNumber) return;
+  loader.style.display = "none";
 
-    if(currentRequest !== requestNumber) return;
-    loader.style.display = "none";
-
-    if(verified === true){
-      accNameDiv.style.display = "block";
-      accNameDiv.style.color = "#00d68f";
-      accNameDiv.textContent = "✓ " + lastAccountName;
-      verificationOK = true;
-      nextBtn.classList.add("enabled");
-      localStorage.setItem("transfer_account", accountNumber);
-      localStorage.setItem("transfer_bank", bankListEl.options[bankListEl.selectedIndex].text);
-      localStorage.setItem("transfer_bankCode", bankCode);
-      localStorage.setItem("transfer_name", lastAccountName);
-    }else{
-      showError("Invalid account");
-    }
-  }catch(error){
-    if(currentRequest !== requestNumber) return;
-    showError("Verification failed");
+  if(verified === true){
+    accNameDiv.style.display = "block";
+    accNameDiv.style.color = "#00d68f";
+    accNameDiv.textContent = "✓ " + lastRealName;
+    verificationOK = true;
+    nextBtn.classList.add("enabled");
+    localStorage.setItem("transfer_account", accountNumber);
+    localStorage.setItem("transfer_bank", bankListEl.options[bankListEl.selectedIndex].text);
+    localStorage.setItem("transfer_bankCode", bankCode);
+    localStorage.setItem("transfer_name", lastRealName);
+  }else{
+    showError("Could not resolve account name");
   }
 }
 
@@ -185,9 +179,7 @@ accInput.addEventListener("input", function(){
   verificationOK = false;
   nextBtn.classList.remove("enabled");
   accNameDiv.style.display = "none";
-  if(this.value.length === 10 && bankListEl.value !== ""){
-    checkName();
-  }
+  if(this.value.length === 10 && bankListEl.value !== "") checkName();
 });
 
 bankListEl.addEventListener("change", function(){
@@ -195,9 +187,7 @@ bankListEl.addEventListener("change", function(){
   verificationOK = false;
   nextBtn.classList.remove("enabled");
   accNameDiv.style.display = "none";
-  if(accInput.value.length === 10 && this.value !== ""){
-    checkName();
-  }
+  if(accInput.value.length === 10 && this.value !== "") checkName();
 });
 
 nextBtn.addEventListener("click", function(){

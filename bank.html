@@ -1,86 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transfer to Bank Account</title>
 <style>
-  body {
-    margin:0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background:#121212;
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    height:100vh;
-    text-align:center;
-  }
-  .header {
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:60px;
-    background:#1e1e1e;
-    display:flex;
-    align-items:center;
-    padding:0 15px;
-    box-sizing:border-box;
-    border-bottom:1px solid #2a2a2a;
-  }
-  .back {
-    width:38px;
-    height:38px;
-    background:#2a2a2a;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    cursor:pointer;
-    color:#fff;
-  }
-  .title {
-    margin-left:15px;
-    font-weight:600;
-    font-size:18px;
-  }
-  .content h2 { margin:15px 0 8px; font-size:20px; }
-  .content p { color:#888; font-size:14px; }
-  .icon-box {
-    width:90px;
-    height:90px;
-    background:#1e1e1e;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:45px;
-    margin:0 auto;
-  }
+*{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, sans-serif;}
+body{background:#0f0f0f;color:white;margin:0;padding:0}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1a1a1a}
+.header b{font-size:16px}
+.header span{color:#00d68f;font-size:14px}
+.free-box{margin:12px;background:#2a2440;border-radius:10px;padding:12px 14px;color:#8a7ed6;font-size:13px;display:flex;align-items:center;gap:8px}
+.card{background:#1c1c1e;margin:12px;border-radius:16px;padding:16px}
+.card-title{font-weight:600;font-size:15px;margin-bottom:14px}
+.input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;color:#777;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.input-line input{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
+.input-line select{background:transparent;border:none;color:#777;width:100%;font-size:14px;outline:none}
+#accountNameDisplay{padding:12px 0 0 0;display:none;color:#00d68f;font-weight:bold;text-transform:uppercase;font-size:14px;cursor:pointer}
+.loader{display:none;color:#777;font-size:13px;margin-top:8px}
+.btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;transition:0.2s;pointer-events:none;opacity:0.6}
+.btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
+.monitor{background:#1c1c1e;margin:12px;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.tabs{display:flex;gap:20px;padding:14px 16px 0 16px;border-bottom:1px solid #1c1c1e}
+.tab{padding-bottom:10px;font-size:14px;color:#777}
+.tab.active{color:#00d68f;border-bottom:2px solid #00d68f}
+.empty-wrap{background:#1c1c1e;margin:0 12px 12px 12px;border-radius:0 0 16px 16px;padding:30px 20px;text-align:center}
+.empty-text{color:#aaa;font-size:12px}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="back" onclick="window.location.href='dashboard.html'">←</div>
-  <div class="title">Bank</div>
+  <div onclick="window.location.href='dashboard.html'" style="cursor:pointer;display:flex;align-items:center">
+    <span style="color:white;margin-right:10px;font-size:20px"><</span><b>Transfer to Bank Account</b>
+  </div>
+  <span onclick="window.location.href='history.html'" style="cursor:pointer">History</span>
 </div>
 
-<div class="content">
-  <div class="icon-box">🚧</div>
-  <h2>Under Construction</h2>
-  <p>Bank feature is coming soon</p>
+<div class="free-box">Free transfers for the day: <b>3</b></div>
+
+<div class="card">
+  <div class="card-title">Recipient Account</div>
+  <div class="input-line">
+    <input type="text" inputmode="numeric" id="accountNumber" placeholder="Enter 10 digits Account Number" maxlength="10">
+  </div>
+  <div id="accountNameDisplay"></div>
+  <p class="loader" id="loader">Checking...</p>
+  <div class="input-line">
+    <select id="bankList"><option value="">Select Bank</option></select><span>></span>
+  </div>
+  <button class="btn-next" id="nextBtn">Next</button>
+</div>
+
+<div class="monitor"><div>📈</div><div style="font-size:14px;flex:1">Bank Transfer Success Rate Monitor</div><span style="color:#555">></span></div>
+
+<div style="background:#1c1c1e;margin:12px;border-radius:16px;overflow:hidden">
+  <div class="tabs"><div class="tab">Recents</div><div class="tab active">Favourites</div><div style="margin-left:auto;color:#00d68f">⌕</div></div>
+  <div class="empty-wrap"><div style="font-size:70px;opacity:0.7">👩‍💻</div><div class="empty-text">No favourites yet, you can add a payer to your 'Favourites' list.</div></div>
 </div>
 
 <script>
-history.pushState(null, null, location.href);
-window.addEventListener('popstate', function(){
-  window.location.href = 'dashboard.html';
-});
-</script>
+const MONNIFY_API_KEY = "MK_TEST_JQ4PW6KFPE";
+const MONNIFY_SECRET = "1BJYJZGLJ2RTFSV1PGJQ6WLUY9GPKX9R";
+let accessToken = "";
+const bankListEl = document.getElementById('bankList');
+const accInput = document.getElementById('accountNumber');
+const accNameDiv = document.getElementById('accountNameDisplay');
+const loader = document.getElementById('loader');
+const nextBtn = document.getElementById('nextBtn');
 
+async function getMonnifyToken(){
+  const c = btoa(MONNIFY_API_KEY+":"+MONNIFY_SECRET);
+  const res = await fetch("https://api.monnify.com/api/v1/auth/login",{method:"POST",headers:{"Authorization":"Basic "+c}});
+  const data = await res.json();
+  if(data.responseBody){ accessToken=data.responseBody.accessToken; loadBanks(); }
+}
+
+async function loadBanks(){
+  const res = await fetch("https://api.monnify.com/api/v1/banks",{headers:{"Authorization":"Bearer "+accessToken}});
+  const data = await res.json();
+  bankListEl.innerHTML='<option value="">Select Bank</option>';
+  let banks = data.responseBody;
+  for(let i=0; i<banks.length; i++){
+    let bankItem = banks[i];
+    let opt = document.createElement('option');
+    opt.value = bankItem.code;
+    opt.textContent = bankItem.name;
+    bankListEl.appendChild(opt);
+  }
+}
+
+async function checkName(){
+  const acc=accInput.value.trim();
+  const bankCode=bankListEl.value;
+  if(acc.length===10 && bankCode!==""){
+    loader.style.display="block";
+    accNameDiv.style.display="none";
+    nextBtn.classList.remove('enabled');
+    try{
+      const res=await fetch("https://api.monnify.com/api/v1/disbursements/account/validate?accountNumber="+acc+"&bankCode="+bankCode,{headers:{"Authorization":"Bearer "+accessToken}});
+      const data=await res.json();
+      loader.style.display="none";
+      if(data.responseBody && data.responseBody.accountName){
+        accNameDiv.style.display="block";
+        accNameDiv.style.color="#00d68f";
+        accNameDiv.textContent="✓ "+data.responseBody.accountName;
+        nextBtn.classList.add('enabled');
+        localStorage.setItem('transfer_name', data.responseBody.accountName);
+        localStorage.setItem('transfer_account', acc);
+        localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
+        localStorage.setItem('transfer_bankCode', bankCode);
+      }else{
+        accNameDiv.style.display="block";
+        accNameDiv.style.color="#ff4444";
+        accNameDiv.textContent="Invalid account";
+      }
+    }catch(e){ loader.style.display="none"; }
+  }
+}
+
+accInput.addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);
+  if(this.value.length===10) checkName();
+  else { nextBtn.classList.remove('enabled'); accNameDiv.style.display="none"; }
+});
+
+bankListEl.addEventListener('change',checkName);
+accNameDiv.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
+nextBtn.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
+
+getMonnifyToken();
+</script>
 </body>
 </html>

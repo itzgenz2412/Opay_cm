@@ -87,6 +87,11 @@ body{
   outline:none;
 }
 
+.input-line select option{
+  background:#1c1c1e;
+  color:white;
+}
+
 #accountNameDisplay{
   padding:12px 0 0 0;
   display:none;
@@ -269,10 +274,9 @@ body{
 
 </div>
 
-
 <script>
 
-/* Your Vercel backend */
+/* Your Vercel backend for account verification */
 const API_BASE =
   "https://paystack-bank-backend.vercel.app";
 
@@ -311,64 +315,59 @@ function showError(message){
   verificationOK = false;
 
   nextBtn.classList.remove("enabled");
+
 }
 
 
-/* Load banks from your Vercel backend */
-async function loadBanks(){
+/* Load banks locally */
+function loadBanks(){
 
-  try{
+  const banks = [
 
-    const response =
-      await fetch(API_BASE + "/api/banks");
+    {code:"044", name:"Access Bank"},
+    {code:"063", name:"Access Bank (Diamond)"},
+    {code:"050", name:"Ecobank Nigeria"},
+    {code:"011", name:"First Bank of Nigeria"},
+    {code:"214", name:"First City Monument Bank"},
+    {code:"070", name:"Fidelity Bank"},
+    {code:"058", name:"Guaranty Trust Bank"},
+    {code:"030", name:"Heritage Bank"},
+    {code:"082", name:"Keystone Bank"},
+    {code:"076", name:"Polaris Bank"},
+    {code:"101", name:"Providus Bank"},
+    {code:"221", name:"Stanbic IBTC Bank"},
+    {code:"068", name:"Standard Chartered Bank"},
+    {code:"232", name:"Sterling Bank"},
+    {code:"100", name:"SunTrust Bank"},
+    {code:"032", name:"Union Bank of Nigeria"},
+    {code:"033", name:"United Bank for Africa"},
+    {code:"215", name:"Unity Bank"},
+    {code:"035", name:"Wema Bank"},
+    {code:"057", name:"Zenith Bank"},
+    {code:"999991", name:"Opay"},
+    {code:"999992", name:"PalmPay"}
 
-    const data =
-      await response.json();
-
-
-    if(
-      !response.ok ||
-      data.status !== true ||
-      !Array.isArray(data.data)
-    ){
-
-      throw new Error(
-        data.message || "Unable to load banks"
-      );
-
-    }
-
-
-    bankListEl.innerHTML =
-      '<option value="">Select Bank</option>';
-
-
-    data.data.forEach(function(bank){
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        bank.code;
-
-      option.textContent =
-        bank.name;
-
-      bankListEl.appendChild(option);
-
-    });
+  ];
 
 
-  }catch(error){
+  bankListEl.innerHTML =
+    '<option value="">Select Bank</option>';
 
-    bankListEl.innerHTML =
-      '<option value="">Unable to load banks</option>';
 
-    showError(
-      error.message || "Unable to load banks"
-    );
+  banks.forEach(function(bank){
 
-  }
+    const option =
+      document.createElement("option");
+
+    option.value =
+      bank.code;
+
+    option.textContent =
+      bank.name;
+
+    bankListEl.appendChild(option);
+
+  });
 
 }
 
@@ -437,7 +436,6 @@ async function checkName(){
     loader.style.display = "none";
 
 
-    /* Successful verification */
     if(
       response.ok &&
       data.status === true &&
@@ -466,7 +464,6 @@ async function checkName(){
       );
 
 
-      /* Save transfer details */
       localStorage.setItem(
         "transfer_name",
         accountName
@@ -582,7 +579,7 @@ bankListEl.addEventListener(
 );
 
 
-/* Keep your original redirect */
+/* Account name click */
 accNameDiv.addEventListener(
   "click",
   function(){
@@ -602,7 +599,7 @@ accNameDiv.addEventListener(
 );
 
 
-/* Keep your original Next redirect */
+/* Next button */
 nextBtn.addEventListener(
   "click",
   function(){

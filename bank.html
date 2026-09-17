@@ -84,13 +84,16 @@ async function loadBanks(){
   bankListEl.innerHTML = '<option value="">Loading banks...</option>';
   try{
     const response = await fetch(API_BASE + "/api/banks");
+    if(!response.ok) throw new Error("banks failed");
     const data = await response.json();
+    if(!data || data.status !== true || !Array.isArray(data.data)) throw new Error("bad data");
     bankListEl.innerHTML = '<option value="">Select Bank</option>';
     data.data.forEach(function(bank){
-      const option = document.createElement("option");
-      option.value = bank.code;
-      option.textContent = bank.name;
-      bankListEl.appendChild(option);
+      if(!bank.code || !bank.name) return;
+      const o = document.createElement("option");
+      o.value = bank.code;
+      o.textContent = bank.name;
+      bankListEl.appendChild(o);
     });
     bankListEl.disabled = false;
   }catch(e){
@@ -99,41 +102,18 @@ async function loadBanks(){
   }
 }
 
-/* =========================================
-   REAL NAME LOOKUP - FINAL
-========================================= */
 async function verifyAccount(accountNumber, bankCode){
   try{
     const response = await fetch(`${API_BASE}/api/resolve?account_number=${accountNumber}&bank_code=${bankCode}`);
     const data = await response.json();
-
-    // Your backend code:
-    // const data = await response.json();
-    // if (data.status === true && data.data && data.data.account_name) { ... }
-
+    
+    // Works with YOUR current resolve.js which returns Paystack raw
     if (data.status === true && data.data && data.data.account_name) {
-      const accountName = data.data.account_name;
-      const verified = accountName.trim().length > 0;
-      if(verified){
-        lastRealName = accountName;
-        return true;
-      }
-    }
-
-    // Alternative format if you return {verified, account_name}
-    if (data.verified === true && data.account_name) {
-      lastRealName = data.account_name;
+      lastRealName = data.data.account_name;
       return true;
     }
-
-    if (data.account_name) {
-      lastRealName = data.account_name;
-      return true;
-    }
-
     return false;
   }catch(err){
-    console.error(err);
     return false;
   }
 }
@@ -143,21 +123,17 @@ async function checkName(){
   const bankCode = bankListEl.value;
   verificationOK = false;
   nextBtn.classList.remove("enabled");
-
   if(accountNumber.length !== 10 || bankCode === ""){
     loader.style.display = "none";
     accNameDiv.style.display = "none";
     return;
   }
-
   const currentRequest = ++requestNumber;
   loader.style.display = "block";
   accNameDiv.style.display = "none";
-
   const verified = await verifyAccount(accountNumber, bankCode);
   if(currentRequest !== requestNumber) return;
   loader.style.display = "none";
-
   if(verified === true){
     accNameDiv.style.display = "block";
     accNameDiv.style.color = "#00d68f";

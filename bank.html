@@ -4,27 +4,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Transfer to Bank Account</title>
 <style>
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+*{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, sans-serif;}
 body{background:#0f0f0f;color:white;margin:0;padding:0}
 .header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1a1a1a}
 .header b{font-size:16px}
 .header span{color:#00d68f;font-size:14px}
-.free-box{margin:12px;background:#2a2440;border-radius:10px;padding:12px 14px;color:#8a7ed6;font-size:13px}
+.free-box{margin:12px;background:#2a2440;border-radius:10px;padding:12px 14px;color:#8a7ed6;font-size:13px;display:flex;align-items:center;gap:8px}
 .card{background:#1c1c1e;margin:12px;border-radius:16px;padding:16px}
 .card-title{font-weight:600;font-size:15px;margin-bottom:14px}
-.input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;display:flex;justify-content:space-between;align-items:center}
+.input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;color:#777;font-size:14px;display:flex;justify-content:space-between;align-items:center}
 .input-line input{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
-.input-line select{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
-#accountNameDisplay{padding:12px 0 0 0;display:none;font-weight:bold;text-transform:uppercase;font-size:14px}
+.input-line select{background:transparent;border:none;color:#777;width:100%;font-size:14px;outline:none}
+#accountNameDisplay{padding:12px 0 0 0;display:none;color:#00d68f;font-weight:bold;text-transform:uppercase;font-size:14px;cursor:pointer}
 .loader{display:none;color:#777;font-size:13px;margin-top:8px}
-.btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;pointer-events:none;opacity:0.6}
+.btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;transition:0.2s;pointer-events:none;opacity:0.6}
 .btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
+.monitor{background:#1c1c1e;margin:12px;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.tabs{display:flex;gap:20px;padding:14px 16px 0 16px;border-bottom:1px solid #1c1c1e}
+.tab{padding-bottom:10px;font-size:14px;color:#777}
+.tab.active{color:#00d68f;border-bottom:2px solid #00d68f}
+.empty-wrap{background:#1c1c1e;margin:0 12px 12px 12px;border-radius:0 0 16px 16px;padding:30px 20px;text-align:center}
+.empty-text{color:#aaa;font-size:12px}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div onclick="window.location.href='dashboard.html'" style="cursor:pointer"><b>Transfer to Bank Account</b></div>
+  <div onclick="window.location.href='dashboard.html'" style="cursor:pointer;display:flex;align-items:center">
+    <span style="color:white;margin-right:10px;font-size:20px"><</span><b>Transfer to Bank Account</b>
+  </div>
   <span onclick="window.location.href='history.html'" style="cursor:pointer">History</span>
 </div>
 
@@ -36,11 +44,18 @@ body{background:#0f0f0f;color:white;margin:0;padding:0}
     <input type="text" inputmode="numeric" id="accountNumber" placeholder="Enter 10 digits Account Number" maxlength="10">
   </div>
   <div id="accountNameDisplay"></div>
-  <p class="loader" id="loader">Checking name...</p>
+  <p class="loader" id="loader">Checking...</p>
   <div class="input-line">
-    <select id="bankList"><option value="">Select Bank</option></select>
+    <select id="bankList"><option value="">Select Bank</option></select><span>></span>
   </div>
   <button class="btn-next" id="nextBtn">Next</button>
+</div>
+
+<div class="monitor"><div>📈</div><div style="font-size:14px;flex:1">Bank Transfer Success Rate Monitor</div><span style="color:#555">></span></div>
+
+<div style="background:#1c1c1e;margin:12px;border-radius:16px;overflow:hidden">
+  <div class="tabs"><div class="tab">Recents</div><div class="tab active">Favourites</div><div style="margin-left:auto;color:#00d68f">⌕</div></div>
+  <div class="empty-wrap"><div style="font-size:70px;opacity:0.7">👩‍💻</div><div class="empty-text">No favourites yet, you can add a payer to your 'Favourites' list.</div></div>
 </div>
 
 <script>
@@ -64,45 +79,54 @@ const BANKS = [
  {code:"035", name:"Wema Bank"},
  {code:"070", name:"Fidelity Bank"},
  {code:"032", name:"Union Bank"},
- {code:"221", name:"Stanbic IBTC"}
+ {code:"221", name:"Stanbic IBTC"},
+ {code:"058", name:"GTBank"},
+ {code:"068", name:"Standard Chartered"}
 ];
-bankListEl.innerHTML='<option value="">Select Bank</option>';
-BANKS.forEach(b=>{let o=document.createElement('option');o.value=b.code;o.textContent=b.name;bankListEl.appendChild(o);});
+
+function loadBanks(){
+  bankListEl.innerHTML='<option value="">Select Bank</option>';
+  BANKS.forEach(b=>{
+    let opt=document.createElement('option');
+    opt.value=b.code;
+    opt.textContent=b.name;
+    bankListEl.appendChild(opt);
+  });
+}
 
 async function checkName(){
   const acc=accInput.value.trim();
   const bankCode=bankListEl.value;
-  if(acc.length!==10 || !bankCode) return;
-  loader.style.display="block";
-  accNameDiv.style.display="none";
-  nextBtn.classList.remove('enabled');
-  try{
+  if(acc.length===10 && bankCode!==""){
+    loader.style.display="block";
+    accNameDiv.style.display="none";
+    nextBtn.classList.remove('enabled');
     const apiUrl = `https://api.paystack.co/bank/resolve?account_number=${acc}&bank_code=${bankCode}`;
-    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(apiUrl)}`,{
-      headers:{"Authorization":"Bearer "+PAYSTACK_KEY}
-    });
-    const data = await res.json();
-    loader.style.display="none";
-    if(data.status===true && data.data && data.data.account_name){
-      accNameDiv.style.display="block";
-      accNameDiv.style.color="#00d68f";
-      accNameDiv.textContent="✓ "+data.data.account_name;
-      nextBtn.classList.add('enabled');
-      localStorage.setItem('transfer_name', data.data.account_name);
-      localStorage.setItem('transfer_account', acc);
-      localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
-      localStorage.setItem('transfer_bankCode', bankCode);
-    }else{
+    try{
+      const proxiedUrl = `https://thingproxy.freeboard.io/fetch/${apiUrl}`;
+      const res = await fetch(proxiedUrl,{headers:{"Authorization":"Bearer "+PAYSTACK_KEY}});
+      const data = await res.json();
+      loader.style.display="none";
+      if(data.status===true && data.data && data.data.account_name){
+        accNameDiv.style.display="block";
+        accNameDiv.style.color="#00d68f";
+        accNameDiv.textContent="✓ "+data.data.account_name;
+        nextBtn.classList.add('enabled');
+        localStorage.setItem('transfer_name', data.data.account_name);
+        localStorage.setItem('transfer_account', acc);
+        localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
+        localStorage.setItem('transfer_bankCode', bankCode);
+      }else{
+        accNameDiv.style.display="block";
+        accNameDiv.style.color="#ff4444";
+        accNameDiv.textContent="✗ "+(data.message||"Invalid account");
+      }
+    }catch(e){
+      loader.style.display="none";
       accNameDiv.style.display="block";
       accNameDiv.style.color="#ff4444";
-      accNameDiv.textContent="✗ "+ (data.message || "Invalid account number");
-      nextBtn.classList.remove('enabled');
+      accNameDiv.textContent="✗ Cannot verify - check internet";
     }
-  }catch(e){
-    loader.style.display="none";
-    accNameDiv.style.display="block";
-    accNameDiv.style.color="#ff4444";
-    accNameDiv.textContent="✗ Cannot verify - check bank is correct";
   }
 }
 
@@ -111,9 +135,12 @@ accInput.addEventListener('input',function(){
   if(this.value.length===10 && bankListEl.value) checkName();
   else { nextBtn.classList.remove('enabled'); accNameDiv.style.display="none"; }
 });
-bankListEl.addEventListener('change',function(){ if(accInput.value.length===10) checkName(); });
-nextBtn.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
+
+bankListEl.addEventListener('change',checkName);
 accNameDiv.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
+nextBtn.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
+
+loadBanks();
 </script>
 </body>
 </html>

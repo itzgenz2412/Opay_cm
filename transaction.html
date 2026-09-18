@@ -2,422 +2,232 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no">
-
-<title>Transaction Details - Demo</title>
+<title>Transaction Details</title>
 
 <style>
 
 *{
   box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
   -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
   margin:0;
   padding:0;
-  width:100%;
-  min-height:100%;
-  background:#191919;
-  font-family:Arial,Helvetica,sans-serif;
+  background:#121212;
+  color:white;
+  min-height:100vh;
 }
 
 .page{
-  position:relative;
-  width:100%;
-  max-width:691px;
+  max-width:480px;
   margin:0 auto;
-}
-
-.bg{
-  display:block;
-  width:100%;
-  height:auto;
+  min-height:100vh;
+  background:#121212;
+  padding-bottom:90px;
 }
 
 
-/* =========================
-   DEMO
-========================= */
+/* HEADER */
 
-.demo{
-  position:absolute;
-
-  top:1.5%;
-  right:4%;
-
-  color:#ffb000;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:1px;
-
-  z-index:100;
-}
-
-
-/* =========================
-   BACK
-========================= */
-
-.back{
-  position:absolute;
-
-  left:4%;
-  top:5.2%;
-
-  width:8%;
-  height:5%;
-
-  z-index:100;
-  cursor:pointer;
-}
-
-
-/* =========================
-   TOP CARD
-========================= */
-
-.top-card{
-  position:absolute;
-
-  left:3.5%;
-  top:12.5%;
-
-  width:93%;
-  height:25.8%;
-
-  background:#2b2b2b;
-
-  border-radius:18px;
-
-  z-index:10;
-}
-
-
-/* =========================
-   DATA ICON
-========================= */
-
-.data-icon{
-  position:absolute;
-
-  left:50%;
-  top:-7%;
-
-  transform:translateX(-50%);
-
-  width:58px;
-  height:58px;
-
-  border-radius:50%;
-
-  object-fit:cover;
-
-  z-index:30;
-}
-
-
-/* =========================
-   NETWORK NAME
-========================= */
-
-.network-name{
-  position:absolute;
-
-  left:0;
-  top:16%;
-
-  width:100%;
-
-  text-align:center;
-
-  color:#eeeeee;
-
-  font-size:19px;
-  line-height:23px;
-
-  font-weight:700;
-
-  z-index:30;
-}
-
-
-/* =========================
-   MAIN AMOUNT
-========================= */
-
-.main-amount{
-  position:absolute;
-
-  left:0;
-  top:29%;
-
-  width:100%;
-
-  text-align:center;
-
-  color:#eeeeee;
-
-  font-size:39px;
-  line-height:43px;
-
-  font-weight:700;
-
-  z-index:30;
-}
-
-
-/* =========================
-   SUCCESS
-========================= */
-
-.success{
-  position:absolute;
-
-  left:0;
-  top:51%;
-
-  width:100%;
-
-  text-align:center;
-
-  color:#18d09c;
-
-  font-size:18px;
-  line-height:22px;
-
-  font-weight:700;
-
-  z-index:30;
-}
-
-
-/* =========================
-   AMOUNT INFORMATION
-========================= */
-
-.amount-info{
-  position:absolute;
-
-  left:3%;
-  right:3%;
-
-  top:50%;
-
-  z-index:30;
-}
-
-.amount-row{
-  position:relative;
-
-  width:100%;
-  height:31px;
-
+.header{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  padding:14px 16px;
+  background:#1e1e1e;
 }
 
-.amount-label{
-  color:#a9a9a9;
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-  font-size:15px;
+.header-left span{
+  font-size:20px;
+  cursor:pointer;
+}
+
+.header b{
+  font-size:14px;
   font-weight:600;
 }
 
+.profile-icon{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#2a2a2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  color:#00d68f;
+}
+
+
+/* CARD */
+
+.card{
+  background:#1e1e1e;
+  border-radius:12px;
+  margin:12px;
+  padding:16px;
+}
+
+
+/* TRANSACTION SUMMARY */
+
+.center-card{
+  text-align:center;
+  padding:20px 16px 16px;
+}
+
+.data-icon{
+  width:56px;
+  height:56px;
+  margin:0 auto 12px auto;
+  background:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border:3px solid #2a2a2a;
+}
+
+.data-icon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.network-name{
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.amount{
+  font-size:26px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.success{
+  color:#00d68f;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.success i{
+  width:16px;
+  height:16px;
+  background:#00d68f;
+  color:#000;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:900;
+  font-style:normal;
+}
+
+
+/* AMOUNT INFORMATION */
+
+.amount-info{
+  margin-top:18px;
+  border-top:1px dashed #333;
+  padding-top:10px;
+}
+
+.amount-row{
+  display:flex;
+  justify-content:space-between;
+  padding:7px 0;
+  font-size:12px;
+}
+
+.amount-label{
+  color:#888;
+  font-size:11px;
+}
+
 .amount-value{
-  color:#eeeeee;
-
-  font-size:15px;
-  font-weight:700;
-
+  font-weight:600;
   text-align:right;
 }
 
 .bonus-value{
-  color:#16d49c;
-
-  font-size:15px;
-  font-weight:700;
-
+  color:#00d68f;
+  font-weight:600;
   text-align:right;
 }
 
 
-/* =========================
-   DETAILS CARD
-========================= */
+/* DETAILS */
 
-.details-card{
-  position:absolute;
-
-  left:3.5%;
-  top:40.5%;
-
-  width:93%;
-  height:22.5%;
-
-  background:#2b2b2b;
-
-  border-radius:18px;
-
-  z-index:10;
-}
-
-
-/* =========================
-   DETAILS TITLE
-========================= */
-
-.details-title{
-  position:absolute;
-
-  left:3.5%;
-  top:0%;
-
-  color:#eeeeee;
-
-  font-size:18px;
+.section-title{
+  font-size:13px;
   font-weight:700;
-
-  z-index:30;
+  margin-bottom:14px;
 }
-
-
-/* =========================
-   DETAILS ROWS
-========================= */
 
 .detail-row{
-  position:absolute;
-
-  left:3.5%;
-  right:3.5%;
-
-  height:27px;
-
   display:flex;
-  align-items:center;
   justify-content:space-between;
-
-  z-index:30;
+  padding:8px 0;
+  font-size:12px;
 }
 
-.detail-label{
-  color:#a9a9a9;
+.detail-row span:first-child{
+  color:#888;
+  font-size:11px;
+  max-width:40%;
+}
 
-  font-size:15px;
-  font-weight:600;
-
-  white-space:nowrap;
+.detail-row span:last-child{
+  font-weight:500;
+  text-align:right;
+  max-width:60%;
+  word-break:break-word;
 }
 
 .detail-value{
-  max-width:58%;
-
-  color:#eeeeee;
-
-  font-size:15px;
-  font-weight:700;
-
-  text-align:right;
-
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  color:white !important;
 }
 
 
-/* ROW POSITIONS */
+/* SHARE RECEIPT */
 
-.row-recipient{
-  top:14%;
-}
+.share-btn{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
 
-.row-bundle{
-  top:28%;
-}
+  width:calc(100% - 32px);
+  max-width:448px;
 
-.row-type{
-  top:42%;
-}
+  background:#00d68f;
+  color:#000;
 
-.row-payment{
-  top:56%;
-}
+  border:none;
+  padding:16px;
 
-.row-number{
-  top:70%;
-}
+  border-radius:30px;
 
-.row-date{
-  top:84%;
-}
-
-
-/* =========================
-   SHARE BUTTON
-========================= */
-
-.:center;
-
-  color:#173a35;
-
-  font-size:18px;
-  font-weight:700;
-
-  z-index:50;
-}
-
-
-/* =========================
-   SMALL SCREEN
-========================= */
-
-@media(max-width:450px){
-
-  .data-icon{
-    width:54px;
-    height:54px;
-  }
-
-  .network-name{
-    font-size:17px;
-  }
-
-  .main-amount{
-    font-size:32px;
-    line-height:36px;
-  }
-
-  .success{
-    font-size:16px;
-  }
-
-  .amount-label,
-  .amount-value,
-  .bonus-value{
-    font-size:12px;
-  }
-
-  .details-title{
-    font-size:16px;
-  }
-
-  .detail-label,
-  .detail-value{
-    font-size:12px;
-  }
-
-  .share{
-    font-size:16px;
-  }
-
+  font-weight:800;
+  font-size:14px;
 }
 
 </style>
@@ -428,61 +238,72 @@ html,body{
 
 <div class="page">
 
-  <!-- MOBILE DATA REFERENCE IMAGE -->
-  <img
-    src="1000022372.png"
-    class="bg"
-    alt="Mobile Data Transaction Demo"
-  >
 
+  <!-- HEADER -->
 
-  <!-- DEMO -->
-  <div class="demo">
-    
+  <div class="header">
+
+    <div class="header-left">
+
+      <span onclick="goBack()">‹</span>
+
+      <b>
+        Transaction Details
+      </b>
+
+    </div>
+
+    <div class="profile-icon">
+      👤
+    </div>
+
   </div>
 
 
-  <!-- BACK -->
-  <div
-    class="back"
-    onclick="goBack()">
-  </div>
+  <!-- TRANSACTION SUMMARY -->
 
+  <div class="card center-card">
 
-  <!-- =====================
-       TOP CARD
-  ====================== -->
+    <div class="data-icon">
 
-  <div class="top-card">
+      <img
+        id="dataIcon"
+        src="data-icon.png"
+        alt="Network">
 
-    <img
-      id="dataIcon"
-      src="data-icon.png"
-      class="data-icon"
-      alt="Data"
-    >
+    </div>
 
 
     <div
       class="network-name"
       id="networkName">
+
       Mobile Data
+
     </div>
 
 
     <div
-      class="main-amount"
+      class="amount"
       id="mainAmount">
+
       ₦0.00
+
     </div>
 
 
     <div class="success">
-      ✓ Successful
+
+      <i>✓</i>
+      Successful
+
     </div>
 
 
+    <!-- AMOUNT INFORMATION -->
+
     <div class="amount-info">
+
 
       <div class="amount-row">
 
@@ -493,7 +314,9 @@ html,body{
         <span
           class="amount-value"
           id="amount">
+
           ₦0.00
+
         </span>
 
       </div>
@@ -508,7 +331,9 @@ html,body{
         <span
           class="amount-value"
           id="cashbackUsed">
+
           -₦0.00
+
         </span>
 
       </div>
@@ -523,7 +348,9 @@ html,body{
         <span
           class="amount-value"
           id="amountPaid">
+
           ₦0.00
+
         </span>
 
       </div>
@@ -538,108 +365,126 @@ html,body{
         <span
           class="bonus-value"
           id="bonus">
+
           +₦0.00 Cashback
+
         </span>
 
       </div>
+
 
     </div>
 
   </div>
 
 
-  <!-- =====================
-       TRANSACTION DETAILS
-  ====================== -->
+  <!-- TRANSACTION DETAILS -->
 
-  <div class="details-card">
+  <div class="card">
 
-    <div class="details-title">
+    <div class="section-title">
       Transaction Details
     </div>
 
 
-    <div class="detail-row row-recipient">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Recipient Mobile
       </span>
 
       <span
         class="detail-value"
         id="recipient">
+
         --
+
       </span>
 
     </div>
 
 
-    <div class="detail-row row-bundle">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Data Bundle
       </span>
 
       <span
         class="detail-value"
         id="bundle">
+
         --
+
       </span>
 
     </div>
 
 
-    <div class="detail-row row-type">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Transaction Type
       </span>
 
       <span class="detail-value">
+
         Mobile Data
+
       </span>
 
     </div>
 
 
-    <div class="detail-row row-payment">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Payment Method
       </span>
 
       <span class="detail-value">
-        Wallet&nbsp; ›
+
+        Wallet
+        <span style="color:#888">
+          >
+        </span>
+
       </span>
 
     </div>
 
 
-    <div class="detail-row row-number">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Transaction No.
       </span>
 
-      <span
-        class="detail-value"
-        id="transactionNo">
-        --
+      <span class="detail-value">
+
+        <span id="transactionNo">
+          --
+        </span>
+
+        &nbsp;⎙
+
       </span>
 
     </div>
 
 
-    <div class="detail-row row-date">
+    <div class="detail-row">
 
-      <span class="detail-label">
+      <span>
         Transaction Date
       </span>
 
       <span
         class="detail-value"
         id="transactionDate">
+
         --
+
       </span>
 
     </div>
@@ -647,10 +492,16 @@ html,body{
   </div>
 
 
-  <!-- SHARE -->
-  <div class="share">
+  <!-- SHARE RECEIPT -->
+
+  <button
+    class="share-btn"
+    onclick="return false;">
+
     Share Receipt
-  </div>
+
+  </button>
+
 
 </div>
 
@@ -670,7 +521,7 @@ function goBack(){
 
 
 /* =========================
-   GET SELECTED TRANSACTION
+   GET TRANSACTION
 ========================= */
 
 let transaction = null;
@@ -793,7 +644,7 @@ function formatPhone(phone){
 
 
 /* =========================
-   NETWORK DETECTION
+   NETWORK
 ========================= */
 
 function getNetwork(phone){
@@ -918,22 +769,37 @@ const amount =
   );
 
 
-const cashback =
+/*
+   Cashback can come from either
+   "cashback" or "cashbackUsed".
+*/
+
+const cashbackUsed =
   numberValue(
-    transaction.cashback
+    transaction.cashbackUsed ??
+    transaction.cashback ??
+    0
+  );
+
+
+const bonus =
+  numberValue(
+    transaction.bonus ??
+    transaction.cashbackBonus ??
+    0
   );
 
 
 /*
-  Amount paid is the amount
-  charged to the wallet.
-
-  If cashback is being used,
-  it can be adjusted here.
+   Amount paid = amount minus
+   cashback actually used.
 */
 
 const amountPaid =
-  amount;
+  Math.max(
+    0,
+    amount - cashbackUsed
+  );
 
 
 /* =========================
@@ -952,8 +818,6 @@ document.getElementById(
   network;
 
 
-/* Change icon automatically */
-
 document.getElementById(
   "dataIcon"
 ).src =
@@ -961,7 +825,7 @@ document.getElementById(
 
 
 /* =========================
-   TOP INFORMATION
+   AMOUNT INFORMATION
 ========================= */
 
 document.getElementById(
@@ -979,7 +843,7 @@ document.getElementById(
 document.getElementById(
   "cashbackUsed"
 ).textContent =
-  "-₦0.00";
+  "-" + money(cashbackUsed);
 
 
 document.getElementById(
@@ -991,7 +855,7 @@ document.getElementById(
 document.getElementById(
   "bonus"
 ).textContent =
-  "+" + money(cashback) +
+  "+" + money(bonus) +
   " Cashback";
 
 
@@ -1029,7 +893,7 @@ document.getElementById(
 
 
 /* =========================
-   SAVE SELECTED ITEM
+   SAVE
 ========================= */
 
 localStorage.setItem(

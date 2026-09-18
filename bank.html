@@ -4,18 +4,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Transfer to Bank Account</title>
 <style>
-*{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, sans-serif;}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
 body{background:#0f0f0f;color:white;margin:0;padding:0}
 .header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1a1a1a}
 .header b{font-size:16px}
 .header span{color:#00d68f;font-size:14px}
-.free-box{margin:12px;background:#2a2440;border-radius:10px;padding:12px 14px;color:#8a7ed6;font-size:13px;display:flex;align-items:center;gap:8px}
 .card{background:#1c1c1e;margin:12px;border-radius:16px;padding:16px}
 .card-title{font-weight:600;font-size:15px;margin-bottom:14px}
 .input-line{border-bottom:1px solid #2c2c2e;padding:16px 0;color:#777;font-size:14px;display:flex;justify-content:space-between;align-items:center}
 .input-line input{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
-.input-line select{background:transparent;border:none;color:#777;width:100%;font-size:14px;outline:none}
-#accountNameDisplay{padding:12px 0 0 0;display:none;color:#00d68f;font-weight:bold;text-transform:uppercase;font-size:14px;cursor:pointer}
+.input-line select{background:transparent;border:none;color:white;width:100%;font-size:14px;outline:none}
+.input-line select option{background:#1c1c1e;color:white}
+#accountNameDisplay{padding:12px 0 0 0;display:none;font-weight:bold;font-size:14px;text-transform:uppercase}
 .loader{display:none;color:#777;font-size:13px;margin-top:8px}
 .btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;transition:0.2s;pointer-events:none;opacity:0.6}
 .btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
@@ -36,17 +36,15 @@ body{background:#0f0f0f;color:white;margin:0;padding:0}
   <span onclick="window.location.href='history.html'" style="cursor:pointer">History</span>
 </div>
 
-<div class="free-box">Free transfers for the day: <b>3</b></div>
-
 <div class="card">
   <div class="card-title">Recipient Account</div>
   <div class="input-line">
     <input type="text" inputmode="numeric" id="accountNumber" placeholder="Enter 10 digits Account Number" maxlength="10">
   </div>
   <div id="accountNameDisplay"></div>
-  <p class="loader" id="loader">Checking...</p>
+  <p class="loader" id="loader">Checking name...</p>
   <div class="input-line">
-    <select id="bankList"><option value="">Select Bank</option></select><span>></span>
+    <select id="bankList"><option value="">Loading banks...</option></select><span>></span>
   </div>
   <button class="btn-next" id="nextBtn">Next</button>
 </div>
@@ -59,76 +57,88 @@ body{background:#0f0f0f;color:white;margin:0;padding:0}
 </div>
 
 <script>
-const MONNIFY_API_KEY = "MK_TEST_JQ4PW6KFPE";
-const MONNIFY_SECRET = "1BJYJZGLJ2RTFSV1PGJQ6WLUY9GPKX9R";
-let accessToken = "";
-const bankListEl = document.getElementById('bankList');
-const accInput = document.getElementById('accountNumber');
-const accNameDiv = document.getElementById('accountNameDisplay');
-const loader = document.getElementById('loader');
-const nextBtn = document.getElementById('nextBtn');
+const API_BASE = "https://paystack-bank-backend.vercel.app";
+const bankListEl = document.getElementById("bankList");
+const accInput = document.getElementById("accountNumber");
+const accNameDiv = document.getElementById("accountNameDisplay");
+const loader = document.getElementById("loader");
+const nextBtn = document.getElementById("nextBtn");
+let verificationOK = false;
+let requestNumber = 0;
+let lastRealName = "";
 
-async function getMonnifyToken(){
-  const c = btoa(MONNIFY_API_KEY+":"+MONNIFY_SECRET);
-  const res = await fetch("https://api.monnify.com/api/v1/auth/login",{method:"POST",headers:{"Authorization":"Basic "+c}});
-  const data = await res.json();
-  if(data.responseBody){ accessToken=data.responseBody.accessToken; loadBanks(); }
+function showError(message){
+  loader.style.display = "none";
+  accNameDiv.style.display = "block";
+  accNameDiv.style.color = "#ff4444";
+  accNameDiv.textContent = message;
+  verificationOK = false;
+  nextBtn.classList.remove("enabled");
 }
-
 async function loadBanks(){
-  const res = await fetch("https://api.monnify.com/api/v1/banks",{headers:{"Authorization":"Bearer "+accessToken}});
-  const data = await res.json();
-  bankListEl.innerHTML='<option value="">Select Bank</option>';
-  let banks = data.responseBody;
-  for(let i=0; i<banks.length; i++){
-    let bankItem = banks[i];
-    let opt = document.createElement('option');
-    opt.value = bankItem.code;
-    opt.textContent = bankItem.name;
-    bankListEl.appendChild(opt);
+  try{
+    const response = await fetch(API_BASE + "/api/banks");
+    const data = await response.json();
+    bankListEl.innerHTML = '<option value="">Select Bank</option>';
+    data.data.forEach(function(bank){
+      const o = document.createElement("option");
+      o.value = bank.code;
+      o.textContent = bank.name;
+      bankListEl.appendChild(o);
+    });
+  }catch(e){
+    bankListEl.innerHTML = '<option value="">Unable to load banks</option>';
   }
 }
-
+async function verifyAccount(accountNumber, bankCode){
+  try{
+    const response = await fetch(`${API_BASE}/api/resolve?account_number=${accountNumber}&bank_code=${bankCode}`);
+    const data = await response.json();
+    if (data.status === true && data.data && data.data.account_name) {
+      lastRealName = data.data.account_name;
+      return true;
+    }
+    return false;
+  }catch(err){ return false; }
+}
 async function checkName(){
-  const acc=accInput.value.trim();
-  const bankCode=bankListEl.value;
-  if(acc.length===10 && bankCode!==""){
-    loader.style.display="block";
-    accNameDiv.style.display="none";
-    nextBtn.classList.remove('enabled');
-    try{
-      const res=await fetch("https://api.monnify.com/api/v1/disbursements/account/validate?accountNumber="+acc+"&bankCode="+bankCode,{headers:{"Authorization":"Bearer "+accessToken}});
-      const data=await res.json();
-      loader.style.display="none";
-      if(data.responseBody && data.responseBody.accountName){
-        accNameDiv.style.display="block";
-        accNameDiv.style.color="#00d68f";
-        accNameDiv.textContent="✓ "+data.responseBody.accountName;
-        nextBtn.classList.add('enabled');
-        localStorage.setItem('transfer_name', data.responseBody.accountName);
-        localStorage.setItem('transfer_account', acc);
-        localStorage.setItem('transfer_bank', bankListEl.options[bankListEl.selectedIndex].text);
-        localStorage.setItem('transfer_bankCode', bankCode);
-      }else{
-        accNameDiv.style.display="block";
-        accNameDiv.style.color="#ff4444";
-        accNameDiv.textContent="Invalid account";
-      }
-    }catch(e){ loader.style.display="none"; }
-  }
+  const accountNumber = accInput.value.trim();
+  const bankCode = bankListEl.value;
+  verificationOK = false;
+  nextBtn.classList.remove("enabled");
+  if(accountNumber.length !== 10 || bankCode === ""){ loader.style.display="none"; accNameDiv.style.display="none"; return; }
+  const currentRequest = ++requestNumber;
+  loader.style.display = "block";
+  accNameDiv.style.display = "none";
+  const verified = await verifyAccount(accountNumber, bankCode);
+  if(currentRequest !== requestNumber) return;
+  loader.style.display = "none";
+  if(verified === true){
+    accNameDiv.style.display = "block";
+    accNameDiv.style.color = "#00d68f";
+    accNameDiv.textContent = "✓ " + lastRealName;
+    verificationOK = true;
+    nextBtn.classList.add("enabled");
+    localStorage.setItem("transfer_account", accountNumber);
+    localStorage.setItem("transfer_bank", bankListEl.options[bankListEl.selectedIndex].text);
+    localStorage.setItem("transfer_bankCode", bankCode);
+    localStorage.setItem("transfer_name", lastRealName);
+  }else{ showError("Could not resolve account name"); }
 }
-
-accInput.addEventListener('input',function(){
-  this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);
-  if(this.value.length===10) checkName();
-  else { nextBtn.classList.remove('enabled'); accNameDiv.style.display="none"; }
+accInput.addEventListener("input", function(){
+  this.value = this.value.replace(/[^0-9]/g,"").slice(0,10);
+  requestNumber++; verificationOK = false; nextBtn.classList.remove("enabled"); accNameDiv.style.display = "none";
+  if(this.value.length === 10 && bankListEl.value !== "") checkName();
 });
-
-bankListEl.addEventListener('change',checkName);
-accNameDiv.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
-nextBtn.addEventListener('click',function(){ if(nextBtn.classList.contains('enabled')) window.location.href='print2.html'; });
-
-getMonnifyToken();
+bankListEl.addEventListener("change", function(){
+  requestNumber++; verificationOK = false; nextBtn.classList.remove("enabled"); accNameDiv.style.display = "none";
+  if(accInput.value.length === 10 && this.value !== "") checkName();
+});
+nextBtn.addEventListener("click", function(){
+  if(!verificationOK) return;
+  window.location.href = "payment.html";
+});
+loadBanks();
 </script>
 </body>
 </html>

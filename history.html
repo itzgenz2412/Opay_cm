@@ -165,46 +165,46 @@ html,body{
 /* MOBILE */
 @media(max-width:450px){
 
-  .month{
+ .month{
     font-size:21px;
   }
 
-  .in,
-  .out{
+ .in,
+ .out{
     font-size:13px;
   }
 
-  .history-item{
+ .history-item{
     padding:14px;
   }
 
-  .data-icon{
+ .data-icon{
     width:43px;
     height:43px;
   }
 
-  .info{
+ .info{
     margin-left:10px;
   }
 
-  .name{
+ .name{
     font-size:12px;
   }
 
-  .date{
+ .date{
     font-size:9px;
   }
 
-  .right{
+ .right{
     flex-basis:82px;
     width:82px;
   }
 
-  .amount{
+ .amount{
     font-size:13px;
   }
 
-  .status{
+ .status{
     font-size:7px;
   }
 }
@@ -246,11 +246,10 @@ const monthText = document.getElementById("month");
 
 function numberValue(value){
   if(typeof value === "number") return value;
-
   return Number(
     String(value || "")
-      .replace(/[₦,+]/g,"")
-      .replace(/,/g,"")
+     .replace(/[₦,+]/g,"")
+     .replace(/,/g,"")
   ) || 0;
 }
 
@@ -262,42 +261,32 @@ function money(value){
 }
 
 let history = [];
-
 try{
-  history = JSON.parse(
-    localStorage.getItem("transactionHistory") || "[]"
-  );
-
-  if(!Array.isArray(history)){
-    history = [];
-  }
+  history = JSON.parse(localStorage.getItem("transactionHistory") || "[]");
+  if(!Array.isArray(history)) history = [];
 }catch(e){
   history = [];
 }
 
 /* NEWEST FIRST */
 history.sort((a,b)=>{
-  return Number(b.timestamp || 0) -
-         Number(a.timestamp || 0);
+  return Number(b.timestamp || 0) - Number(a.timestamp || 0);
 });
 
 /* ONLY SHOW THE LAST 5 */
-history = history.slice(0,5);
+const recentHistory = history.slice(0,5);
 
 /* TOTALS */
 let inTotal = 0;
 let outTotal = 0;
 
-history.forEach(item=>{
-
+recentHistory.forEach(item=>{
   const amount = numberValue(item.amount);
-
   if(item.type === "in"){
     inTotal += amount;
   }else{
     outTotal += amount;
   }
-
 });
 
 /* DISPLAY TOTALS */
@@ -305,30 +294,20 @@ totalIn.textContent = "IN ₦" + money(inTotal);
 totalOut.textContent = "OUT ₦" + money(outTotal);
 
 /* MONTH */
-if(history.length > 0){
-
-  const latestDate =
-    history[0].timestamp
-      ? new Date(Number(history[0].timestamp))
-      : new Date();
-
-  monthText.textContent =
-    latestDate.toLocaleDateString("en-NG",{
-      month:"long"
-    });
-
+if(recentHistory.length > 0){
+  const latestDate = recentHistory[0].timestamp? new Date(Number(recentHistory[0].timestamp)) : new Date();
+  monthText.textContent = latestDate.toLocaleDateString("en-NG",{ month:"long" });
 }else{
-
   monthText.textContent = "September";
-
 }
 
 /* DRAW HISTORY */
 historyArea.innerHTML = "";
 
-history.forEach((item,index)=>{
+recentHistory.forEach((item,index)=>{
 
   const isIncoming = item.type === "in";
+  const isTransfer = item.bank || item.account || item.isTransfer === true || item.category === "transfer";
 
   const row = document.createElement("div");
   row.className = "history-item";
@@ -336,9 +315,9 @@ history.forEach((item,index)=>{
   /* ICON */
   const icon = document.createElement("img");
   icon.className = "data-icon";
-  icon.src = isIncoming
-    ? "data-icon.png"
-    : "data-icon.png";
+  // keep your icon, but try transfer icon if exist
+  icon.src = isTransfer? "data-icon.png" : "data-icon.png";
+  icon.onerror = function(){ this.src = "data-icon.png"; };
 
   /* LEFT INFO */
   const info = document.createElement("div");
@@ -349,16 +328,16 @@ history.forEach((item,index)=>{
 
   if(isIncoming){
     name.textContent = "Funds Added";
+  }else if(isTransfer){
+    // TRANSFER CASE
+    name.textContent = "Transfer to " + (item.name || "Bank Account");
   }else{
     name.textContent = "Mobile Data";
   }
 
   const date = document.createElement("div");
   date.className = "date";
-
-  date.textContent =
-    (item.date || "") +
-    (item.time ? " • " + item.time : "");
+  date.textContent = (item.date || "") + (item.time? " • " + item.time : "");
 
   info.appendChild(name);
   info.appendChild(date);
@@ -368,7 +347,6 @@ history.forEach((item,index)=>{
   right.className = "right";
 
   const amount = document.createElement("div");
-
   if(isIncoming){
     amount.className = "amount in-money";
     amount.textContent = "+₦" + money(item.amount);
@@ -379,9 +357,7 @@ history.forEach((item,index)=>{
 
   const status = document.createElement("div");
   status.className = "status";
-  status.textContent = isIncoming
-    ? "Successful"
-    : "Successful";
+  status.textContent = item.status || "Successful";
 
   right.appendChild(amount);
   right.appendChild(status);
@@ -390,28 +366,23 @@ history.forEach((item,index)=>{
   row.appendChild(info);
   row.appendChild(right);
 
-  /*
-    ONLY OUTGOING MOBILE-DATA
-    TRANSACTIONS OPEN TRANSACTION.HTML
-  */
+  // CLICK LOGIC
   if(!isIncoming){
-
     row.addEventListener("click",()=>{
+      localStorage.setItem("selectedTransaction", JSON.stringify(item));
+      localStorage.setItem("currentTransaction", JSON.stringify(item));
 
-      localStorage.setItem(
-        "selectedTransaction",
-        JSON.stringify(item)
-      );
-
-      window.location.href =
-        "transaction.html";
-
+      if(isTransfer){
+        // TRANSFER -> transferinfo.html
+        window.location.href = "transferinfo.html";
+      }else{
+        // MOBILE DATA -> transaction.html
+        window.location.href = "transaction.html";
+      }
     });
-
   }
 
   historyArea.appendChild(row);
-
 });
 
 </script>

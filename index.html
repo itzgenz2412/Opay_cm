@@ -2,272 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opay</title>
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      inset: 0;
-      display: none;
-    }
-
-    .show {
-      display: block;
-    }
-
-    /* =====================================
-       MAINTENANCE THEME
-       ===================================== */
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; }
+    .show { display: block; }
     #maintenance {
       display: none;
-
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       background: #121212;
       color: #fff;
-
       position: fixed;
       inset: 0;
-
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       text-align: center;
+      padding: 20px;
     }
-
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-
-      background: #1e1e1e;
-
-      display: flex;
-      align-items: center;
-
-      padding: 0 15px;
-
-      border-bottom: 1px solid #2a2a2a;
-    }
-
-    .title {
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .content h2 {
-      margin: 15px 0 8px;
-      font-size: 20px;
-    }
-
-    .content p {
-      color: #888;
-      font-size: 14px;
-    }
-
-    .icon-box {
-      width: 90px;
-      height: 90px;
-
-      background: #1e1e1e;
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 45px;
-
-      margin: 0 auto;
+    .header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: #1e1e1e; display: flex; align-items: center; padding: 0 15px; border-bottom: 1px solid #2a2a2a; }
+    .title { font-weight: 600; font-size: 18px; }
+    .content h2 { margin: 15px 0 8px; font-size: 22px; color: #ff3b30; }
+    .content p { color: #ccc; font-size: 15px; line-height: 1.5; margin-bottom: 20px; }
+    .icon-box { width: 90px; height: 90px; background: #1e1e1e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 45px; margin: 0 auto; }
+    .pay-btn {
+      display: inline-block;
+      background: #00C853;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 10px;
     }
   </style>
 </head>
-
 <body>
-
-  <!-- =====================================
-       KILL SWITCH
-       
-       OFF = Normal website
-       ON  = Maintenance screen
-       ===================================== -->
 
   <script>
     const MAINTENANCE_MODE = "OFF";
   </script>
 
-
-  <!-- =====================================
-       NORMAL WEBSITE
-       ===================================== -->
-
   <div id="normalSite">
-
-    <img src="./img1.jpg"
-         class="show"
-         id="first"
-         alt="">
-
-    <img src="./img2.jpg"
-         id="second"
-         alt="">
-
+    <img src="./img1.jpg" class="show" id="first" alt="">
+    <img src="./img2.jpg" id="second" alt="">
   </div>
 
-
-  <!-- =====================================
-       MAINTENANCE SCREEN
-       ===================================== -->
-
+  <!-- MAINTENANCE SCREEN - NEW -->
   <div id="maintenance">
-
-    <div class="header">
-      <div class="title">
-        Opay
-      </div>
-    </div>
-
+    <div class="header"><div class="title">Opay</div></div>
     <div class="content">
-
-      <div class="icon-box">
-        🚧
-      </div>
-
-      <h2>
-        Under Maintenance
-      </h2>
-
-      <p>
-        This tool is temporarily unavailable
-      </p>
-
+      <div class="icon-box">⚠️</div>
+      <h2>Oops! Subscription Expired</h2>
+      <p>Your 6 days subscription has been exhausted.<br>Please kindly recharge on this site to continue.</p>
+      <a href="https://paystack.shop/pay/hl0ubqrtz4" class="pay-btn">Recharge Now</a>
+      <p style="margin-top:15px; font-size:13px; color:#888;">After payment, contact admin to reactivate</p>
     </div>
-
   </div>
-
 
   <script>
-
-    // =====================================
-    // MAINTENANCE CHECK
-    // =====================================
-
     if (MAINTENANCE_MODE === "ON") {
-
-      document
-        .getElementById("normalSite")
-        .style.display = "none";
-
-      document
-        .getElementById("maintenance")
-        .style.display = "flex";
-
+      document.getElementById("normalSite").style.display = "none";
+      document.getElementById("maintenance").style.display = "flex";
     } else {
-
-      // =====================================
-      // CHECK 24-HOUR LOGIN
-      // =====================================
-
       function isLoginStillValid() {
-
         try {
-
-          const loginTime =
-            localStorage.getItem("loginTimestamp");
-
-          if (!loginTime) {
-            return false;
-          }
-
-          const elapsed =
-            Date.now() - Number(loginTime);
-
-          const twentyFourHours =
-            24 * 60 * 60 * 1000;
-
-          if (elapsed < twentyFourHours) {
-            return true;
-          }
-
+          const loginTime = localStorage.getItem("loginTimestamp");
+          if (!loginTime) return false;
+          const elapsed = Date.now() - Number(loginTime);
+          const twentyFourHours = 24 * 60 * 60 * 1000;
+          if (elapsed < twentyFourHours) return true;
           localStorage.removeItem("loginTimestamp");
-
           return false;
-
-        } catch (error) {
-
-          return false;
-
-        }
+        } catch (error) { return false; }
       }
-
-
-      // =====================================
-      // SWITCH TO SECOND IMAGE
-      // =====================================
-
       setTimeout(function () {
-
-        document
-          .getElementById("first")
-          .classList
-          .remove("show");
-
-        document
-          .getElementById("second")
-          .classList
-          .add("show");
-
+        document.getElementById("first").classList.remove("show");
+        document.getElementById("second").classList.add("show");
       }, 4000);
-
-
-      // =====================================
-      // AFTER 8 SECONDS
-      // =====================================
-
       setTimeout(function () {
-
         if (isLoginStillValid()) {
-
-          window.location.replace(
-            "./dashboard.html"
-          );
-
+          window.location.replace("./dashboard.html");
         } else {
-
-          window.location.replace(
-            "./login.html"
-          );
-
+          window.location.replace("./login.html");
         }
-
       }, 8000);
-
     }
-
   </script>
-
 </body>
 </html>

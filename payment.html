@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transfer to Bank Account</title>
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+body{background:#0f0f0f;color:white;margin:0;padding:0}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1a1a1a}
+.user-row{display:flex;align-items:center;gap:12px;padding:16px}
+.avatar{width:44px;height:44px;border-radius:50%;background:white;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.avatar img{width:70%;height:70%;object-fit:contain}
+.avatar-fb{width:44px;height:44px;border-radius:50%;background:#00d68f;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000}
+.user-name{font-weight:700;font-size:13px;text-transform:uppercase}
+.user-sub{color:#999;font-size:12px;margin-top:2px}
+.card{background:#1c1c1e;margin:12px;border-radius:16px;padding:16px}
+.card-title{font-weight:600;font-size:15px;margin-bottom:14px}
+.amount-field{display:flex;gap:8px;border-bottom:1px solid #2c2c2e;padding:16px 0}
+.amount-field input{background:transparent;border:none;color:white;width:100%;font-size:22px;font-weight:700;outline:none}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.quick-grid button{background:#2a2a2a;border:none;color:#ccc;padding:14px;border-radius:10px}
+.btn-next{width:100%;background:#12372f;color:#0a5c46;border:none;padding:16px;border-radius:30px;margin-top:20px;font-weight:bold;font-size:15px;pointer-events:none;opacity:0.6}
+.btn-next.enabled{background:#00d68f;color:#000;pointer-events:auto;opacity:1}
+
+/* Bottom sheet */
+.sheet-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  opacity:0;
+  visibility:hidden;
+  transition:.30s;
+  z-index:999;
+}
+
+.sheet-overlay.open{
+  opacity:1;
+  visibility:visible;
+}
+
+.sheet{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:50vh;
+  min-height:330px;
+  background:#1c1c1e;
+  border-radius:22px 22px 0 0;
+  transform:translateY(100%);
+  transition:.30s;
+  z-index:1000;
+  overflow:hidden;
+}
+
+.sheet.open{
+  transform:translateY(0);
+}
+
+.handle{
+  width:42px;
+  height:5px;
+  background:#555;
+  border-radius:10px;
+  margin:10px auto;
+}
+
+.sheet-close{
+  position:absolute;
+  right:15px;
+  top:12px;
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:50%;
+  background:#333;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+#previewFrame{
+  width:100%;
+  height:calc(100% - 45px);
+  border:0;
+  display:block;
+  background:#1c1c1e;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div onclick="window.location.href='bank.html'" style="cursor:pointer;display:flex;align-items:center">
+    <span style="color:white;margin-right:10px;font-size:20px"><</span><b>Transfer to Bank Account</b>
+  </div>
+</div>
+
+<div class="user-row">
+  <div id="iconWrap"><div class="avatar-fb">O</div></div>
+  <div><div class="user-name" id="pName"></div><div class="user-sub" id="pSub"></div></div>
+</div>
+
+<div class="card">
+  <div class="card-title">Amount</div>
+  <div class="amount-field"><span style="font-size:22px;font-weight:800">₦</span><input id="amountInput" placeholder="100.00 - 5,000,000.00" inputmode="numeric"></div>
+  <div class="quick-grid">
+    <button onclick="setAmount(500)">₦500</button><button onclick="setAmount(1000)">₦1,000</button><button onclick="setAmount(2000)">₦2,000</button>
+    <button onclick="setAmount(5000)">₦5,000</button><button onclick="setAmount(10000)">₦10,000</button><button onclick="setAmount(20000)">₦20,000</button>
+  </div>
+  <button class="btn-next" id="nextBtn">Continue</button>
+</div>
+
+<div class="sheet-overlay" id="sheetOverlay"></div>
+
+<div class="sheet" id="previewSheet">
+  <div class="handle"></div>
+
+  <button class="sheet-close" id="sheetClose">&times;</button>
+
+  <iframe
+    id="previewFrame"
+    src="about:blank"
+    title="Preview">
+  </iframe>
+</div>
+
+<script>
+const savedName = localStorage.getItem('transfer_name') || 'OLUKEMI TITILAYO ONYIA';
+const savedBank = localStorage.getItem('transfer_bank') || 'OPay Digital Services Limited (OPay)';
+const savedAcc = localStorage.getItem('transfer_account') || '8109134653';
+const savedCode = localStorage.getItem('transfer_bankCode') || '999991';
+
+document.getElementById('pName').textContent = savedName;
+document.getElementById('pSub').textContent = savedAcc + ' ' + savedBank;
+
+async function loadLogo(){
+  try{
+    const res = await fetch('https://cdn.jsdelivr.net/gh/Nigerian-Bank-Logos/ng-bank-logos@main/dist/banks_NGN.json');
+    const data = await res.json();
+    const f = (data.banks||data).find(b=>b.bankCode===savedCode);
+    if(f) document.getElementById('iconWrap').innerHTML = `<div class="avatar"><img src="${f.logos.png}"></div>`;
+  }catch{}
+}
+loadLogo();
+
+const input = document.getElementById('amountInput');
+const nextBtn = document.getElementById('nextBtn');
+
+function check(){
+  let v = parseFloat(input.value);
+  if(!isNaN(v) && v>=100) nextBtn.classList.add('enabled');
+  else nextBtn.classList.remove('enabled');
+}
+function setAmount(v){ input.value=v; check(); }
+input.addEventListener('input',()=>{
+  input.value=input.value.replace(/[^0-9]/g,'');
+  check();
+});
+
+const sheet = document.getElementById("previewSheet");
+const overlay = document.getElementById("sheetOverlay");
+const closeBtn = document.getElementById("sheetClose");
+const previewFrame = document.getElementById("previewFrame");
+
+function openPreview(){
+  localStorage.setItem('transfer_amount', input.value);
+  previewFrame.src = "print2.html";
+  overlay.classList.add("open");
+  sheet.classList.add("open");
+}
+
+function closePreview(){
+  sheet.classList.remove("open");
+  overlay.classList.remove("open");
+
+  setTimeout(function(){
+    previewFrame.src = "about:blank";
+  }, 300);
+}
+
+closeBtn.addEventListener("click", closePreview);
+overlay.addEventListener("click", closePreview);
+
+nextBtn.addEventListener("click", function(){
+  if(!nextBtn.classList.contains('enabled')) return;
+  openPreview();
+});
+</script>
+</body>
+</html>

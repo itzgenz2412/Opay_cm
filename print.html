@@ -1,642 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,
-  initial-scale=1.0,
-  maximum-scale=1.0,
-  user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Successful</title>
-
 <style>
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,
-body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
-  background:#171719;
-  font-family:Arial,Roboto,sans-serif;
-}
-
-body{
-  overflow-x:hidden;
-}
-
-.page{
-  position:relative;
-  width:100%;
-  max-width:709px;
-  margin:auto;
-  overflow:hidden;
-}
-
-.page > img{
-  display:block;
-  width:100%;
-  height:auto;
-  user-select:none;
-  -webkit-user-drag:none;
-}
-
-
-/* =====================================================
-   SHARP TEXT LAYER
-   ===================================================== */
-
-.text{
-  position:absolute;
-  z-index:10;
-
-  font-family:Arial,Roboto,sans-serif;
-
-  white-space:nowrap;
-
-  pointer-events:none;
-
-  line-height:1.05;
-
-  text-rendering:geometricPrecision;
-}
-
-
-/* =====================================================
-   DONE
-   ===================================================== */
-
-.done-text{
-  right:3.5%;
-  top:5.25%;
-
-  color:#18d09c;
-
-  font-size:clamp(15px,3.7vw,26px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   SUCCESSFUL
-   ===================================================== */
-
-.successful{
-  left:50%;
-  top:14.65%;
-
-  transform:translateX(-50%);
-
-  color:#eeeeee;
-
-  font-size:clamp(21px,5vw,35px);
-
-  font-weight:500;
-
-  text-align:center;
-}
-
-
-/* =====================================================
-   TRANSACTION AMOUNT
-   ===================================================== */
-
-.amount{
-  left:50%;
-  top:18.85%;
-
-  transform:translateX(-50%);
-
-  color:#eeeeee;
-
-  font-size:clamp(20px,5vw,34px);
-
-  font-weight:700;
-
-  text-align:center;
-}
-
-
-/* =====================================================
-   OPAY BONUS
-   ===================================================== */
-
-.bonus-label{
-  left:6.0%;
-  top:25.60%;
-
-  color:#eeeeee;
-
-  font-size:clamp(14px,3.7vw,26px);
-
-  font-weight:500;
-}
-
-
-/* =====================================================
-   CASHBACK
-   ==================================================== */
-
-.cashback{
-  right:11.50%;
-  top:25.60%;
-
-  color:#18d09c;
-
-  font-size:clamp(14px,3.7vw,26px);
-
-  font-weight:700;
-
-  text-align:right;
-}
-
-
-/* =====================================================
-   SHARE RECEIPT
-   ===================================================== */
-
-.share-receipt{
-  left:17.8%;
-  top:34.99%;
-
-  transform:translateX(-50%);
-
-  color:#eeeeee;
-
-  font-size:clamp(13px,3.4vw,24px);
-
-  font-weight:600;
-}
-
-
-/* =====================================================
-   ADD MONEY
-   ===================================================== */
-
-.add-money{
-  left:50%;
-  top:34.99%;
-
-  transform:translateX(-50%);
-
-  color:#eeeeee;
-
-  font-size:clamp(13px,3.4vw,24px);
-
-  font-weight:600;
-}
-
-
-/* =====================================================
-   VIEW DETAILS
-   ===================================================== */
-
-.view-details{
-  left:82.2%;
-  top:34.99%;
-
-  transform:translateX(-50%);
-
-  color:#eeeeee;
-
-  font-size:clamp(13px,3.4vw,24px);
-
-  font-weight:600;
-}
-
-
-/* =====================================================
-   SPECIAL BONUS
-   ===================================================== */
-
-.special-title{
-  left:7.0%;
-  top:40.4%;
-
-  color:#eeeeee;
-
-  font-size:clamp(16px,4vw,28px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   BONUS ITEM 1
-   ===================================================== */
-
-.offer1-title{
-  left:20.2%;
-  top:44.2%;
-
-  color:#eeeeee;
-
-  font-size:clamp(14px,3.6vw,25px);
-
-  font-weight:700;
-}
-
-.offer1-subtitle{
-  left:20.2%;
-  top:46.35%;
-
-  color:#aaaaae;
-
-  font-size:clamp(11px,2.9vw,20px);
-
-  font-weight:600;
-}
-
-.go1{
-  left:82.2%;
-  top:45.2%;
-
-  color:#101813;
-
-  font-size:clamp(13px,3.5vw,24px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   BONUS ITEM 2
-   ===================================================== */
-
-.offer2-title{
-  left:20.2%;
-  top:51.2%;
-
-  color:#eeeeee;
-
-  font-size:clamp(14px,3.6vw,25px);
-
-  font-weight:700;
-}
-
-.offer2-subtitle{
-  left:20.2%;
-  top:53.55%;
-
-  color:#aaaaae;
-
-  font-size:clamp(11px,2.9vw,20px);
-
-  font-weight:600;
-}
-
-.go2{
-  left:82.2%;
-  top:52.2%;
-
-  color:#101813;
-
-  font-size:clamp(13px,3.5vw,24px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   BONUS ITEM 3
-   ===================================================== */
-
-.offer3-title{
-  left:20.2%;
-  top:58.2%;
-
-  color:#eeeeee;
-
-  font-size:clamp(14px,3.6vw,25px);
-
-  font-weight:700;
-}
-
-.offer3-subtitle{
-  left:20.2%;
-  top:60.7%;
-
-  color:#aaaaae;
-
-  font-size:clamp(11px,2.9vw,20px);
-
-  font-weight:600;
-}
-
-.go3{
-  left:82.2%;
-  top:59.35%;
-
-  color:#101813;
-
-  font-size:clamp(13px,3.5vw,24px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   BONUS ITEM 4
-   ===================================================== */
-
-.offer4-title{
-  left:20.2%;
-  top:65.2%;
-
-  color:#eeeeee;
-
-  font-size:clamp(14px,3.6vw,25px);
-
-  font-weight:700;
-}
-
-.offer4-subtitle{
-  left:20.2%;
-  top:67.85%;
-
-  color:#aaaaae;
-
-  font-size:clamp(11px,2.9vw,20px);
-
-  font-weight:600;
-}
-
-.go4{
-  left:82.2%;
-  top:66.5%;
-
-  color:#101813;
-
-  font-size:clamp(13px,3.5vw,24px);
-
-  font-weight:700;
-}
-
-
-/* =====================================================
-   CLICKABLE DONE AREA
-   ===================================================== */
-
-.done{
-  position:absolute;
-
-  right:2.5%;
-  top:5.0%;
-
-  width:15%;
-  height:5.0%;
-
-  border:0;
-
-  background:transparent;
-
-  padding:0;
-  margin:0;
-
-  z-index:20;
-
-  cursor:pointer;
-}
-
-
-/* =====================================================
-   MOBILE ADJUSTMENT
-   ===================================================== */
-
-@media(max-width:450px){
-
-  .successful{
-    font-size:22px;
-  }
-
-  .special-title{
-    font-size:16px;
-  }
-
-}
-
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+html,body{margin:0;padding:0;background:#121212;color:white;min-height:100vh}
+.page{width:100%;max-width:480px;margin:0 auto;min-height:100vh;background:#121212;padding-bottom:20px}
+.top{padding:16px 16px 0 16px;display:flex;justify-content:flex-end}
+.top span{color:#00d68f;font-weight:700;font-size:14px;cursor:pointer}
+.success-wrap{text-align:center;padding:10px 16px 0 16px}
+.check-outer{width:48px;height:48px;margin:8px auto;background:#1a3d34;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.check{width:36px;height:36px;background:#00d68f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:20px}
+.s-title{margin-top:12px;font-size:16px;font-weight:600}
+.s-amount{margin-top:18px;font-size:32px;font-weight:800}
+.bonus-bar{margin:18px 12px 0 12px;background:#1e1e1e;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.bonus-bar span:last-child{color:#00d68f;font-weight:600}
+.actions{margin:12px 12px 0 12px;display:flex;gap:10px}
+.action{flex:1;background:#1e1e1e;border-radius:12px;padding:12px 4px;text-align:center;cursor:pointer}
+.ico{width:36px;height:36px;margin:0 auto;background:#2a2a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#00d68f}
+.action p{margin:8px 0 0 0;font-size:11px;color:#ccc}
+.special{background:#1e1e1e;margin:16px 12px;border-radius:16px;padding:14px}
+.special-title{font-size:13px;font-weight:700;margin-bottom:12px}
+.bonus-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #2a2a2a}
+.bonus-item:last-child{border:none}
+.b-icon{width:38px;height:38px;background:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.b-text{flex:1}
+.b-text b{font-size:12px;display:block}
+.b-text span{font-size:10px;color:#888}
+.go{padding:6px 16px;background:#2a4a3d;color:#00d68f;border:none;border-radius:20px;font-size:11px;font-weight:700}
 </style>
 </head>
-
-
 <body>
-
 <div class="page">
+  <div class="top"><span id="doneButton">Done</span></div>
 
-
-  <!-- =================================================
-       ORIGINAL PRINT IMAGE
-       ================================================= -->
-
-  <img
-    src="print.jpg"
-    alt="Successful Transaction">
-
-
-  <!-- =================================================
-       SHARP TEXT OVERLAY
-       ================================================= -->
-
-
-  <!-- DONE -->
-
-  <div class="text done-text">
-    Done
+  <div class="success-wrap">
+    <div class="check-outer"><div class="check">✓</div></div>
+    <div class="s-title">Successful</div>
+    <div class="s-amount" id="amount">₦0.00</div>
   </div>
 
-
-  <!-- SUCCESSFUL -->
-
-  <div class="text successful">
-    Successful
+  <div class="bonus-bar">
+    <span>OPay Bonus</span>
+    <span id="cashback">+₦2.00 Cashback ></span>
   </div>
 
-
-  <!-- TRANSACTION AMOUNT -->
-
-  <div
-    class="text amount"
-    id="amount">
+  <div class="actions">
+    <div class="action" onclick="return false;"><div class="ico">↗</div><p>Share Receipt</p></div>
+    <div class="action" onclick="location.href='dashboard.html'"><div class="ico">+</div><p>Add Money</p></div>
+    <div class="action" onclick="location.href='transferinfo.html'"><div class="ico">≣</div><p>View Details</p></div>
   </div>
 
-
-  <!-- OPAY BONUS -->
-
-  <div class="text bonus-label">
-    OPay Bonus
+  <div class="special">
+    <div class="special-title">Special Bonus For You</div>
+    <div class="bonus-item"><div class="b-icon">📶</div><div class="b-text"><b>Data offers at lowes</b><span>Recharge Data & Earn Now!</span></div><button class="go">GO</button></div>
+    <div class="bonus-item"><div class="b-icon">⚙️</div><div class="b-text"><b>Don't Miss Out</b><span>Balance with Daily Interest</span></div><button class="go">GO</button></div>
+    <div class="bonus-item"><div class="b-icon">💡</div><div class="b-text"><b>Electricity Payment</b><span>Fast&Easy Electricity Bill Pay</span></div><button class="go">GO</button></div>
+    <div class="bonus-item"><div class="b-icon">📺</div><div class="b-text"><b>TV Payment</b><span>Reconnect cable TV instantly!</span></div><button class="go">GO</button></div>
   </div>
-
-
-  <!-- CASHBACK -->
-
-  <div
-    class="text cashback"
-    id="cashback">
-  </div>
-
-
-  <!-- SHARE RECEIPT -->
-
-  <div class="text share-receipt">
-    Share Receipt
-  </div>
-
-
-  <!-- ADD MONEY -->
-
-  <div class="text add-money">
-    Add Money
-  </div>
-
-
-  <!-- VIEW DETAILS -->
-
-  <div class="text view-details">
-    View Details
-  </div>
-
-
-  <!-- SPECIAL BONUS -->
-
-  <div class="text special-title">
-    Special Bonus For You
-  </div>
-
-
-  <!-- OFFER 1 -->
-
-  <div class="text offer1-title">
-    Data offers at lowes
-  </div>
-
-  <div class="text offer1-subtitle">
-    Recharge Data &amp; Earn Now!
-  </div>
-
-  <div class="text go1">
-    GO
-  </div>
-
-
-  <!-- OFFER 2 -->
-
-  <div class="text offer2-title">
-    Don't Miss Out
-  </div>
-
-  <div class="text offer2-subtitle">
-    Balance with Daily Interest
-  </div>
-
-  <div class="text go2">
-    GO
-  </div>
-
-
-  <!-- OFFER 3 -->
-
-  <div class="text offer3-title">
-    Electricity Payment
-  </div>
-
-  <div class="text offer3-subtitle">
-    Fast&amp;Easy Electricity Bill Pay
-  </div>
-
-  <div class="text go3">
-    GO
-  </div>
-
-
-  <!-- OFFER 4 -->
-
-  <div class="text offer4-title">
-    TV Payment
-  </div>
-
-  <div class="text offer4-subtitle">
-    Reconnect cable TV instantly!
-  </div>
-
-  <div class="text go4">
-    GO
-  </div>
-
-
-  <!-- =================================================
-       DONE BUTTON
-       ================================================= -->
-
-  <button
-    class="done"
-    id="doneButton"
-    aria-label="Done">
-  </button>
-
 </div>
 
-
 <script>
+const amount = localStorage.getItem("transactionAmount") || "";
+const cashback = localStorage.getItem("transactionCashback") || "+₦2.00 Cashback >";
 
-/* =====================================
-   GET TRANSACTION DATA
-   ===================================== */
+const current = JSON.parse(localStorage.getItem('currentTransaction')||'{}');
+let displayAmount = amount;
+if(current.amount){
+  displayAmount = '₦'+Number(current.amount).toLocaleString()+'.00';
+  let hist = JSON.parse(localStorage.getItem('transactionHistory')||'[]');
+  if(hist.length===0 || hist[0].id!== current.id){
+    hist.unshift(current);
+    localStorage.setItem('transactionHistory', JSON.stringify(hist));
+    localStorage.setItem('selectedTransaction', JSON.stringify(current));
+  }
+}
 
-const amount =
-  localStorage.getItem(
-    "transactionAmount"
-  ) || "";
+document.getElementById("amount").textContent = displayAmount || "₦0.00";
+document.getElementById("cashback").textContent = cashback;
 
-
-const cashback =
-  localStorage.getItem(
-    "transactionCashback"
-  ) || "";
-
-
-/* =====================================
-   DISPLAY AMOUNT
-   ===================================== */
-
-document.getElementById("amount")
-  .textContent =
-  amount;
-
-
-/* =====================================
-   DISPLAY CASHBACK
-   ===================================== */
-
-document.getElementById("cashback")
-  .textContent =
-  cashback;
-
-
-/* =====================================
-   DONE → DASHBOARD
-   ===================================== */
-
-document.getElementById("doneButton")
-  .addEventListener(
-    "click",
-    function(){
-
-      window.location.href =
-        "dashboard.html";
-
-    }
-  );
-
+document.getElementById("doneButton").addEventListener("click", function(){
+  window.location.href = "dashboard.html";
+});
 </script>
-
 </body>
 </html>

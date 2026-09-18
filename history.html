@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0,
       maximum-scale=1.0, user-scalable=no">
@@ -9,381 +10,1601 @@
 <title>History</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   width:100%;
   min-height:100%;
-  background:#191919;
-  font-family:Arial, sans-serif;
+  background:#121212;
+  color:#fff;
+}
+
+body{
+  overflow-x:hidden;
 }
 
 .page{
-  position:relative;
   width:100%;
-  max-width:691px;
+  max-width:480px;
+  min-height:100vh;
   margin:0 auto;
+  background:#121212;
+  padding-bottom:30px;
 }
 
-.bg{
-  display:block;
-  width:100%;
-  height:auto;
-}
 
-/* BACK BUTTON */
-.back{
-  position:absolute;
-  left:4.5%;
-  top:5.1%;
-  width:8%;
-  height:5%;
-  z-index:20;
-  cursor:pointer;
-}
+/* =========================
+   HEADER
+========================= */
 
-/* MONTH */
-.month{
-  position:absolute;
-  left:6.2%;
-  top:18.1%;
-  font-size:24px;
-  font-weight:600;
-  color:#fff;
-  z-index:15;
-}
-
-/* IN / OUT */
-.in,
-.out{
-  position:absolute;
-  top:21.2%;
-  font-size:15px;
-  font-weight:500;
-  z-index:15;
-}
-
-.in{
-  left:6.2%;
-  color:#fff;
-}
-
-.out{
-  left:35.5%;
-  color:#fff;
-}
-
-/* HISTORY AREA */
-.history-area{
-  position:absolute;
-  left:3.5%;
-  top:24.3%;
-  width:93%;
-  height:44.6%;
-  background:#2b2b2b;
-  border-radius:0 0 18px 18px;
-  overflow:hidden;
-  z-index:10;
-}
-
-/* EACH HISTORY ROW */
-.history-item{
-  position:relative;
-  width:100%;
-  height:20%;
+.header{
+  height:70px;
   display:flex;
   align-items:center;
-  padding:18px;
+  justify-content:space-between;
+  padding:0 16px;
+  background:#1e1e1e;
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.back{
+  color:#fff;
+  text-decoration:none;
+  font-size:30px;
+  line-height:1;
   cursor:pointer;
 }
 
-/* ICON */
-.data-icon{
-  width:49px;
-  height:49px;
-  object-fit:contain;
+.header-title{
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+}
+
+.download{
+  color:#00d68f;
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters{
+  display:flex;
+  gap:10px;
+  padding:14px 12px;
+  background:#121212;
+}
+
+.filter{
+  flex:1;
+  height:50px;
+  background:#1e1e1e;
+  border-radius:10px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 14px;
+
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+
+.arrow{
+  color:#888;
+  font-size:18px;
+}
+
+
+/* =========================
+   MONTH CARD
+========================= */
+
+.month-card{
+  margin:4px 12px 14px;
+  background:#1e1e1e;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+
+/* =========================
+   MONTH HEADER
+========================= */
+
+.month-header{
+  padding:18px 16px 0;
+}
+
+.month-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.month-name{
+  color:#fff;
+  font-size:20px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.month-arrow{
+  color:#888;
+  font-size:14px;
+  margin-left:4px;
+}
+
+
+/* =========================
+   ANALYSIS
+========================= */
+
+.analysis{
+  background:#00d68f;
+  color:#000;
+
+  border-radius:25px;
+
+  padding:11px 16px;
+
+  font-size:12px;
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+
+/* =========================
+   MONTH TOTALS
+========================= */
+
+.month-totals{
+  display:flex;
+  align-items:center;
+  gap:22px;
+
+  margin-top:13px;
+  padding-bottom:15px;
+}
+
+.month-total{
+  color:#8c8c8c;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+.month-total span{
+  color:#00d68f;
+  font-weight:700;
+}
+
+.month-total.out span{
+  color:#ddd;
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.month-divider{
+  height:1px;
+  background:#4a4a4a;
+  margin:0 16px;
+}
+
+
+/* =========================
+   TRANSACTION ROW
+========================= */
+
+.history-item{
+  width:100%;
+  min-height:86px;
+
+  display:flex;
+  align-items:center;
+
+  padding:12px 16px;
+
+  border-bottom:1px solid #292929;
+
+  cursor:pointer;
+}
+
+.history-item:last-child{
+  border-bottom:none;
+}
+
+
+/* =========================
+   ICON
+   PNG IS SHOWN DIRECTLY
+   NO EXTRA CIRCLE
+========================= */
+
+.icon-wrap{
+  width:50px;
+  height:50px;
+  min-width:50px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:transparent;
+  border:none;
+  border-radius:0;
+  overflow:visible;
+
   flex-shrink:0;
 }
 
-/* LEFT INFORMATION */
+.data-icon{
+  width:50px;
+  height:50px;
+
+  object-fit:contain;
+
+  background:transparent;
+  border:none;
+  border-radius:0;
+
+  display:block;
+}
+
+
+/* =========================
+   INFORMATION
+========================= */
+
 .info{
-  margin-left:12px;
   min-width:0;
   flex:1;
+
+  margin-left:12px;
+  padding-right:8px;
 }
 
 .name{
   color:#fff;
+
   font-size:13px;
-  font-weight:500;
+  font-weight:650;
+
+  line-height:18px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.sub-info{
+  margin-top:2px;
+
+  color:#999;
+
+  font-size:11px;
+  line-height:16px;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
 .date{
-  margin-top:5px;
-  color:#a7a7a7;
+  margin-top:1px;
+
+  color:#888;
+
   font-size:10px;
+  line-height:15px;
+
+  white-space:nowrap;
 }
 
-/* RIGHT SIDE — KEEP MONEY AT FAR RIGHT */
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
 .right{
-  flex:0 0 92px;
-  width:92px;
+  flex:0 0 88px;
+  width:88px;
+
   margin-left:auto;
+
   text-align:right;
   align-self:center;
 }
 
 .amount{
   font-size:14px;
-  font-weight:500;
+  font-weight:700;
+
   white-space:nowrap;
 }
 
 .amount.out-money{
-  color:#20c997;
+  color:#ddd;
 }
 
 .amount.in-money{
-  color:#20c997;
+  color:#00d68f;
 }
 
 .status{
   margin-top:5px;
-  color:#20c997;
-  font-size:8px;
+
+  color:#00d68f;
+
+  font-size:9px;
+  font-weight:500;
+
   white-space:nowrap;
 }
 
-/* MOBILE */
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+  margin:4px 12px;
+
+  min-height:220px;
+
+  background:#1e1e1e;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#777;
+  font-size:13px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:450px){
 
- .month{
-    font-size:21px;
+  .header{
+    height:68px;
+    padding:0 14px;
   }
 
- .in,
- .out{
+  .header-title{
+    font-size:17px;
+  }
+
+  .download{
     font-size:13px;
   }
 
- .history-item{
-    padding:14px;
+  .filters{
+    padding:13px 10px;
   }
 
- .data-icon{
-    width:43px;
-    height:43px;
+  .filter{
+    height:48px;
+    font-size:13px;
   }
 
- .info{
+  .month-card{
     margin-left:10px;
+    margin-right:10px;
   }
 
- .name{
+  .month-header{
+    padding:17px 14px 0;
+  }
+
+  .month-name{
+    font-size:19px;
+  }
+
+  .analysis{
+    padding:10px 14px;
+    font-size:11px;
+  }
+
+  .month-totals{
+    gap:17px;
+    margin-top:11px;
+    padding-bottom:14px;
+  }
+
+  .month-total{
+    font-size:11px;
+  }
+
+  .month-divider{
+    margin:0 14px;
+  }
+
+  .history-item{
+    min-height:82px;
+    padding:12px 12px;
+  }
+
+  .icon-wrap{
+    width:48px;
+    height:48px;
+    min-width:48px;
+
+    background:transparent;
+    border-radius:0;
+  }
+
+  .data-icon{
+    width:48px;
+    height:48px;
+
+    background:transparent;
+    border-radius:0;
+  }
+
+  .info{
+    margin-left:10px;
+    padding-right:5px;
+  }
+
+  .name{
     font-size:12px;
   }
 
- .date{
+  .sub-info{
+    font-size:10px;
+  }
+
+  .date{
     font-size:9px;
   }
 
- .right{
+  .right{
     flex-basis:82px;
     width:82px;
   }
 
- .amount{
+  .amount{
     font-size:13px;
   }
 
- .status{
-    font-size:7px;
+  .status{
+    font-size:8px;
   }
+
 }
+
+
+/* =========================
+   VERY SMALL SCREEN
+========================= */
+
+@media(max-width:360px){
+
+  .month-totals{
+    gap:12px;
+  }
+
+  .month-total{
+    font-size:10px;
+  }
+
+  .analysis{
+    padding:9px 11px;
+  }
+
+  .right{
+    flex-basis:76px;
+    width:76px;
+  }
+
+  .amount{
+    font-size:12px;
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div class="page">
 
-  <!-- ORIGINAL BACKGROUND -->
-  <img src="1000022301.jpg"
-       class="bg"
-       alt="History">
 
-  <!-- BACK -->
-  <a href="dashboard.html"
-     class="back"
-     aria-label="Back"></a>
+  <!-- HEADER -->
 
-  <!-- MONTH -->
-  <div class="month" id="month">September</div>
+  <div class="header">
 
-  <!-- TOTALS -->
-  <div class="in" id="totalIn">IN ₦0.00</div>
-  <div class="out" id="totalOut">OUT ₦0.00</div>
+    <div class="header-left">
+
+      <a
+        href="dashboard.html"
+        class="back"
+        aria-label="Back"
+      >‹</a>
+
+      <div class="header-title">
+        Transactions
+      </div>
+
+    </div>
+
+
+    <a
+      href="#"
+      class="download"
+      onclick="downloadHistory(event)"
+    >
+      Download
+    </a>
+
+  </div>
+
+
+  <!-- FILTERS -->
+
+  <div class="filters">
+
+    <div class="filter">
+
+      <span>
+        All Categories
+      </span>
+
+      <span class="arrow">
+        ▾
+      </span>
+
+    </div>
+
+
+    <div class="filter">
+
+      <span>
+        All Status
+      </span>
+
+      <span class="arrow">
+        ▾
+      </span>
+
+    </div>
+
+  </div>
+
 
   <!-- HISTORY -->
-  <div class="history-area" id="historyArea"></div>
+
+  <div id="historyContainer"></div>
 
 </div>
 
+
 <script>
 
-const historyArea = document.getElementById("historyArea");
-const totalIn = document.getElementById("totalIn");
-const totalOut = document.getElementById("totalOut");
-const monthText = document.getElementById("month");
+
+/* =========================
+   NUMBER VALUE
+========================= */
 
 function numberValue(value){
-  if(typeof value === "number") return value;
+
+  if(typeof value === "number"){
+    return value;
+  }
+
   return Number(
     String(value || "")
-     .replace(/[₦,+]/g,"")
-     .replace(/,/g,"")
+      .replace(/₦/g,"")
+      .replace(/\+/g,"")
+      .replace(/,/g,"")
+      .trim()
   ) || 0;
+
 }
+
+
+/* =========================
+   MONEY
+========================= */
 
 function money(value){
-  return numberValue(value).toLocaleString("en-NG",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
+
+  return numberValue(value).toLocaleString(
+    "en-NG",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+
 }
 
-let history = [];
+
+/* =========================
+   LOAD HISTORY
+========================= */
+
+let history=[];
+
 try{
-  history = JSON.parse(localStorage.getItem("transactionHistory") || "[]");
-  if(!Array.isArray(history)) history = [];
-}catch(e){
-  history = [];
+
+  history=JSON.parse(
+    localStorage.getItem(
+      "transactionHistory"
+    ) || "[]"
+  );
+
+  if(!Array.isArray(history)){
+    history=[];
+  }
+
+}catch(error){
+
+  history=[];
+
 }
 
-/* NEWEST FIRST */
+
+/* =========================
+   NEWEST FIRST
+========================= */
+
 history.sort((a,b)=>{
-  return Number(b.timestamp || 0) - Number(a.timestamp || 0);
+
+  return Number(b.timestamp || 0)
+       -
+         Number(a.timestamp || 0);
+
 });
 
-/* ONLY SHOW THE LAST 5 */
-const recentHistory = history.slice(0,5);
 
-/* TOTALS */
-let inTotal = 0;
-let outTotal = 0;
+/* =========================
+   MAXIMUM 10 TRANSACTIONS
+========================= */
+
+const recentHistory =
+  history.slice(0,10);
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+const container =
+  document.getElementById(
+    "historyContainer"
+  );
+
+
+/* =========================
+   EMPTY HISTORY
+========================= */
+
+if(recentHistory.length===0){
+
+  container.innerHTML=
+    '<div class="empty">' +
+    'No transactions yet' +
+    '</div>';
+
+}
+
+
+/* =========================
+   GET DATE
+========================= */
+
+function getTransactionDate(item){
+
+  if(item.timestamp){
+
+    const d =
+      new Date(
+        Number(item.timestamp)
+      );
+
+    if(!isNaN(d.getTime())){
+      return d;
+    }
+
+  }
+
+  if(item.date){
+
+    const d =
+      new Date(item.date);
+
+    if(!isNaN(d.getTime())){
+      return d;
+    }
+
+  }
+
+  return new Date();
+
+}
+
+
+/* =========================
+   MONTH KEY
+========================= */
+
+function monthKey(date){
+
+  return (
+    date.getFullYear() +
+    "-" +
+    String(
+      date.getMonth()+1
+    ).padStart(2,"0")
+  );
+
+}
+
+
+/* =========================
+   MONTH NAME
+========================= */
+
+function monthName(date){
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================
+   GROUP BY MONTH
+========================= */
+
+const groups=[];
 
 recentHistory.forEach(item=>{
-  const amount = numberValue(item.amount);
-  if(item.type === "in"){
-    inTotal += amount;
-  }else{
-    outTotal += amount;
+
+  const date =
+    getTransactionDate(item);
+
+  const key =
+    monthKey(date);
+
+  let group =
+    groups.find(
+      g=>g.key===key
+    );
+
+  if(!group){
+
+    group={
+      key:key,
+      date:date,
+      items:[],
+      inTotal:0,
+      outTotal:0
+    };
+
+    groups.push(group);
+
   }
+
+  group.items.push(item);
+
+  const amount =
+    numberValue(item.amount);
+
+  if(item.type==="in"){
+
+    group.inTotal += amount;
+
+  }else{
+
+    group.outTotal += amount;
+
+  }
+
 });
 
-/* DISPLAY TOTALS */
-totalIn.textContent = "IN ₦" + money(inTotal);
-totalOut.textContent = "OUT ₦" + money(outTotal);
 
-/* MONTH */
-if(recentHistory.length > 0){
-  const latestDate = recentHistory[0].timestamp? new Date(Number(recentHistory[0].timestamp)) : new Date();
-  monthText.textContent = latestDate.toLocaleDateString("en-NG",{ month:"long" });
-}else{
-  monthText.textContent = "September";
-}
+/* =========================
+   DRAW MONTHS
+========================= */
 
-/* DRAW HISTORY */
-historyArea.innerHTML = "";
+groups.forEach(group=>{
 
-recentHistory.forEach((item,index)=>{
 
-  const isIncoming = item.type === "in";
-  const isTransfer = item.bank || item.account || item.isTransfer === true || item.category === "transfer";
+  const monthCard =
+    document.createElement("div");
 
-  const row = document.createElement("div");
-  row.className = "history-item";
+  monthCard.className =
+    "month-card";
 
-  /* ICON */
-  const icon = document.createElement("img");
-  icon.className = "data-icon";
-  // keep your icon, but try transfer icon if exist
-  icon.src = isTransfer? "data-icon.png" : "data-icon.png";
-  icon.onerror = function(){ this.src = "data-icon.png"; };
 
-  /* LEFT INFO */
-  const info = document.createElement("div");
-  info.className = "info";
+  /* MONTH HEADER */
 
-  const name = document.createElement("div");
-  name.className = "name";
+  const monthHeader =
+    document.createElement("div");
 
-  if(isIncoming){
-    name.textContent = "Funds Added";
-  }else if(isTransfer){
-    // TRANSFER CASE
-    name.textContent = "Transfer to " + (item.name || "Bank Account");
-  }else{
-    name.textContent = "Mobile Data";
-  }
+  monthHeader.className =
+    "month-header";
 
-  const date = document.createElement("div");
-  date.className = "date";
-  date.textContent = (item.date || "") + (item.time? " • " + item.time : "");
 
-  info.appendChild(name);
-  info.appendChild(date);
+  const monthTop =
+    document.createElement("div");
 
-  /* RIGHT MONEY */
-  const right = document.createElement("div");
-  right.className = "right";
+  monthTop.className =
+    "month-top";
 
-  const amount = document.createElement("div");
-  if(isIncoming){
-    amount.className = "amount in-money";
-    amount.textContent = "+₦" + money(item.amount);
-  }else{
-    amount.className = "amount out-money";
-    amount.textContent = "-₦" + money(item.amount);
-  }
 
-  const status = document.createElement("div");
-  status.className = "status";
-  status.textContent = item.status || "Successful";
+  /* MONTH */
 
-  right.appendChild(amount);
-  right.appendChild(status);
+  const monthNameBox =
+    document.createElement("div");
 
-  row.appendChild(icon);
-  row.appendChild(info);
-  row.appendChild(right);
+  monthNameBox.className =
+    "month-name";
 
-  // CLICK LOGIC
-  if(!isIncoming){
-    row.addEventListener("click",()=>{
-      localStorage.setItem("selectedTransaction", JSON.stringify(item));
-      localStorage.setItem("currentTransaction", JSON.stringify(item));
+  monthNameBox.innerHTML =
+    monthName(group.date) +
+    '<span class="month-arrow">▾</span>';
 
-      if(isTransfer){
-        // TRANSFER -> transferinfo.html
-        window.location.href = "transferinfo.html";
-      }else{
-        // MOBILE DATA -> transaction.html
-        window.location.href = "transaction.html";
+
+  /* ANALYSIS */
+
+  const analysis =
+    document.createElement("div");
+
+  analysis.className =
+    "analysis";
+
+  analysis.textContent =
+    "Analysis";
+
+
+  monthTop.appendChild(
+    monthNameBox
+  );
+
+  monthTop.appendChild(
+    analysis
+  );
+
+
+  /* TOTALS */
+
+  const totals =
+    document.createElement("div");
+
+  totals.className =
+    "month-totals";
+
+
+  const inTotal =
+    document.createElement("div");
+
+  inTotal.className =
+    "month-total";
+
+  inTotal.innerHTML =
+    'In: <span>₦' +
+    money(group.inTotal) +
+    '</span>';
+
+
+  const outTotal =
+    document.createElement("div");
+
+  outTotal.className =
+    "month-total out";
+
+  outTotal.innerHTML =
+    'Out: <span>₦' +
+    money(group.outTotal) +
+    '</span>';
+
+
+  totals.appendChild(
+    inTotal
+  );
+
+  totals.appendChild(
+    outTotal
+  );
+
+
+  monthHeader.appendChild(
+    monthTop
+  );
+
+  monthHeader.appendChild(
+    totals
+  );
+
+
+  monthCard.appendChild(
+    monthHeader
+  );
+
+
+  /* DIVIDER */
+
+  const divider =
+    document.createElement("div");
+
+  divider.className =
+    "month-divider";
+
+  monthCard.appendChild(
+    divider
+  );
+
+
+  /* =========================
+     TRANSACTIONS
+  ========================== */
+
+  group.items.forEach(item=>{
+
+
+    const isIncoming =
+      item.type==="in";
+
+
+    const isTransfer =
+      !!(
+        item.bank ||
+        item.account ||
+        item.isTransfer===true ||
+        item.category==="transfer"
+      );
+
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "history-item";
+
+
+    /* =========================
+       ICON
+    ========================== */
+
+    const iconWrap =
+      document.createElement("div");
+
+    iconWrap.className =
+      "icon-wrap";
+
+
+    const icon =
+      document.createElement("img");
+
+    icon.className =
+      "data-icon";
+
+
+    /*
+      BANK TRANSFER
+      -> transfertobank.png
+    */
+
+    if(isTransfer){
+
+      icon.src =
+        "transfertobank.png";
+
+    }
+
+
+    /*
+      BONUS
+      -> bonus.png
+    */
+
+    else if(
+      isIncoming &&
+      (
+        item.category==="bonus" ||
+        item.type==="bonus"
+      )
+    ){
+
+      icon.src =
+        "bonus.png";
+
+    }
+
+
+    /*
+      FUNDS ADDED
+      -> funds.png
+    */
+
+    else if(isIncoming){
+
+      icon.src =
+        "funds.png";
+
+    }
+
+
+    /*
+      MOBILE DATA / AIRTIME
+      -> data-icon.png
+    */
+
+    else{
+
+      icon.src =
+        "data-icon.png";
+
+    }
+
+
+    /*
+      FALLBACK
+    */
+
+    icon.onerror=function(){
+
+      if(!this.dataset.fallback){
+
+        this.dataset.fallback="1";
+
+        this.src =
+          "data-icon.png";
+
       }
-    });
+
+    };
+
+
+    iconWrap.appendChild(
+      icon
+    );
+
+
+    /* =========================
+       INFORMATION
+    ========================== */
+
+    const info =
+      document.createElement("div");
+
+    info.className =
+      "info";
+
+
+    /* NAME */
+
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "name";
+
+
+    if(isIncoming){
+
+      if(
+        item.category==="bonus" ||
+        item.type==="bonus"
+      ){
+
+        name.textContent =
+          item.name ||
+          "Bonus from Airtime Purchase";
+
+      }
+
+      else{
+
+        name.textContent =
+          item.name ||
+          item.description ||
+          "Funds Added";
+
+      }
+
+    }
+
+    else if(isTransfer){
+
+      name.textContent =
+        "Transfer to " +
+        (
+          item.name ||
+          "Bank Account"
+        );
+
+    }
+
+    else if(
+      item.category==="airtime" ||
+      item.isAirtime===true
+    ){
+
+      name.textContent =
+        "Airtime";
+
+    }
+
+    else{
+
+      name.textContent =
+        "Mobile Data";
+
+    }
+
+
+    /* =========================
+       SUB INFORMATION
+    ========================== */
+
+    const subInfo =
+      document.createElement("div");
+
+    subInfo.className =
+      "sub-info";
+
+
+    if(isTransfer){
+
+      subInfo.textContent =
+        item.bank ||
+        item.bankName ||
+        "";
+
+    }
+
+    else if(
+      item.category==="airtime" ||
+      item.isAirtime===true
+    ){
+
+      subInfo.textContent =
+        item.phone ||
+        item.recipient ||
+        "";
+
+    }
+
+    else if(
+      item.category==="bonus" ||
+      item.type==="bonus"
+    ){
+
+      subInfo.textContent =
+        item.description ||
+        "";
+
+    }
+
+    else if(isIncoming){
+
+      subInfo.textContent =
+        item.account ||
+        item.description ||
+        "Wallet Funding";
+
+    }
+
+    else{
+
+      subInfo.textContent =
+        item.bundle ||
+        item.plan ||
+        "Mobile Data";
+
+    }
+
+
+    if(!subInfo.textContent){
+
+      subInfo.style.display =
+        "none";
+
+    }
+
+
+    /* =========================
+       DATE
+    ========================== */
+
+    const date =
+      document.createElement("div");
+
+    date.className =
+      "date";
+
+
+    const transactionDate =
+      getTransactionDate(item);
+
+
+    let dateText="";
+
+
+    if(item.date){
+
+      dateText =
+        item.date;
+
+    }
+
+    else{
+
+      dateText =
+        transactionDate.toLocaleDateString(
+          "en-GB"
+        );
+
+    }
+
+
+    if(item.time){
+
+      dateText +=
+        " • " +
+        item.time;
+
+    }
+
+    else{
+
+      dateText +=
+        " • " +
+        transactionDate.toLocaleTimeString(
+          "en-US",
+          {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+          }
+        );
+
+    }
+
+
+    date.textContent =
+      dateText;
+
+
+    info.appendChild(
+      name
+    );
+
+    info.appendChild(
+      subInfo
+    );
+
+    info.appendChild(
+      date
+    );
+
+
+    /* =========================
+       RIGHT SIDE
+    ========================== */
+
+    const right =
+      document.createElement("div");
+
+    right.className =
+      "right";
+
+
+    const amount =
+      document.createElement("div");
+
+
+    if(isIncoming){
+
+      amount.className =
+        "amount in-money";
+
+      amount.textContent =
+        "+₦" +
+        money(item.amount);
+
+    }
+
+    else{
+
+      amount.className =
+        "amount out-money";
+
+      amount.textContent =
+        "-₦" +
+        money(item.amount);
+
+    }
+
+
+    const status =
+      document.createElement("div");
+
+    status.className =
+      "status";
+
+    status.textContent =
+      item.status ||
+      "Successful";
+
+
+    right.appendChild(
+      amount
+    );
+
+    right.appendChild(
+      status
+    );
+
+
+    /* =========================
+       BUILD ROW
+    ========================== */
+
+    row.appendChild(
+      iconWrap
+    );
+
+    row.appendChild(
+      info
+    );
+
+    row.appendChild(
+      right
+    );
+
+
+    /* =========================
+       CLICK
+    ========================== */
+
+    if(!isIncoming){
+
+      row.addEventListener(
+        "click",
+        function(){
+
+          localStorage.setItem(
+            "selectedTransaction",
+            JSON.stringify(item)
+          );
+
+
+          localStorage.setItem(
+            "currentTransaction",
+            JSON.stringify(item)
+          );
+
+
+          if(isTransfer){
+
+            window.location.href =
+              "transferinfo.html";
+
+          }
+
+          else{
+
+            window.location.href =
+              "transaction.html";
+
+          }
+
+        }
+      );
+
+    }
+
+
+    monthCard.appendChild(
+      row
+    );
+
+  });
+
+
+  container.appendChild(
+    monthCard
+  );
+
+});
+
+
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+function downloadHistory(event){
+
+  event.preventDefault();
+
+
+  if(history.length===0){
+
+    alert(
+      "No transaction history to download."
+    );
+
+    return;
+
   }
 
-  historyArea.appendChild(row);
-});
+
+  let text =
+    "TRANSACTION HISTORY\n\n";
+
+
+  history.forEach(
+    (item,index)=>{
+
+
+      const isIncoming =
+        item.type==="in";
+
+
+      const isTransfer =
+        !!(
+          item.bank ||
+          item.account ||
+          item.isTransfer===true ||
+          item.category==="transfer"
+        );
+
+
+      let name;
+
+
+      if(isIncoming){
+
+        name =
+          item.name ||
+          item.description ||
+          "Funds Added";
+
+      }
+
+      else if(isTransfer){
+
+        name =
+          "Transfer to " +
+          (
+            item.name ||
+            "Bank Account"
+          );
+
+      }
+
+      else{
+
+        name =
+          "Mobile Data";
+
+      }
+
+
+      const amount =
+        (
+          isIncoming
+            ? "+"
+            : "-"
+        ) +
+        "₦" +
+        money(item.amount);
+
+
+      text +=
+        (index+1) +
+        ". " +
+        name +
+        "\n";
+
+
+      text +=
+        "Amount: " +
+        amount +
+        "\n";
+
+
+      text +=
+        "Date: " +
+        (item.date || "") +
+        (
+          item.time
+            ? " " + item.time
+            : ""
+        ) +
+        "\n";
+
+
+      text +=
+        "Status: " +
+        (
+          item.status ||
+          "Successful"
+        ) +
+        "\n\n";
+
+    }
+  );
+
+
+  const blob =
+    new Blob(
+      [text],
+      {
+        type:"text/plain"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const a =
+    document.createElement("a");
+
+
+  a.href =
+    url;
+
+  a.download =
+    "transaction-history.txt";
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+
+  URL.revokeObjectURL(url);
+
+}
 
 </script>
 

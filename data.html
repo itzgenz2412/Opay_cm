@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mobile Data</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:#000;color:#fff}
+.page{width:100%;max-width:480px;margin:0 auto;min-height:100vh;background:#000;padding-bottom:40px}
+.header{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#000}
+.header-left{display:flex;align-items:center;gap:10px}
+.back{color:#fff;text-decoration:none;font-size:20px}
+.title{font-size:15px;font-weight:600}
+.history{color:#1ac37e;font-size:13px;font-weight:600;text-decoration:none}
+
+/* BANNER WITH YOUR IMAGE */
+.banner{margin:4px 12px 0;background:#121212;border-radius:12px;padding:0 0 0 14px;height:72px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;border:1px solid #222;position:relative}
+.banner-left{flex:1;position:relative;z-index:2;padding:10px 0}
+.banner-big{font-size:12.5px;font-weight:800;line-height:15px;color:#fff}
+.banner-big span{color:#1ac37e}
+.banner-small{font-size:9px;color:#aaa;margin-top:4px;line-height:11px}
+.banner-small b{color:#1ac37e}
+.banner-img{width:58%;height:100%;object-fit:cover;object-position:right center;display:block;border-radius:0 12px 12px 0}
+
+.input-wrap{margin:10px 12px;background:#1a1a1a;border-radius:24px;height:44px;display:flex;align-items:center;padding:0 4px 0 10px;gap:8px;border:1px solid #252525}
+.networkIcon{width:22px;height:22px;border-radius:50%;object-fit:cover;display:none;flex-shrink:0}
+.net-circle{width:22px;height:22px;border-radius:50%;background:#ffcc00;display:none;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#000}
+.numberBox{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:13px}
+.numberBox::placeholder{color:#666}
+.send{border:0;background:#b2e65a;color:#000;border-radius:18px;font-size:11px;font-weight:800;padding:0 14px;height:32px;cursor:pointer}
+.send:disabled{background:#2a2a2a;color:#555}
+
+.voucher{margin:10px 12px;background:#1a1a1a;border-radius:10px;height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.voucher-left{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
+.v-icon{width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,#ff6a8a,#ff3d5a);display:flex;align-items:center;justify-content:center;font-size:9px}
+.v-tag{background:#2e2a36;color:#d0a0ff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px}
+.v-tag:last-of-type{background:#2a3328;color:#9eff9a}
+.more{font-size:11px;color:#555}
+.section-title{padding:14px 12px 6px;font-size:13px;font-weight:700;display:flex;justify-content:space-between}
+.tabs{display:flex;gap:16px;padding:0 12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;border-bottom:1px solid #151515}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-size:11px;font-weight:600;color:#555;padding:8px 0 10px;border-bottom:2px solid transparent;flex-shrink:0;cursor:pointer}
+.tab.active{color:#ff8a3d;border-bottom-color:#ff8a3d}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px}
+.card{background:#151515;border-radius:10px;padding:10px 4px 8px;text-align:center;position:relative;border:1px solid #1e1e1e;cursor:pointer;min-height:96px;display:flex;flex-direction:column;align-items:center}
+.card:active{border-color:#1ac37e;transform:scale(.97)}
+.size{font-size:13px;font-weight:800;margin-top:4px}
+.dur{font-size:8.5px;color:#777;margin-top:2px}
+.price{font-size:12px;font-weight:800;margin-top:7px}
+.old{font-size:7.5px;color:#555;text-decoration:line-through;margin-top:1px;font-weight:400}
+.cash{font-size:7.5px;color:#1ac37e;margin-top:4px;font-weight:600}
+.badge{position:absolute;top:5px;right:5px;width:14px;height:14px;background:#ff2d55;color:#fff;font-size:8px;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.note{font-size:6px;font-weight:800;padding:3px 6px;border-radius:10px;margin-top:6px}
+.note.yellow{background:#3d3505;color:#ffcc00;border:1px solid #5a4d00}
+.note.green{background:#0e2a14;color:#1ac37e;border:1px solid #1a4a24}
+.sheetOverlay{position:fixed;inset:0;background:rgba(0,0,0,.7);opacity:0;visibility:hidden;transition:.25s;z-index:999}
+.sheetOverlay.open{opacity:1;visibility:visible}
+.sheet{position:fixed;left:0;right:0;bottom:0;height:55vh;min-height:360px;background:#1e1e1e;border-radius:18px 18px 0 0;transform:translateY(100%);transition:.32s;z-index:1000;overflow:hidden}
+.sheet.open{transform:translateY(0)}
+.handle{width:36px;height:4px;background:#444;border-radius:10px;margin:10px auto}
+.close{position:absolute;right:12px;top:10px;width:30px;height:30px;border:0;border-radius:50%;background:#2a2a2a;color:#fff;font-size:16px}
+.sheet iframe{width:100%;height:calc(100% - 40px);border:0;background:#1e1e1e}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header"><div class="header-left"><a href="dashboard.html" class="back">‹</a><div class="title">Mobile Data</div></div><a href="history.html" class="history">History</a></div>
+
+  <div class="banner">
+    <div class="banner-left"><div class="banner-big"><span>Calls Shouldn't</span><br>Wait For Payday</div><div class="banner-small">Recharge Airtime & Get<br><b>Up To 6% Cashback</b></div></div>
+    <img src="banner.jpg" class="banner-img" alt="banner">
+  </div>
+
+  <div class="input-wrap">
+    <div id="netCircle" class="net-circle">M</div>
+    <img id="networkIcon" class="networkIcon" src="">
+    <input id="phoneNumber" class="numberBox" type="tel" inputmode="numeric" maxlength="11" placeholder="Enter phone number">
+    <button class="send" id="sendButton" onclick="sendNumber()" disabled>Send</button>
+  </div>
+
+  <div class="voucher"><div class="voucher-left"><div class="v-icon">%</div>Voucher <span class="v-tag">₦40</span><span class="v-tag">₦10</span></div><div class="more">More ›</div></div>
+  <div class="section-title"><span>Data Plans</span><span>◫ ☰</span></div>
+  <div class="tabs"><div class="tab active">HOT</div><div class="tab">Extra Night</div><div class="tab">Daily</div><div class="tab">Weekly</div><div class="tab">Monthly</div><div class="tab">Broadband</div><div class="tab">BBP</div></div>
+
+  <div class="grid">
+    <div class="card" onclick="openPlans('plan1')"><div class="size">1GB</div><div class="dur">1 Day</div><div class="price">₦500</div><div class="cash">₦17.5 Cashback</div><div class="note yellow">1GB+1.5mins!</div></div>
+    <div class="card" onclick="openPlans('plan2')"><div class="size">2.5GB</div><div class="dur">1 Day</div><div class="price">₦750</div><div class="cash">₦15 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan3')"><div class="size">2.5GB</div><div class="dur">2 Days</div><div class="price">₦900</div><div class="cash">₦18 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan4')"><div class="size">500M</div><div class="dur">7 Days</div><div class="price">₦500</div><div class="cash">₦17.5 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan5')"><div class="size">1GB</div><div class="dur">7 Days</div><div class="price">₦800</div><div class="cash">₦16 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan6')"><div class="badge">%</div><div class="size">3.5GB</div><div class="dur">7 Days</div><div class="price">₦1,490<div class="old">₦1,500.00</div></div><div class="cash">₦30 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan7')"><div class="badge">%</div><div class="size">2GB</div><div class="dur">30 Days</div><div class="price">₦1,490<div class="old">₦1,500.00</div></div><div class="cash">₦30 Cashback</div></div>
+    <div class="card" onclick="openPlans('plan8')"><div class="badge">%</div><div class="size">7GB</div><div class="dur">30 Days</div><div class="price">₦3,460<div class="old">₦3,500.00</div></div><div class="cash">₦70 Cashback</div><div class="note green">Extra Night Data!</div></div>
+  </div>
+</div>
+<div id="sheetOverlay" class="sheetOverlay" onclick="closePlans()"></div>
+<div id="sheet" class="sheet"><div class="handle"></div><button class="close" onclick="closePlans()">×</button><iframe id="plansFrame" src="about:blank"></iframe></div>
+<script>
+const phoneNumber=document.getElementById("phoneNumber"),sendButton=document.getElementById("sendButton"),networkIcon=document.getElementById("networkIcon"),netCircle=document.getElementById("netCircle"),sheet=document.getElementById("sheet"),overlay=document.getElementById("sheetOverlay"),frame=document.getElementById("plansFrame");
+const networkPrefixes={MTN:["0703","0706","0803","0806","0810","0813","0814","0816","0903","0906","0913","0916"],Airtel:["0701","0708","0802","0808","0812","0901","0902","0904","0907","0911","0912"],Glo:["0705","0805","0807","0811","0815","0905","0915"],"9mobile":["0809","0817","0818","0908","0909"]};
+const networkIcons={MTN:"mtn.png",Airtel:"airtel.png",Glo:"glo.png","9mobile":"9mobile.png"};
+function detectNetwork(n){let p=n.substring(0,4);for(let k in networkPrefixes){if(networkPrefixes[k].includes(p))return k}return""}
+function updateNetworkIcon(){let num=phoneNumber.value.replace(/\D/g,""),net=detectNetwork(num);if(net&&networkIcons[net]){networkIcon.src=networkIcons[net];networkIcon.style.display="block";netCircle.style.display="none"}else if(net){netCircle.textContent=net[0];netCircle.style.display="flex";networkIcon.style.display="none"}else{networkIcon.style.display="none";netCircle.style.display="none"}}
+function updateSendButton(){let num=phoneNumber.value.replace(/\D/g,""),net=detectNetwork(num);sendButton.disabled=!(num.length===11&&net!=="")}
+phoneNumber.addEventListener("input",function(){this.value=this.value.replace(/\D/g,"").slice(0,11);updateSendButton();updateNetworkIcon()});
+function openPlans(id){let num=phoneNumber.value.replace(/\D/g,""),net=detectNetwork(num);if(num.length!==11||net==="")return;localStorage.setItem("dataPhoneNumber",num);localStorage.setItem("selectedDataPlan",id);frame.src="dataplans.html";sheet.classList.add("open");overlay.classList.add("open")}
+function sendNumber(){let num=phoneNumber.value.replace(/\D/g,""),net=detectNetwork(num);if(num.length!==11||net==="")return;localStorage.setItem("dataPhoneNumber",num);localStorage.setItem("selectedDataPlan","plan1");frame.src="dataplans.html";sheet.classList.add("open");overlay.classList.add("open")}
+function closePlans(){sheet.classList.remove("open");overlay.classList.remove("open")}
+let saved=localStorage.getItem("dataPhoneNumber");if(saved)phoneNumber.value=saved.replace(/\D/g,"").slice(0,11);
+updateSendButton();updateNetworkIcon();
+</script>
+</body>
+</html>

@@ -48,7 +48,7 @@ html,body{margin:0;padding:0;width:100%;min-height:100%;background:#0a0a0a;color
 
   <div class="mid-card">
     <div class="head"><span>Payment Method</span><span class="all">All ›</span></div>
-    <div class="item clickable" onclick="location.href='addfunds.html'">
+    <div class="item clickable" onclick="window.top.location.href='addfunds.html'">
       <div class="icon">
         <img src="https://gstatic.opayweb.com/website-ng/img/opay-logo.684aa98.svg" alt="OPay">
       </div>
@@ -81,7 +81,7 @@ document.getElementById("available").textContent=fm(bal);
 
 document.querySelector(".add").addEventListener("click",function(e){
   e.stopPropagation();
-  location.href="addfunds.html";
+  window.top.location.href='addfunds.html';
 });
 
 document.getElementById("payButton").addEventListener("click",function(){
@@ -91,7 +91,6 @@ document.getElementById("payButton").addEventListener("click",function(){
  let now=new Date();let date=now.toLocaleDateString("en-GB");let time=now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:true});
  let id="TX"+Date.now();
  let tr={id:id,phone:phone,bundle:pl.b,amount:amt,amountText:pl.a,cashback:"+₦"+pl.c+" Cashback",date:date,time:time,timestamp:Date.now()};
- // FIXED for print.html
  localStorage.setItem("currentTransaction",JSON.stringify(tr));
  localStorage.setItem("selectedTransaction",JSON.stringify(tr));
  localStorage.setItem("transactionPhone",phone);
@@ -102,7 +101,8 @@ document.getElementById("payButton").addEventListener("click",function(){
  localStorage.setItem("transactionTime",time);
  let h=[];try{h=JSON.parse(localStorage.getItem("transactionHistory"))||[]}catch(e){}h.unshift(tr);h=h.slice(0,50);
  localStorage.setItem("transactionHistory",JSON.stringify(h));
- location.href="print.html";
+ // QUIT BOTTOM SHEET AND OPEN FULL PAGE
+ window.top.location.href="print.html";
 });
 </script>
 </body>

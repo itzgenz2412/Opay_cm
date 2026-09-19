@@ -34,55 +34,41 @@ html,body{margin:0;padding:0;background:#121212;color:white;min-height:100vh}
 <body>
 <div class="page">
   <div class="top"><span id="doneButton">Done</span></div>
-
   <div class="success-wrap">
     <div class="check-outer"><div class="check">✓</div></div>
     <div class="s-title">Successful</div>
     <div class="s-amount" id="amount">₦0.00</div>
   </div>
-
-  <div class="bonus-bar">
-    <span>OPay Bonus</span>
-    <span id="cashback">+₦2.00 Cashback ></span>
-  </div>
-
+  <div class="bonus-bar"><span>OPay Bonus</span><span id="cashback">+₦2.00 Cashback ></span></div>
   <div class="actions">
-    <div class="action" onclick="return false;"><div class="ico">↗</div><p>Share Receipt</p></div>
-    <div class="action" onclick="location.href='dashboard.html'"><div class="ico">+</div><p>Add Money</p></div>
+    <div class="action"><div class="ico">↗</div><p>Share Receipt</p></div>
+    <div class="action" onclick="location.href='addfunds.html'"><div class="ico">+</div><p>Add Money</p></div>
     <div class="action" onclick="location.href='transferinfo.html'"><div class="ico">≣</div><p>View Details</p></div>
   </div>
-
   <div class="special">
     <div class="special-title">Special Bonus For You</div>
-    <div class="bonus-item"><div class="b-icon">📶</div><div class="b-text"><b>Data offers at lowes</b><span>Recharge Data & Earn Now!</span></div><button class="go">GO</button></div>
+    <div class="bonus-item"><div class="b-icon">📶</div><div class="b-text"><b>Data offers at lowest</b><span>Recharge Data & Earn Now!</span></div><button class="go">GO</button></div>
     <div class="bonus-item"><div class="b-icon">⚙️</div><div class="b-text"><b>Don't Miss Out</b><span>Balance with Daily Interest</span></div><button class="go">GO</button></div>
     <div class="bonus-item"><div class="b-icon">💡</div><div class="b-text"><b>Electricity Payment</b><span>Fast&Easy Electricity Bill Pay</span></div><button class="go">GO</button></div>
     <div class="bonus-item"><div class="b-icon">📺</div><div class="b-text"><b>TV Payment</b><span>Reconnect cable TV instantly!</span></div><button class="go">GO</button></div>
   </div>
 </div>
-
 <script>
-const amount = localStorage.getItem("transactionAmount") || "";
-const cashback = localStorage.getItem("transactionCashback") || "+₦2.00 Cashback >";
+// FIXED: read from both places
+let current = {};
+try{current = JSON.parse(localStorage.getItem('currentTransaction')||'{}')}catch(e){}
+let amountText = localStorage.getItem("transactionAmount") || "";
+let cashback = localStorage.getItem("transactionCashback") || "+₦2.00 Cashback >";
 
-const current = JSON.parse(localStorage.getItem('currentTransaction')||'{}');
-let displayAmount = amount;
-if(current.amount){
-  displayAmount = '₦'+Number(current.amount).toLocaleString()+'.00';
-  let hist = JSON.parse(localStorage.getItem('transactionHistory')||'[]');
-  if(hist.length===0 || hist[0].id!== current.id){
-    hist.unshift(current);
-    localStorage.setItem('transactionHistory', JSON.stringify(hist));
-    localStorage.setItem('selectedTransaction', JSON.stringify(current));
-  }
-}
+let display = amountText;
+if(current && current.amountText){ display = current.amountText; }
+else if(current && current.amount){ display = '₦'+Number(current.amount).toLocaleString('en-NG')+'.00'; }
 
-document.getElementById("amount").textContent = displayAmount || "₦0.00";
+if(!display) display = "₦0.00";
+
+document.getElementById("amount").textContent = display;
 document.getElementById("cashback").textContent = cashback;
-
-document.getElementById("doneButton").addEventListener("click", function(){
-  window.location.href = "dashboard.html";
-});
+document.getElementById("doneButton").addEventListener("click", function(){ location.href="dashboard.html"; });
 </script>
 </body>
 </html>

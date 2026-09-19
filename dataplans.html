@@ -48,8 +48,7 @@ html,body{margin:0;padding:0;width:100%;min-height:100%;background:#0a0a0a;color
 
   <div class="mid-card">
     <div class="head"><span>Payment Method</span><span class="all">All ›</span></div>
-    <!-- CLICKABLE WALLET ROW -->
-    <div class="item clickable" onclick="window.top.location.href='addfunds.html'">
+    <div class="item clickable" onclick="location.href='addfunds.html'">
       <div class="icon">
         <img src="https://gstatic.opayweb.com/website-ng/img/opay-logo.684aa98.svg" alt="OPay">
       </div>
@@ -80,22 +79,30 @@ let bal=Number(localStorage.getItem("dashboardBalance"));if(!Number.isFinite(bal
 function fm(v){return"₦"+Number(v).toLocaleString("en-NG",{minimumFractionDigits:2})}
 document.getElementById("available").textContent=fm(bal);
 
-// ADD FUNDS CLICK
 document.querySelector(".add").addEventListener("click",function(e){
   e.stopPropagation();
-  window.top.location.href="addfunds.html";
+  location.href="addfunds.html";
 });
 
 document.getElementById("payButton").addEventListener("click",function(){
  let b=Number(localStorage.getItem("dashboardBalance"));if(!Number.isFinite(b))b=START;
  let amt=Number(pl.a.replace(/[₦,]/g,""));if(amt>b){alert("Insufficient balance");return;}
  let nb=b-amt;localStorage.setItem("dashboardBalance",nb);
- let now=new Date();let date=now.toLocaleDateString("en-GB");let time=now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
- let tr={phone:phone,bundle:pl.b,amount:pl.a,cashback:"+₦"+pl.c+" Cashback",date:date,time:time,timestamp:Date.now()};
+ let now=new Date();let date=now.toLocaleDateString("en-GB");let time=now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:true});
+ let id="TX"+Date.now();
+ let tr={id:id,phone:phone,bundle:pl.b,amount:amt,amountText:pl.a,cashback:"+₦"+pl.c+" Cashback",date:date,time:time,timestamp:Date.now()};
+ // FIXED for print.html
+ localStorage.setItem("currentTransaction",JSON.stringify(tr));
+ localStorage.setItem("selectedTransaction",JSON.stringify(tr));
+ localStorage.setItem("transactionPhone",phone);
+ localStorage.setItem("transactionBundle",pl.b);
+ localStorage.setItem("transactionAmount",pl.a);
+ localStorage.setItem("transactionCashback",tr.cashback);
+ localStorage.setItem("transactionDate",date);
+ localStorage.setItem("transactionTime",time);
  let h=[];try{h=JSON.parse(localStorage.getItem("transactionHistory"))||[]}catch(e){}h.unshift(tr);h=h.slice(0,50);
  localStorage.setItem("transactionHistory",JSON.stringify(h));
- localStorage.setItem("transactionPhone",phone);localStorage.setItem("transactionBundle",pl.b);localStorage.setItem("transactionAmount",pl.a);localStorage.setItem("transactionCashback",tr.cashback);localStorage.setItem("transactionDate",date);localStorage.setItem("transactionTime",time);
- window.top.location.href="print.html";
+ location.href="print.html";
 });
 </script>
 </body>
